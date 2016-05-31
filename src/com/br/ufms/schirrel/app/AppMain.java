@@ -21,7 +21,7 @@ import com.br.ufms.schirrel.panels.CadastrarItem;
 import com.br.ufms.schirrel.panels.CadastrarUnidade;
 import com.br.ufms.schirrel.panels.CadastrarUsuario;
 import com.br.ufms.schirrel.panels.EditarItem;
-import com.br.ufms.schirrel.panels.Entrada;
+import com.br.ufms.schirrel.panels.NovaEntrada;
 import com.br.ufms.schirrel.panels.RelatorioEspecifico;
 import com.br.ufms.schirrel.panels.RelatorioGeral;
 import com.br.ufms.schirrel.panels.Saida;
@@ -90,7 +90,7 @@ public class AppMain extends JFrame implements ActionListener {
 		
 		mirGeral.addActionListener(this);
 		mirEspefico.addActionListener(this);
-		getContentPane().add(new CadastrarFabricante(dao));
+		getContentPane().add(new RelatorioGeral(dao));
 		Elementos();
 	}
 
@@ -111,7 +111,7 @@ public class AppMain extends JFrame implements ActionListener {
 		} else if (e.getSource() == mieEntrada) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new Entrada(dao, USUARIO_LOGADO));
+			getContentPane().add(new NovaEntrada(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} else if (e.getSource() == mieSaida) {
@@ -166,7 +166,7 @@ public class AppMain extends JFrame implements ActionListener {
 		getContentPane().add(label);
 		
 		JPanel PanelInferior = new JPanel();
-		PanelInferior.setBounds(10,470, 780, 100);
+		PanelInferior.setBounds(0,460, 798, 90);
 		PanelInferior.setBorder(new TitledBorder(null, "Desenvolvimento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 	
 		

@@ -50,7 +50,7 @@ public class DAO {
 				st.close();
 				rs.close();
 			} else {
-				
+
 			}
 
 		} catch (SQLException e) {
@@ -71,17 +71,18 @@ public class DAO {
 			if (rs.next())
 
 			{
-				
+
 				st.close();
 				rs.close();
 				return true;
-			} 
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return false;
 	}
+
 	/*
 	 * LISTAGENS
 	 */
@@ -288,6 +289,76 @@ public class DAO {
 		}
 		return cadastrao;
 
+	}
+
+	/*
+	 * GETS
+	 */
+
+	public Item GetItemPorNome(String nome) {
+		Item f = null;
+		String query = "SELECT * FROM TB_ITENS WHERE item = ? ";
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setString(1, nome);
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					f = new Item(rs.getInt(1), rs.getString(2));
+				}
+			}
+			st.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return f;
+	}
+
+	public Fabricante GetFabricantePorNome(String nome) {
+		Fabricante f = null;
+		String query = "SELECT * FROM TB_FABRICANTES WHERE fabricante = ? ";
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setString(1, nome);
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					f = new Fabricante(rs.getInt(1), rs.getString(2));
+				}
+			}
+			st.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return f;
+	}
+
+	public Unidade GetUnidadePorNome(String nome) {
+		Unidade f = null;
+		String query = "SELECT * FROM TB_UNIDADES WHERE unidade = ? ";
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setString(1, nome);
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					f = new Unidade(rs.getInt(1), rs.getString(2));
+				}
+			}
+			st.close();
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return f;
 	}
 
 }

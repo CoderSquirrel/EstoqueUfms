@@ -8,27 +8,20 @@ public class Entrada {
 	Unidade unidade;
 	Fabricante fabricante;
 	Usuario usuario;
-	Date dataValidade, dataEntrada;
+	Date dataValidade, dataEntrada, dataFabricacao;
 
 	public Entrada() {
 		dataEntrada = new Date();
 	}
 
-	public Entrada(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade) {
-		this.item = item;
-		this.unidade = unidade;
-		this.fabricante = fabricante;
-		this.usuario = usuario;
-		this.dataValidade = dataValidade;
-		dataEntrada = new Date();
-	}
-	public Entrada(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade, Date dataEntrada) {
+	public Entrada(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade, Date dataEntrada,Date dataFabricacao) {
 		this.item = item;
 		this.unidade = unidade;
 		this.fabricante = fabricante;
 		this.usuario = usuario;
 		this.dataValidade = dataValidade;
 		this.dataEntrada = dataEntrada;
+		this.dataFabricacao = dataFabricacao;
 	}
 	public Item getItem() {
 		return item;
