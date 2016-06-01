@@ -1,8 +1,10 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -14,6 +16,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DateFormatter;
@@ -51,105 +55,103 @@ public class NovaEntrada extends JPanel implements ActionListener {
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Entrada de Item", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
-		// JLabel label = new JLabel("Entrada de Item");
-		// label.setFont(new Font("Arial", Font.BOLD, 20));
-		// label.setHorizontalAlignment(SwingConstants.CENTER);
-		// label.setBounds(0, 30, 800, 30);
-		// add(label);
+		JPanel panelFabricacao = new JPanel();
+		panelFabricacao.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Fabrica\u00E7\u00E3o",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelFabricacao.setBounds(240, 135, 153, 50);
+		add(panelFabricacao);
 
-		JLabel lblItem = new JLabel("Item: ");
-		lblItem.setBounds(10, 30, 50, 20);
-		lblItem.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblItem);
+		JPanel panelEntrada = new JPanel();
+		panelEntrada.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Entrada",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelEntrada.setBounds(470, 135, 153, 50);
+		add(panelEntrada);
+
+		JPanel panelValidade = new JPanel();
+		panelValidade.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Validade",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelValidade.setBounds(10, 135, 153, 50);
+		add(panelValidade);
 
 		cbItens = new JComboBox<>(dao.ListarItens());
-		cbItens.setBounds(50, 30, 350, 26);
+		cbItens.setBounds(50, 22, 350, 26);
 		cbItens.setFont(new Font("Arial", Font.BOLD, 14));
 		add(cbItens);
 
-		JLabel lblUnidade = new JLabel("Unidade: ");
-		lblUnidade.setBounds(420, 30, 100, 20);
-		lblUnidade.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblUnidade);
-
 		cbUnidades = new JComboBox<>(dao.ListarUnidades());
-		cbUnidades.setBounds(490, 30, 300, 26);
+		cbUnidades.setBounds(498, 22, 300, 26);
 		cbUnidades.setFont(new Font("Arial", Font.BOLD, 14));
 		add(cbUnidades);
 
-		JLabel lblFornecedor = new JLabel("Fabricante:");
-		lblFornecedor.setBounds(10, 70, 100, 20);
-		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblFornecedor);
-
 		cbFabricantes = new JComboBox<>(dao.ListarFabricantes());
-		cbFabricantes.setBounds(110, 70, 350, 26);
+		cbFabricantes.setBounds(112, 56, 350, 26);
 		cbFabricantes.setFont(new Font("Arial", Font.BOLD, 14));
 		add(cbFabricantes);
 
+		JLabel lblFornecedor = new JLabel("Fabricante:");
+		lblFornecedor.setBounds(12, 56, 100, 20);
+		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
+		add(lblFornecedor);
+
 		JLabel lblQtd = new JLabel("Quantidade: ");
-		lblQtd.setBounds(10, 110, 120, 20);
+		lblQtd.setBounds(13, 92, 120, 20);
 		lblQtd.setFont(new Font("Arial", Font.BOLD, 14));
 		add(lblQtd);
 
 		tfQtd = new JTextField();
-		tfQtd.setBounds(110, 110, 120, 26);
+		tfQtd.setBounds(123, 94, 120, 26);
 		tfQtd.setColumns(15);
 		AbstractDocument document = (AbstractDocument) tfQtd.getDocument();
 		document.setDocumentFilter(filter);
 		add(tfQtd);
 
-		JLabel lblDataValidade = new JLabel("Validade: ");
-		lblDataValidade.setBounds(250, 150, 100, 20);
-		lblDataValidade.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblDataValidade);
-
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
 		formatter.setAllowsInvalid(false);
 		formatter.setOverwriteMode(true);
-		
+
 		tfDataValidade = new JFormattedTextField(formatter);
-		tfDataValidade.setBounds(110, 150, 100, 26);
+		tfDataValidade.setBounds(0, 0, 100, 26);
+		;
 		tfDataValidade.setFont(new Font("Arial", Font.BOLD, 14));
-		add(tfDataValidade);
+		panelValidade.add(tfDataValidade);
 		tfDataValidade.setValue(new Date());
 		tfDataValidade.setColumns(10);
-		
-		JLabel lblDataFabricacao = new JLabel("Fabricacao: ");
-		lblDataFabricacao.setBounds(10, 150, 100, 20);
-		lblDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblDataFabricacao);
 
 		tfDataFabricacao = new JFormattedTextField(formatter);
-		tfDataFabricacao.setBounds(330, 150, 100, 26);
+		tfDataFabricacao.setBounds(0, 0, 100, 40);
 		tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		add(tfDataFabricacao);
+		panelFabricacao.add(tfDataFabricacao);
 		tfDataFabricacao.setValue(new Date());
 		tfDataFabricacao.setColumns(10);
-		
-		JLabel lblDataEntrada = new JLabel("Entrada: ");
-		lblDataEntrada.setBounds(470, 150, 100, 20);
-		lblDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblDataEntrada);
 
 		tfDataEntrada = new JFormattedTextField(formatter);
-		tfDataEntrada.setBounds(540, 150, 100, 26);
+		tfDataEntrada.setBounds(0, 0, 100, 40);
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
-		add(tfDataEntrada);
+		panelEntrada.add(tfDataEntrada);
 		tfDataEntrada.setValue(new Date());
 		tfDataEntrada.setColumns(10);
-		
+
+		JLabel lblItem = new JLabel("Item: ");
+		lblItem.setBounds(10, 22, 50, 20);
+		lblItem.setFont(new Font("Arial", Font.BOLD, 14));
+		add(lblItem);
+
+		JLabel lblUnidade = new JLabel("Unidade: ");
+		lblUnidade.setBounds(428, 22, 100, 20);
+		lblUnidade.setFont(new Font("Arial", Font.BOLD, 14));
+		add(lblUnidade);
+
 		btCadastrar = new JButton("Salvar");
-		btCadastrar.setBounds(10, 190, 100, 30);
+		btCadastrar.setBounds(10, 200, 100, 30);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);
 
-		 lblStatus = new JLabel("Status: ");
-		 lblStatus.setBounds(10, 220, 400, 20);
-		 lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
-	//	 lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
-		 add(lblStatus);
+		lblStatus = new JLabel("");
+		lblStatus.setBounds(10, 223, 788, 26);
+		lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
+		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
+		add(lblStatus);
 
 	}
 
@@ -158,13 +160,33 @@ public class NovaEntrada extends JPanel implements ActionListener {
 		if (EmBranco(tfDataValidade) || EmBranco(tfQtd)) {
 			lblStatus.setText("Existe campo em branco.");
 		} else {
-			lblStatus.setText("tudókei.");
-			;
-//			System.out.println(cbFabricantes.getSelectedItem());
-			dao.GetFabricantePorNome(cbFabricantes.getSelectedItem().toString());
-			Entrada ent = new Entrada();
-			
-			
+
+			Fabricante f = dao.GetFabricantePorNome(cbFabricantes.getSelectedItem().toString());
+			Item i = dao.GetItemPorNome(cbItens.getSelectedItem().toString());
+			Unidade u = dao.GetUnidadePorNome(cbUnidades.getSelectedItem().toString());
+			@SuppressWarnings("deprecation")
+			Entrada ent = new Entrada(i, u, f, USUARIO_LOGADO, new Date(tfDataValidade.getText().toString()),
+					new Date(tfDataValidade.getText().toString()), new Date(tfDataValidade.getText().toString()), Integer.parseInt(tfQtd.getText().toString().trim()));
+			try {
+				ent = dao.CadastrarEntrada(ent);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				lblStatus.setText("Problema com banco de dados");
+			}
+			if (ent.getId() > 0) {
+				lblStatus.setText("Cadastrado");
+				tfDataEntrada.setValue(new Date());
+				tfDataValidade.setValue(new Date());
+				tfDataFabricacao.setValue(new Date());
+				tfQtd.setText("");
+				cbFabricantes.setSelectedIndex(0);
+				cbItens.setSelectedIndex(0);
+				cbUnidades.setSelectedIndex(0);
+
+			} else {
+				lblStatus.setText("Problema ao efetuar cadastro");
+			}
 		}
 		// dao.CadastrarFornecedor(tfFornecedor.getText().toString().trim());
 

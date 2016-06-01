@@ -3,18 +3,27 @@ package com.br.ufms.schirrel.classes;
 import java.util.Date;
 
 public class Entrada {
+	public int getQtd() {
+		return qtd;
+	}
+
+	public void setQtd(int qtd) {
+		this.qtd = qtd;
+	}
+
 	int id;
+	int qtd;
 	Item item;
 	Unidade unidade;
 	Fabricante fabricante;
 	Usuario usuario;
 	Date dataValidade, dataEntrada, dataFabricacao;
-
+int retirada;
 	public Entrada() {
 		dataEntrada = new Date();
 	}
 
-	public Entrada(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade, Date dataEntrada,Date dataFabricacao) {
+	public Entrada(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade, Date dataEntrada,Date dataFabricacao, int qtd) {
 		this.item = item;
 		this.unidade = unidade;
 		this.fabricante = fabricante;
@@ -22,6 +31,42 @@ public class Entrada {
 		this.dataValidade = dataValidade;
 		this.dataEntrada = dataEntrada;
 		this.dataFabricacao = dataFabricacao;
+		this.qtd = qtd;
+		this.retirada = 0;
+	}
+	
+	public Entrada(int id, Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade, Date dataEntrada,Date dataFabricacao, int qtd) {
+	this.id = id;
+		this.item = item;
+		this.unidade = unidade;
+		this.fabricante = fabricante;
+		this.usuario = usuario;
+		this.dataValidade = dataValidade;
+		this.dataEntrada = dataEntrada;
+		this.dataFabricacao = dataFabricacao;
+		this.qtd = qtd;
+		this.retirada = 0;
+	}
+	
+	public int getRetirada() {
+		return retirada;
+	}
+
+	public void setRetirada(int retirada) {
+		this.retirada = retirada;
+	}
+
+	public Entrada(int id, Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade, Date dataEntrada,Date dataFabricacao, int qtd, int retirado) {
+	this.id = id;
+		this.item = item;
+		this.unidade = unidade;
+		this.fabricante = fabricante;
+		this.usuario = usuario;
+		this.dataValidade = dataValidade;
+		this.dataEntrada = dataEntrada;
+		this.dataFabricacao = dataFabricacao;
+		this.qtd = qtd;
+		this.retirada =retirado;
 	}
 	public Item getItem() {
 		return item;
@@ -77,6 +122,14 @@ public class Entrada {
 
 	public int getId() {
 		return id;
+	}
+
+	public Date getDataFabricacao() {
+		return dataFabricacao;
+	}
+
+	public void setDataFabricacao(Date dataFabricacao) {
+		this.dataFabricacao = dataFabricacao;
 	}
 
 }

@@ -78,6 +78,8 @@ fabricante_id int,
 validade date,
 fabricacao date,
 entrada date,
+qtd int, 
+qtd_retirada int,
 FOREIGN KEY (item_id) REFERENCES tb_itens (id),
 FOREIGN KEY (unidade_id) REFERENCES tb_unidades (id),
 FOREIGN KEY (fabricante_id) REFERENCES tb_fabricantes (id)

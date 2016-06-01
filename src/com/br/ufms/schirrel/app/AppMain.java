@@ -22,16 +22,16 @@ import com.br.ufms.schirrel.panels.CadastrarUnidade;
 import com.br.ufms.schirrel.panels.CadastrarUsuario;
 import com.br.ufms.schirrel.panels.EditarItem;
 import com.br.ufms.schirrel.panels.NovaEntrada;
-import com.br.ufms.schirrel.panels.RelatorioEspecifico;
-import com.br.ufms.schirrel.panels.RelatorioGeral;
+import com.br.ufms.schirrel.panels.RelatorioInativos;
+import com.br.ufms.schirrel.panels.RelatorioAtivos;
 import com.br.ufms.schirrel.panels.Saida;
 
 public class AppMain extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros;
-	private JMenuItem mieEntrada, mieCadastrarItem, mieSaida, mieEditar, mieCadastrarUnidade, mieCadastrarFabricante,
-			mirGeral, mirEspefico, mieCadastrarUsuario;
+	private JMenuItem mieEntrada, mieCadastrarItem, mieEditar, mieCadastrarUnidade, mieCadastrarFabricante,
+			mirAtivo, mirInativo, mieCadastrarUsuario;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	public AppMain(Usuario u) {
@@ -58,17 +58,17 @@ public class AppMain extends JFrame implements ActionListener {
 		mieCadastrarItem = new JMenuItem("Cadastrar Item");
 		mieEditar = new JMenuItem("Editar Item");
 		mieEntrada = new JMenuItem("Entrada de Item");
-		mieSaida = new JMenuItem("Saida de Item");
+//		mieSaida = new JMenuItem("Saida de Item");
 		mieCadastrarUnidade = new JMenuItem("Cadastrar Unidade");
 		mieCadastrarFabricante = new JMenuItem("Cadastrar Fabricante");
 		mieCadastrarUsuario = new JMenuItem("Cadastrar Usuario");
-		mirGeral = new JMenuItem("Relatorio Geral");
-		mirEspefico = new JMenuItem("Relatorio Especifico");
+		mirAtivo = new JMenuItem("Relatorio Ativo");
+		mirInativo = new JMenuItem("Relatorio Inativo");
 
 		mieCadastrarItem.addActionListener(this);
 		mieEditar.addActionListener(this);
 		mieEntrada.addActionListener(this);
-		mieSaida.addActionListener(this);
+		
 		mieCadastrarUnidade.addActionListener(this);
 		mieCadastrarFabricante.addActionListener(this);
 		mieCadastrarUsuario.addActionListener(this);
@@ -80,17 +80,16 @@ public class AppMain extends JFrame implements ActionListener {
 	//	menuCadastros.add(mieEditar);
 
 		menuEstoque.add(mieEntrada);
-		menuEstoque.add(mieSaida);
 
-		menuRelatorio.add(mirGeral);
-		menuRelatorio.add(mirEspefico);
+		menuRelatorio.add(mirAtivo);
+		menuRelatorio.add(mirInativo);
 		menuBar.add(menuEstoque);
 		menuBar.add(menuCadastros);
 		menuBar.add(menuRelatorio);
 		
-		mirGeral.addActionListener(this);
-		mirEspefico.addActionListener(this);
-		getContentPane().add(new RelatorioGeral(dao));
+		mirAtivo.addActionListener(this);
+		mirInativo.addActionListener(this);
+		getContentPane().add(new RelatorioAtivos(dao));
 		Elementos();
 	}
 
@@ -114,12 +113,6 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().add(new NovaEntrada(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
-		} else if (e.getSource() == mieSaida) {
-			getContentPane().removeAll();
-			Elementos();
-			getContentPane().add(new Saida(dao, USUARIO_LOGADO));
-			getContentPane().revalidate();
-			getContentPane().repaint();
 		} else if (e.getSource() == mieCadastrarUnidade) {
 			getContentPane().removeAll();
 			Elementos();
@@ -138,16 +131,16 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().add(new CadastrarUsuario(dao));
 			getContentPane().revalidate();
 			getContentPane().repaint();
-		}else if (e.getSource() == mirGeral) {
+		}else if (e.getSource() == mirAtivo) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new RelatorioGeral(dao));
+			getContentPane().add(new RelatorioAtivos(dao));
 			getContentPane().revalidate();
 			getContentPane().repaint();
-		} else if (e.getSource() == mirEspefico) {
+		} else if (e.getSource() == mirInativo) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new RelatorioEspecifico(dao));
+			getContentPane().add(new RelatorioInativos(dao));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		}
