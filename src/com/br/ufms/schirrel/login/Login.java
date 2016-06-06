@@ -59,7 +59,7 @@ public class Login implements KeyListener {
 	 */
 	private void initialize() {
 		frame = new JFrame("Estoque");
-		frame.setBounds(100, 100, 300, 180);
+		frame.setBounds(100, 100, 300, 220);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
@@ -98,7 +98,7 @@ public class Login implements KeyListener {
 			}
 		});
 
-		lblMsg = new JLabel("status");
+		lblMsg = new JLabel("");
 		lblMsg.setBounds(20, 155, 260, 25);
 		lblMsg.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(lblMsg);
@@ -139,8 +139,14 @@ public class Login implements KeyListener {
 				lblMsg.setText("Logado");
 				new AppMain(USUARIO);
 				frame.dispose();
-			} else
+			} else{
+			
+				if(dao.EncontrarLogin(tfUsuario.getText().toString().trim())){
+					lblMsg.setText("Senha incorreta");
+				}else
 				lblMsg.setText("Problema com login");
+				
+			}
 
 		}
 	}
