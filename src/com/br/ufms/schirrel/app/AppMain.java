@@ -89,7 +89,7 @@ public class AppMain extends JFrame implements ActionListener {
 		
 		mirAtivo.addActionListener(this);
 		mirInativo.addActionListener(this);
-		getContentPane().add(new RelatorioAtivos(dao));
+		getContentPane().add(new RelatorioAtivos(dao,  USUARIO_LOGADO));
 		Elementos();
 	}
 
@@ -134,7 +134,7 @@ public class AppMain extends JFrame implements ActionListener {
 		}else if (e.getSource() == mirAtivo) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new RelatorioAtivos(dao));
+			getContentPane().add(new RelatorioAtivos(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} else if (e.getSource() == mirInativo) {

@@ -30,10 +30,55 @@ public class DAO {
 	}
 
 	/*
-	 * UPDATE
+	 * RETIRADA
 	 */
-	
-	public boolean UpdateRetirada(Entrada e) throws SQLException {
+
+	public boolean UpdateRetirada(Entrada e, int qtd) {
+		try {
+			UpdateEntrada(e);
+			CadastrarRetirada(e, qtd);
+			return true;
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			return false;
+
+		}
+
+	}
+
+	int CadastrarRetirada(Entrada e, int qtd) throws SQLException {
+		StringBuilder query = new StringBuilder();
+		query.append("  INSERT INTO TB_RETIRADA  ");
+		query.append("  (entrada_id , usuario_id , qtd_retirada) ");
+		query.append("  VALUES ( ? , ? , ?) ");
+		PreparedStatement st = null;
+		int id = 0;
+		try {
+			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+
+			st.setInt(1, e.getId());
+			st.setInt(2, e.getUsuario().getId());
+			st.setInt(3, qtd);
+			st.executeUpdate();
+			ResultSet rs = st.getGeneratedKeys();
+
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+			conn.commit();
+			st.close();
+			rs.close();
+		} catch (SQLException e3) {
+			conn.rollback();
+			throw e3;
+		} finally {
+			st.close();
+		}
+
+		return id;
+	}
+
+	boolean UpdateEntrada(Entrada e) throws SQLException {
 		StringBuilder query = new StringBuilder();
 		query.append("  UPDATE TB_ENTRADAS  ");
 		query.append(" SET qtd_retirada = ?  ");
@@ -46,17 +91,17 @@ public class DAO {
 			st.setInt(1, e.getRetirada());
 			st.setInt(2, e.getId());
 			st.executeUpdate();
-			
+
 			conn.commit();
 			st.close();
 			System.out.println("ok");
 			return true;
 		} catch (SQLException e1) {
 			conn.rollback();
-			
+
 			throw e1;
-			
-	}
+
+		}
 	}
 
 	/*
@@ -83,6 +128,7 @@ public class DAO {
 		}
 		return f;
 	}
+
 	public Unidade CadastrarUnidade(String trim) throws SQLException {
 
 		StringBuilder query = new StringBuilder();
@@ -113,6 +159,7 @@ public class DAO {
 		return cadastrada;
 
 	}
+
 	public Unidade[] ListarUnidades() {
 		List<Unidade> list = new ArrayList<Unidade>();
 		String query = "SELECT * FROM TB_UNIDADES ";
@@ -138,7 +185,7 @@ public class DAO {
 		}
 		return array;
 	}
-	
+
 	/*
 	 * CRUD USUARIO
 	 */
@@ -172,6 +219,7 @@ public class DAO {
 		return cadastrado;
 
 	}
+
 	public Usuario Login(String usuario, String senha) {
 		String query = "SELECT * FROM TB_USUARIOS WHERE USUARIO LIKE ? AND SENHA LIKE ? ";
 		Usuario USUARIO = null;
@@ -182,8 +230,7 @@ public class DAO {
 			st.execute();
 			ResultSet rs = st.getResultSet();
 
-			if (rs.next())
-			{
+			if (rs.next()) {
 				USUARIO = new Usuario(rs.getInt(1), rs.getString(2), rs.getLong(3), rs.getString(4));
 				st.close();
 				rs.close();
@@ -197,6 +244,7 @@ public class DAO {
 		return USUARIO;
 
 	}
+
 	public boolean EncontrarLogin(String usuario) {
 		String query = "SELECT * FROM TB_USUARIOS WHERE USUARIO LIKE ?";
 		try {
@@ -244,6 +292,7 @@ public class DAO {
 		}
 		return f;
 	}
+
 	public Item[] ListarItens() {
 		List<Item> list = new ArrayList<Item>();
 		String query = "SELECT * FROM TB_ITENS ";
@@ -269,6 +318,7 @@ public class DAO {
 		}
 		return array;
 	}
+
 	public Item CadastrarItem(String trim) throws SQLException {
 
 		StringBuilder query = new StringBuilder();
@@ -324,6 +374,7 @@ public class DAO {
 		}
 		return f;
 	}
+
 	public Fabricante[] ListarFabricantes() {
 		List<Fabricante> list = new ArrayList<Fabricante>();
 		String query = "SELECT * FROM TB_FABRICANTES ";
@@ -349,6 +400,7 @@ public class DAO {
 		}
 		return array;
 	}
+
 	public Fabricante CadastrarFabricante(String fabricante) throws SQLException {
 		StringBuilder query = new StringBuilder();
 		query.append("  INSERT INTO TB_FABRICANTES  ");
@@ -379,63 +431,65 @@ public class DAO {
 		return cadastrado;
 
 	}
+
 	/*
-	* CRUD ENTRADA
-	*/
-	public List<Entrada> ListarEntradasAtivas(){
+	 * CRUD ENTRADA
+	 */
+	public List<Entrada> ListarEntradasAtivas() {
 		List<Entrada> entradas = new ArrayList<Entrada>();
-		String query = "SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on e.unidade_id = u.id WHERE  qtd_retirada > 0 order by e.id ASC";
-		
-		
+		String query = "SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on e.unidade_id = u.id WHERE  qtd_retirada != qtd order by e.id ASC";
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 			st.execute();
 			ResultSet rs = st.getResultSet();
-			
-			while(rs.next()) {
-				if(rs != null){
-					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)), new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6),rs.getString(7)), null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
+
+			while (rs.next()) {
+				if (rs != null) {
+					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)),
+							new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6), rs.getString(7)),
+							null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
 		return entradas;
 	}
-	public List<Entrada> ListarEntradasInativas(){
+
+	public List<Entrada> ListarEntradasInativas() {
 		List<Entrada> entradas = new ArrayList<Entrada>();
-		String query = "SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on e.unidade_id = u.id WHERE  qtd_retirada < 1 order by e.id ASC";
-		
-		
+		String query = "SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on e.unidade_id = u.id WHERE  qtd_retirada = qtd order by e.id ASC";
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 			st.execute();
 			ResultSet rs = st.getResultSet();
-			
-			while(rs.next()) {
-				if(rs != null){
-					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)), new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6),rs.getString(7)), null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
+
+			while (rs.next()) {
+				if (rs != null) {
+					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)),
+							new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6), rs.getString(7)),
+							null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
 				}
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
 		return entradas;
 	}
+
 	public Entrada CadastrarEntrada(Entrada e) throws SQLException {
 		StringBuilder query = new StringBuilder();
 		query.append(" INSERT INTO TB_ENTRADAS  ");
-		query.append("  (item_id, unidade_id, fabricante_id, usuario_id, validade, fabricacao, entrada, qtd, qtd_retirada )  ");
+		query.append(
+				"  (item_id, unidade_id, fabricante_id, usuario_id, validade, fabricacao, entrada, qtd, qtd_retirada )  ");
 		query.append("  VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ?) ");
-		
+
 		PreparedStatement st = null;
 
 		try {
@@ -444,10 +498,12 @@ public class DAO {
 			st.setInt(1, e.getItem().getId());
 			st.setInt(2, e.getUnidade().getId());
 			st.setInt(3, e.getFabricante().getId());
-			st.setDate(4, new java.sql.Date(e.getDataValidade().getTime()));
-			st.setDate(5, new java.sql.Date(e.getDataFabricacao().getTime()));
-			st.setDate(6, new java.sql.Date(e.getDataEntrada().getTime()));
-			st.setInt(7, e.getQtd());
+			st.setInt(4, e.getUsuario().getId());
+			st.setDate(5, new java.sql.Date(e.getDataValidade().getTime()));
+			st.setDate(6, new java.sql.Date(e.getDataFabricacao().getTime()));
+			st.setDate(7, new java.sql.Date(e.getDataEntrada().getTime()));
+			st.setInt(8, e.getQtd());
+			st.setInt(9, 0);
 			st.execute();
 			ResultSet rs = st.getGeneratedKeys();
 
@@ -468,4 +524,30 @@ public class DAO {
 
 	}
 
+	public void NovaEntrada(Entrada e) throws SQLException {
+		StringBuilder query = new StringBuilder();
+		query.append("  UPDATE TB_ENTRADAS  ");
+		query.append(" SET qtd_retirada = ?, qtd = ?  ");
+		query.append("  WHERE id = ? ");
+		PreparedStatement st = null;
+
+		try {
+			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+
+			st.setInt(1, 0);
+			st.setInt(2, e.getQtd());
+			st.setInt(3, e.getId());
+			st.executeUpdate();
+
+			conn.commit();
+			st.close();
+			System.out.println("ok");
+			
+		} catch (SQLException e1) {
+			conn.rollback();
+
+			throw e1;
+
+		}
+	}
 }

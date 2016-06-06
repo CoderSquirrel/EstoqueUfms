@@ -20,6 +20,7 @@ import javax.swing.event.TableModelListener;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.ItemTable;
+import com.br.ufms.schirrel.classes.Usuario;
 
 public class RelatorioAtivos extends JPanel implements ActionListener, TableModelListener {
 	/**
@@ -32,9 +33,9 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 	private List<Entrada> entradas;
 	DAO dao;
 	private JTable EntradaTable;
-
-	public RelatorioAtivos(DAO D) {
-
+	private Usuario USUARIO_LOGADO;
+	public RelatorioAtivos(DAO D, Usuario u) {
+USUARIO_LOGADO = u;
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
@@ -58,7 +59,7 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
 		EntradaTable.getModel().addTableModelListener(this);
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
-		scrollPane.setBounds(10, 20, 780, 400);
+		scrollPane.setBounds(10, 20, 780, 370);
 
 		add(scrollPane);
 
@@ -107,18 +108,16 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 		int column = e.getColumn();
 		// System.out.println(row);
 		// System.out.println(entradas.get(row).getId());
+		
 		entradas.get(row).setRetirada(Integer.parseInt(EntradaTable.getValueAt(row, column).toString()));
-		try {
-			if (dao.UpdateRetirada(entradas.get(row))) {
+		entradas.get(row).setUsuario(USUARIO_LOGADO);
+			int q= Integer.parseInt(EntradaTable.getValueAt(row, column).toString());
+			if (dao.UpdateRetirada(entradas.get(row), q)) {
 				
 				// PreencherTabela();
 				// System.out.println("Ok");
 			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(this, "Problema ao atualizar retirada");
-			e1.printStackTrace();
-		}
+		
 
 	}
 

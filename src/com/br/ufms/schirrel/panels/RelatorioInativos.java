@@ -32,17 +32,12 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 	DAO dao;
 	private JTable EntradaTable;
 
-
 	public RelatorioInativos(DAO D) {
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
-		// { { "Item", "10", "Fornecedor", new Date(), new Date(), new
-		// Integer(5), new Date(), new Integer(2) } };
-
-		// Create the scroll pane and add the table to it.
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemTable(a));
 		PreencherTabela();
@@ -57,10 +52,14 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
 		EntradaTable.getModel().addTableModelListener(this);
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
-		scrollPane.setBounds(10, 20, 780, 400);
+		scrollPane.setBounds(10, 20, 780, 300);
 
 		add(scrollPane);
 
+		JButton btNova = new JButton("Nova Entrada");
+		btNova.setBounds(300, 340, 200, 30);
+		btNova.addActionListener(this);
+		add(btNova);
 	}
 
 	List<Object[]> CarregarLista() {
@@ -87,37 +86,25 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 
 		ItemTable it = (ItemTable) EntradaTable.getModel();
 
-		
-			it.RemoveAll();
-			it.AddList(CarregarLista());
-		
+		it.RemoveAll();
+		it.AddList(CarregarLista());
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// dao.CadastrarFornecedor(tfFornecedor.getText().toString().trim());
-
+		int qtd = Integer.parseInt(JOptionPane.showInputDialog("Quantidade: "));
+		entradas.get(EntradaTable.getSelectedRow()).setQtd(qtd);
+		try {
+			dao.NovaEntrada(entradas.get(EntradaTable.getSelectedRow()));
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
 	@Override
 	public void tableChanged(TableModelEvent e) {
-		int row = e.getFirstRow();
-		int column = e.getColumn();
-		// System.out.println(row);
-		// System.out.println(entradas.get(row).getId());
-		entradas.get(row).setRetirada(Integer.parseInt(EntradaTable.getValueAt(row, column).toString()));
-		try {
-			if (dao.UpdateRetirada(entradas.get(row))) {
-				
-				// PreencherTabela();
-				// System.out.println("Ok");
-			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			JOptionPane.showMessageDialog(this, "Problema ao atualizar retirada");
-			e1.printStackTrace();
-		}
 
 	}
 
