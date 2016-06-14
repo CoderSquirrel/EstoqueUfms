@@ -69,7 +69,7 @@ public class Login implements KeyListener {
 		PanelUsuario.setLayout(null);
 		frame.getContentPane().add(PanelUsuario);
 
-		JLabel lblUsuario = new JLabel("Usuario: ");
+		JLabel lblUsuario = new JLabel("Registro: ");
 		lblUsuario.setBounds(20, 29, 70, 15);
 		PanelUsuario.add(lblUsuario);
 
@@ -77,14 +77,14 @@ public class Login implements KeyListener {
 		tfUsuario.setBounds(95, 29, 150, 25);
 		PanelUsuario.add(tfUsuario);
 
-		JLabel lblSenha = new JLabel("Senha: ");
-		lblSenha.setBounds(20, 60, 70, 15);
-		PanelUsuario.add(lblSenha);
-
-		pfSenha = new JPasswordField();
-		pfSenha.setBounds(95, 60, 150, 25);
-		pfSenha.addKeyListener(this);
-		PanelUsuario.add(pfSenha);
+//		JLabel lblSenha = new JLabel("Senha: ");
+//		lblSenha.setBounds(20, 60, 70, 15);
+//		PanelUsuario.add(lblSenha);
+//
+//		pfSenha = new JPasswordField();
+//		pfSenha.setBounds(95, 60, 150, 25);
+//		pfSenha.addKeyListener(this);
+//		PanelUsuario.add(pfSenha);
 
 		btEntrar = new JButton("Entrar");
 		btEntrar.setBounds(100, 130, 100, 25);
@@ -129,11 +129,11 @@ public class Login implements KeyListener {
 	}
 
 	private void ValidarLogin() {
-		String senha = String.valueOf(pfSenha.getPassword()).trim();
-		if (tfUsuario.getText().toString().trim().equals("") || senha.equals("")) {
+		//String senha = String.valueOf(pfSenha.getPassword()).trim();
+		if (tfUsuario.getText().toString().trim().equals("") ) {
 			lblMsg.setText("Campo(s) em branco(s).");
 		} else {
-			Usuario USUARIO = dao.Login(tfUsuario.getText().toString().trim(), senha);
+			Usuario USUARIO = dao.Login(tfUsuario.getText().toString().trim());
 			if (USUARIO != null) {
 				btEntrar.setEnabled(false);
 				lblMsg.setText("Logado");

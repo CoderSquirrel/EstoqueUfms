@@ -31,7 +31,7 @@ public class AppMain extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros;
 	private JMenuItem mieEntrada, mieCadastrarItem, mieEditar, mieCadastrarUnidade, mieCadastrarFabricante,
-			mirAtivo, mirInativo, mieCadastrarUsuario;
+			mirAtivo, mirInativo,mirSaidaData, mirEntradaData, mieCadastrarUsuario;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	public AppMain(Usuario u) {

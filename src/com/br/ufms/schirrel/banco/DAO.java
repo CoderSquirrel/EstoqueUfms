@@ -245,6 +245,29 @@ public class DAO {
 
 	}
 
+	public Usuario Login(String registro) {
+		String query = "SELECT * FROM TB_USUARIOS WHERE REGISTRO = ? ";
+		Usuario USUARIO = null;
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setInt(1, Integer.parseInt(registro));
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			if (rs.next()) {
+				USUARIO = new Usuario(rs.getInt(1), rs.getString(2), rs.getLong(3), rs.getString(4));
+				st.close();
+				rs.close();
+			} else {
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return USUARIO;
+
+	}
 	public boolean EncontrarLogin(String usuario) {
 		String query = "SELECT * FROM TB_USUARIOS WHERE USUARIO LIKE ?";
 		try {
