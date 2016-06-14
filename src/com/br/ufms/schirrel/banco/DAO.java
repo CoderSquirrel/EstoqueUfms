@@ -258,8 +258,6 @@ public class DAO {
 				USUARIO = new Usuario(rs.getInt(1), rs.getString(2), rs.getLong(3), rs.getString(4));
 				st.close();
 				rs.close();
-			} else {
-
 			}
 
 		} catch (SQLException e) {
