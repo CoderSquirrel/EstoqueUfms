@@ -22,7 +22,7 @@ import com.br.ufms.schirrel.panels.CadastrarUnidade;
 import com.br.ufms.schirrel.panels.CadastrarUsuario;
 import com.br.ufms.schirrel.panels.EditarItem;
 import com.br.ufms.schirrel.panels.NovaEntrada;
-import com.br.ufms.schirrel.panels.NovaEntradaPermaete;
+import com.br.ufms.schirrel.panels.NovaEntradaPermanente;
 import com.br.ufms.schirrel.panels.RelatorioInativos;
 import com.br.ufms.schirrel.panels.RelatorioAtivos;
 import com.br.ufms.schirrel.panels.RelatorioDataAnteriores;
@@ -97,7 +97,7 @@ public class AppMain extends JFrame implements ActionListener {
 		mirAtivo.addActionListener(this);
 		mirInativo.addActionListener(this);
 	//	getContentPane().add(new RelatorioAtivos(dao,  USUARIO_LOGADO));
-		getContentPane().add(new NovaEntradaPermaete(dao,  USUARIO_LOGADO));
+		getContentPane().add(new NovaEntradaPermanente(dao,  USUARIO_LOGADO));
 		
 		Elementos();
 	}
@@ -125,7 +125,7 @@ public class AppMain extends JFrame implements ActionListener {
 		} else if (e.getSource() == mieEntradaPermanente) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new NovaEntradaPermaete(dao, USUARIO_LOGADO));
+			getContentPane().add(new NovaEntradaPermanente(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		}else if (e.getSource() == mieCadastrarUnidade) {

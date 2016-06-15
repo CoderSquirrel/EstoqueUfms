@@ -31,7 +31,7 @@ import com.br.ufms.schirrel.classes.Item;
 import com.br.ufms.schirrel.classes.Unidade;
 import com.br.ufms.schirrel.classes.Usuario;
 
-public class NovaEntradaPermaete extends JPanel implements ActionListener {
+public class NovaEntradaPermanente extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
@@ -50,10 +50,10 @@ public class NovaEntradaPermaete extends JPanel implements ActionListener {
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	Format shortDate = DateFormat.getDateInstance(DateFormat.SHORT);
 
-	public NovaEntradaPermaete(DAO D, Usuario u) {
+	public NovaEntradaPermanente(DAO D, Usuario u) {
 		dao = D;
 		USUARIO_LOGADO = u;
-		setBounds(0, 60, 800, 280);
+		setBounds(0, 60, 780, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Entrada de Item", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
@@ -91,7 +91,7 @@ public class NovaEntradaPermaete extends JPanel implements ActionListener {
 		add(cbItens);
 
 		cbUnidades = new JComboBox<>(dao.ListarUnidades());
-		cbUnidades.setBounds(498, 22, 300, 26);
+		cbUnidades.setBounds(473, 22, 300, 26);
 		cbUnidades.setFont(new Font("Arial", Font.BOLD, 14));
 		add(cbUnidades);
 
@@ -160,17 +160,17 @@ public class NovaEntradaPermaete extends JPanel implements ActionListener {
 		add(lblItem);
 
 		JLabel lblUnidade = new JLabel("Unidade: ");
-		lblUnidade.setBounds(428, 22, 100, 20);
+		lblUnidade.setBounds(402, 22, 100, 20);
 		lblUnidade.setFont(new Font("Arial", Font.BOLD, 14));
 		add(lblUnidade);
 
 		btCadastrar = new JButton("Salvar");
-		btCadastrar.setBounds(10, 200, 100, 30);
+		btCadastrar.setBounds(10, 340, 100, 30);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);
 
 		lblStatus = new JLabel("");
-		lblStatus.setBounds(10, 223, 788, 26);
+		lblStatus.setBounds(10, 363, 788, 26);
 		lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblStatus);
