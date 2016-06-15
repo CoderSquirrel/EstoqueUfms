@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.br.ufms.schirrel.classes.Entrada;
+import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Fabricante;
 import com.br.ufms.schirrel.classes.Item;
 import com.br.ufms.schirrel.classes.Unidade;
@@ -571,4 +572,74 @@ public class DAO {
 
 		}
 	}
+
+	/*
+	 * CRUD ENTRADA PERMANENTE
+	 */
+	public List<EntradaPermanente> ListarEntradasPermanentes() {
+		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
+		String query = "SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on e.unidade_id = u.id WHERE  qtd_retirada != qtd order by e.id ASC";
+
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+//					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)),
+//							new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6), rs.getString(7)),
+//							null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return entradas;
+	}
+
+
+	public EntradaPermanente CadastrarEntradaPermanente(EntradaPermanente e) throws SQLException {
+		StringBuilder query = new StringBuilder();
+		query.append(" INSERT INTO tb_permanentes  ");
+		query.append(
+				"  (item_id, unidade_id, fabricante_id, usuario_id, entrada, qtd, deposito, laboratorio )  ");
+		query.append("  VALUES ( ? , ? , ? , ? , ? , ? , ? , ? ) ");
+
+		PreparedStatement st = null;
+
+		try {
+			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+
+			st.setInt(1, e.getItem().getId());
+			st.setInt(2, e.getUnidade().getId());
+			st.setInt(3, e.getFabricante().getId());
+			st.setInt(4, e.getUsuario().getId());
+			st.setDate(5, new java.sql.Date(e.getDataEntrada().getTime()));
+			st.setInt(6, e.getQtd());
+			st.setInt(7, e.getDeposito());
+			st.setInt(8, e.getLaboratorio());
+			st.execute();
+			ResultSet rs = st.getGeneratedKeys();
+
+			if (rs.next()) {
+				e.setId(rs.getInt(1));
+				
+			}
+			conn.commit();
+			st.close();
+			rs.close();
+		} catch (SQLException e1) {
+			conn.rollback();
+			throw e1;
+		} finally {
+			st.close();
+		}
+		return e;
+
+	}
+
+
 }

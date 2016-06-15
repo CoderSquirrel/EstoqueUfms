@@ -36,20 +36,29 @@ public class EntradaPermanente {
 	Unidade unidade;
 	Fabricante fabricante;
 	Usuario usuario;
-	Date dataValidade, dataEntrada, dataFabricacao;
+	Date  dataEntrada;
 	public EntradaPermanente() {
 		dataEntrada = new Date();
 	}
 	
-	public EntradaPermanente(int id, Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataValidade, Date dataEntrada,Date dataFabricacao, int qtd, int dep, int lab) {
+	public EntradaPermanente(int id, Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataEntrada, int qtd, int dep, int lab) {
 	this.id = id;
 		this.item = item;
 		this.unidade = unidade;
 		this.fabricante = fabricante;
 		this.usuario = usuario;
-		this.dataValidade = dataValidade;
 		this.dataEntrada = dataEntrada;
-		this.dataFabricacao = dataFabricacao;
+		this.qtd = qtd;
+		this.deposito = dep;
+		this.laboratorio = lab;
+	}
+	
+	public EntradaPermanente(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab) {
+		this.item = item;
+		this.unidade = unidade;
+		this.fabricante = fabricante;
+		this.usuario = usuario;
+		this.dataEntrada = dataEntrada;
 		this.qtd = qtd;
 		this.deposito = dep;
 		this.laboratorio = lab;
@@ -86,13 +95,6 @@ public class EntradaPermanente {
 		this.usuario = usuario;
 	}
 
-	public Date getDataValidade() {
-		return dataValidade;
-	}
-
-	public void setDataValidade(Date dataValidade) {
-		this.dataValidade = dataValidade;
-	}
 
 	public Date getDataEntrada() {
 		return dataEntrada;
@@ -110,12 +112,6 @@ public class EntradaPermanente {
 		return id;
 	}
 
-	public Date getDataFabricacao() {
-		return dataFabricacao;
-	}
 
-	public void setDataFabricacao(Date dataFabricacao) {
-		this.dataFabricacao = dataFabricacao;
-	}
 
 }

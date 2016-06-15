@@ -25,6 +25,7 @@ import javax.swing.text.DocumentFilter;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
+import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Fabricante;
 import com.br.ufms.schirrel.classes.Item;
 import com.br.ufms.schirrel.classes.Unidade;
@@ -36,7 +37,7 @@ public class NovaEntradaPermaete extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField tfItem, tfQtd;
-	private JFormattedTextField tfDataValidade, tfDataFabricacao, tfDataEntrada;
+	private JFormattedTextField tfDataEntrada;
 	private JButton btCadastrar;
 	private JLabel lblStatus;
 	private JComboBox<Fabricante> cbFabricantes;
@@ -178,7 +179,7 @@ public class NovaEntradaPermaete extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (EmBranco(tfDataValidade) || EmBranco(tfQtd)) {
+		if (EmBranco(tfDataEntrada) || EmBranco(tfQtd)) {
 			lblStatus.setText("Existe campo em branco.");
 		} else {
 
@@ -186,21 +187,18 @@ public class NovaEntradaPermaete extends JPanel implements ActionListener {
 			Item i = dao.GetItemPorNome(cbItens.getSelectedItem().toString());
 			Unidade u = dao.GetUnidadePorNome(cbUnidades.getSelectedItem().toString());
 			@SuppressWarnings("deprecation")
-			Entrada ent = new Entrada(i, u, f, USUARIO_LOGADO, new Date(tfDataValidade.getText().toString()),
-					new Date(tfDataValidade.getText().toString()), new Date(tfDataValidade.getText().toString()),
-					Integer.parseInt(tfQtd.getText().toString().trim()));
+		
+			EntradaPermanente perm = new EntradaPermanente( i, u, f, USUARIO_LOGADO,  new Date(tfDataEntrada.getText().toString()), Integer.parseInt(tfQtd.getText().toString().trim()), Integer.parseInt(cbDepositos.getSelectedItem().toString().trim()), Integer.parseInt(cbLaboratorios.getSelectedItem().toString().trim()));
 			try {
-				ent = dao.CadastrarEntrada(ent);
+				perm = dao.CadastrarEntradaPermanente(perm);
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 				lblStatus.setText("Problema com banco de dados");
 			}
-			if (ent.getId() > 0) {
+			if (perm.getId() > 0) {
 				lblStatus.setText("Cadastrado");
 				tfDataEntrada.setValue(new Date());
-				tfDataValidade.setValue(new Date());
-				tfDataFabricacao.setValue(new Date());
 				tfQtd.setText("");
 				cbFabricantes.setSelectedIndex(0);
 				cbItens.setSelectedIndex(0);
@@ -210,7 +208,7 @@ public class NovaEntradaPermaete extends JPanel implements ActionListener {
 				lblStatus.setText("Problema ao efetuar cadastro");
 			}
 		}
-		// dao.CadastrarFornecedor(tfFornecedor.getText().toString().trim());
+	
 
 	}
 

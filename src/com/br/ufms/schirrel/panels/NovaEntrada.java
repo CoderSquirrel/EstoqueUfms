@@ -166,7 +166,7 @@ public class NovaEntrada extends JPanel implements ActionListener {
 			Unidade u = dao.GetUnidadePorNome(cbUnidades.getSelectedItem().toString());
 			@SuppressWarnings("deprecation")
 			Entrada ent = new Entrada(i, u, f, USUARIO_LOGADO, new Date(tfDataValidade.getText().toString()),
-					new Date(tfDataValidade.getText().toString()), new Date(tfDataValidade.getText().toString()), Integer.parseInt(tfQtd.getText().toString().trim()));
+					new Date(tfDataEntrada.getText().toString()), new Date(tfDataFabricacao.getText().toString()), Integer.parseInt(tfQtd.getText().toString().trim()));
 			try {
 				ent = dao.CadastrarEntrada(ent);
 			} catch (SQLException e1) {
