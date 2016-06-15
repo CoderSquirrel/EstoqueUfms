@@ -24,6 +24,7 @@ id int primary key DEFAULT nextval('seq_itens'),
 item varchar(255) not null
 );
 
+
 create table tb_entradas
 (
 id int primary key DEFAULT nextval('seq_entrada'),
@@ -36,6 +37,24 @@ fabricacao date,
 entrada date,
 qtd int, 
 qtd_retirada int,
+FOREIGN KEY (item_id) REFERENCES tb_itens (id),
+FOREIGN KEY (unidade_id) REFERENCES tb_unidades (id),
+FOREIGN KEY (fabricante_id) REFERENCES tb_fabricantes (id),
+FOREIGN KEY (usuario_id) REFERENCES tb_usuarios (id)
+);
+
+
+create table tb_permanentes
+(
+id int primary key DEFAULT nextval('seq_permanente'),
+item_id int ,
+unidade_id int,
+fabricante_id int,
+usuario_id int,
+entrada date,
+qtd int, 
+deposito int,
+laboratorio int,
 FOREIGN KEY (item_id) REFERENCES tb_itens (id),
 FOREIGN KEY (unidade_id) REFERENCES tb_unidades (id),
 FOREIGN KEY (fabricante_id) REFERENCES tb_fabricantes (id),

@@ -22,16 +22,18 @@ import com.br.ufms.schirrel.panels.CadastrarUnidade;
 import com.br.ufms.schirrel.panels.CadastrarUsuario;
 import com.br.ufms.schirrel.panels.EditarItem;
 import com.br.ufms.schirrel.panels.NovaEntrada;
+import com.br.ufms.schirrel.panels.NovaEntradaPermaete;
 import com.br.ufms.schirrel.panels.RelatorioInativos;
 import com.br.ufms.schirrel.panels.RelatorioAtivos;
+import com.br.ufms.schirrel.panels.RelatorioDataAnteriores;
 import com.br.ufms.schirrel.panels.Saida;
 
 public class AppMain extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros;
-	private JMenuItem mieEntrada, mieCadastrarItem, mieEditar, mieCadastrarUnidade, mieCadastrarFabricante,
-			mirAtivo, mirInativo,mirSaidaData, mirEntradaData, mieCadastrarUsuario;
+	private JMenuItem mieEntrada,mieEntradaPermanente, mieCadastrarItem, mieEditar, mieCadastrarUnidade, mieCadastrarFabricante,
+			mirAtivo, mirInativo, mirSaidaData, mirDataAnteriores, mirEntradaData, mieCadastrarUsuario;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	public AppMain(Usuario u) {
@@ -58,16 +60,20 @@ public class AppMain extends JFrame implements ActionListener {
 		mieCadastrarItem = new JMenuItem("Cadastrar Item");
 		mieEditar = new JMenuItem("Editar Item");
 		mieEntrada = new JMenuItem("Entrada de Item");
+		mieEntradaPermanente = new JMenuItem("Entrada de Item Permanente");
 //		mieSaida = new JMenuItem("Saida de Item");
 		mieCadastrarUnidade = new JMenuItem("Cadastrar Unidade");
 		mieCadastrarFabricante = new JMenuItem("Cadastrar Fabricante");
 		mieCadastrarUsuario = new JMenuItem("Cadastrar Usuario");
 		mirAtivo = new JMenuItem("Relatorio Ativo");
 		mirInativo = new JMenuItem("Relatorio Inativo");
-
+		mirDataAnteriores = new JMenuItem("Relatorio Datas Anteriores");
+		
 		mieCadastrarItem.addActionListener(this);
 		mieEditar.addActionListener(this);
 		mieEntrada.addActionListener(this);
+		mieEntradaPermanente.addActionListener(this);
+		mirDataAnteriores.addActionListener(this);
 		
 		mieCadastrarUnidade.addActionListener(this);
 		mieCadastrarFabricante.addActionListener(this);
@@ -80,16 +86,19 @@ public class AppMain extends JFrame implements ActionListener {
 	//	menuCadastros.add(mieEditar);
 
 		menuEstoque.add(mieEntrada);
-
+		menuEstoque.add(mieEntradaPermanente);
 		menuRelatorio.add(mirAtivo);
 		menuRelatorio.add(mirInativo);
+		menuRelatorio.add(mirDataAnteriores);
 		menuBar.add(menuEstoque);
 		menuBar.add(menuCadastros);
 		menuBar.add(menuRelatorio);
 		
 		mirAtivo.addActionListener(this);
 		mirInativo.addActionListener(this);
-		getContentPane().add(new RelatorioAtivos(dao,  USUARIO_LOGADO));
+	//	getContentPane().add(new RelatorioAtivos(dao,  USUARIO_LOGADO));
+		getContentPane().add(new NovaEntradaPermaete(dao,  USUARIO_LOGADO));
+		
 		Elementos();
 	}
 
@@ -113,7 +122,13 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().add(new NovaEntrada(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
-		} else if (e.getSource() == mieCadastrarUnidade) {
+		} else if (e.getSource() == mieEntradaPermanente) {
+			getContentPane().removeAll();
+			Elementos();
+			getContentPane().add(new NovaEntradaPermaete(dao, USUARIO_LOGADO));
+			getContentPane().revalidate();
+			getContentPane().repaint();
+		}else if (e.getSource() == mieCadastrarUnidade) {
 			getContentPane().removeAll();
 			Elementos();
 			getContentPane().add(new CadastrarUnidade(dao));
@@ -143,7 +158,13 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().add(new RelatorioInativos(dao));
 			getContentPane().revalidate();
 			getContentPane().repaint();
-		}
+		}else if (e.getSource() == mirDataAnteriores) {
+			getContentPane().removeAll();
+			Elementos();
+			getContentPane().add(new RelatorioDataAnteriores(dao, USUARIO_LOGADO));
+			getContentPane().revalidate();
+			getContentPane().repaint();
+		} 
 
 	}
 	

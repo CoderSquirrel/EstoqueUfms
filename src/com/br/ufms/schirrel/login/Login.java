@@ -75,6 +75,7 @@ public class Login implements KeyListener {
 
 		tfUsuario = new JTextField();
 		tfUsuario.setBounds(95, 29, 150, 25);
+		tfUsuario.addKeyListener(this);
 		PanelUsuario.add(tfUsuario);
 
 //		JLabel lblSenha = new JLabel("Senha: ");
@@ -119,7 +120,8 @@ public class Login implements KeyListener {
 
 		} else if(e.getSource() == tfUsuario) {
 			if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-				pfSenha.requestFocus();
+				//pfSenha.requestFocus();
+				ValidarLogin();
 			}
 		}
 	}
