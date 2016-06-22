@@ -9,56 +9,34 @@ public class EntradaPermanente {
 	int qtd;
 	int deposito;
 	int laboratorio;
+	String patrimonio;
 	Item item;
-	Unidade unidade;
-	Fabricante fabricante;
 	Usuario usuario;
 	Date  dataEntrada;
 	String obs;
-	public int getDeposito() {
-		return deposito;
-	}
 
-	public void setDeposito(int deposito) {
-		this.deposito = deposito;
-	}
-
-	public int getLaboratorio() {
-		return laboratorio;
-	}
-
-	public void setLaboratorio(int laboratorio) {
-		this.laboratorio = laboratorio;
-	}
-
-
-	public EntradaPermanente() {
-		dataEntrada = new Date();
-	}
 	
-	public EntradaPermanente(int id, Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataEntrada, int qtd, int dep, int lab, String obs) {
+	public EntradaPermanente(int id, Item item, Usuario usuario, Date dataEntrada, int qtd, int dep, int lab, String obs, String patrimonio) {
 	this.id = id;
 		this.item = item;
-		this.unidade = unidade;
-		this.fabricante = fabricante;
 		this.usuario = usuario;
 		this.dataEntrada = dataEntrada;
 		this.qtd = qtd;
 		this.deposito = dep;
 		this.laboratorio = lab;
 		this.obs = obs;
+		this.patrimonio = patrimonio;
 	}
 	
-	public EntradaPermanente(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab, String obs) {
+	public EntradaPermanente(Item item,  Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab, String obs, String patrimonio) {
 		this.item = item;
-		this.unidade = unidade;
-		this.fabricante = fabricante;
 		this.usuario = usuario;
 		this.dataEntrada = dataEntrada;
 		this.qtd = qtd;
 		this.deposito = dep;
 		this.laboratorio = lab;
 		this.obs = obs;
+		this.patrimonio = patrimonio;
 	}
 	
 	public int getQtd() {
@@ -76,21 +54,7 @@ public class EntradaPermanente {
 		this.item = item;
 	}
 
-	public Unidade getUnidade() {
-		return unidade;
-	}
 
-	public void setUnidade(Unidade unidade) {
-		this.unidade = unidade;
-	}
-
-	public Fabricante getFabricante() {
-		return fabricante;
-	}
-
-	public void setFabricante(Fabricante fabricante) {
-		this.fabricante = fabricante;
-	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -124,7 +88,34 @@ public class EntradaPermanente {
 	public void setObs(String obs) {
 		this.obs = obs;
 	}
+	public int getDeposito() {
+		return deposito;
+	}
 
+	public void setDeposito(int deposito) {
+		this.deposito = deposito;
+	}
+
+	public int getLaboratorio() {
+		return laboratorio;
+	}
+
+	public void setLaboratorio(int laboratorio) {
+		this.laboratorio = laboratorio;
+	}
+
+
+	public EntradaPermanente() {
+		dataEntrada = new Date();
+	}
+
+	public String getPatrimonio() {
+		return patrimonio;
+	}
+
+	public void setPatrimonio(String patrimonio) {
+		this.patrimonio = patrimonio;
+	}
 
 
 }

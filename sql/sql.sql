@@ -48,17 +48,15 @@ create table tb_permanentes
 (
 id_permanente int primary key DEFAULT nextval('seq_permanente'),
 item_id int ,
-unidade_id int,
-fabricante_id int,
+descricao text,
 usuario_id int,
 entrada date,
 qtd int, 
 deposito int,
 laboratorio int,
 obs text,
+patrimonio text,
 FOREIGN KEY (item_id) REFERENCES tb_itens (id_item),
-FOREIGN KEY (unidade_id) REFERENCES tb_unidades (id_unidade),
-FOREIGN KEY (fabricante_id) REFERENCES tb_fabricantes (id_fabricante),
 FOREIGN KEY (usuario_id) REFERENCES tb_usuarios (id_usuario)
 );
 

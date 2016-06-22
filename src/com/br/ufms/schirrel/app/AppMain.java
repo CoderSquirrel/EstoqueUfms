@@ -31,9 +31,10 @@ import com.br.ufms.schirrel.panels.Saida;
 public class AppMain extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	private JMenu menuEstoque, menuRelatorio, menuCadastros;
+	private JMenu menuEstoque, menuRelatorio, menuCadastros, menuBuscar;
 	private JMenuItem mieEntrada,mieEntradaPermanente, mieCadastrarItem, mieEditar, mieCadastrarUnidade, mieCadastrarFabricante,
-			mirAtivo, mirInativo, mirSaidaData, mirDataAnteriores, mirEntradaData, mieCadastrarUsuario;
+			mirAtivo, mirInativo, mirSaidaData, mirDataAnteriores, mirEntradaData, mieCadastrarUsuario, mibPermanenteNome, 
+			mibPermanentePatrimonio, mibConsumoData, mibConsumoNome  ;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	public AppMain(Usuario u) {
@@ -56,6 +57,7 @@ public class AppMain extends JFrame implements ActionListener {
 		menuEstoque = new JMenu("Estoque");
 		menuCadastros = new JMenu("Cadastro");
 		menuRelatorio = new JMenu("Relatorio");
+		menuBuscar = new JMenu("Busca");
 
 		mieCadastrarItem = new JMenuItem("Cadastrar Item");
 		mieEditar = new JMenuItem("Editar Item");
@@ -68,6 +70,12 @@ public class AppMain extends JFrame implements ActionListener {
 		mirAtivo = new JMenuItem("Relatorio Ativo");
 		mirInativo = new JMenuItem("Relatorio Inativo");
 		mirDataAnteriores = new JMenuItem("Relatorio Datas Anteriores");
+		
+		mibPermanenteNome = new JMenuItem("Mat. Permanente por Nome");
+		mibPermanentePatrimonio = new JMenuItem("Mat. Permanente por N. Patrimonio");
+		
+		mibConsumoNome = new JMenuItem("Mat. de Consumo por Nome");
+		mibConsumoData= new JMenuItem("Mat. de Consumo por Data");
 		
 		mieCadastrarItem.addActionListener(this);
 		mieEditar.addActionListener(this);
@@ -90,9 +98,17 @@ public class AppMain extends JFrame implements ActionListener {
 		menuRelatorio.add(mirAtivo);
 		menuRelatorio.add(mirInativo);
 		menuRelatorio.add(mirDataAnteriores);
+		
+		menuBuscar.add(mibConsumoNome);
+		menuBuscar.add(mibConsumoData);
+		menuBuscar.addSeparator();
+		menuBuscar.add(mibPermanenteNome);
+		menuBuscar.add(mibPermanentePatrimonio);
+		
 		menuBar.add(menuEstoque);
 		menuBar.add(menuCadastros);
 		menuBar.add(menuRelatorio);
+		menuBar.add(menuBuscar);
 		
 		mirAtivo.addActionListener(this);
 		mirInativo.addActionListener(this);

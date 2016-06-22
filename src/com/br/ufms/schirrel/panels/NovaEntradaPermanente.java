@@ -37,16 +37,14 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField tfItem, tfQtd;
+	private JTextField tfItem, tfQtd, tfPatrimonio;
 	private JFormattedTextField tfDataEntrada;
 	private JButton btCadastrar;
 	private JLabel lblStatus;
-	private JComboBox<Fabricante> cbFabricantes;
 	private JComboBox<Item> cbItens;
-	private JComboBox<Unidade> cbUnidades;
 	private JComboBox<Integer> cbDepositos, cbLaboratorios;
 	private Usuario USUARIO_LOGADO;
-	private JTextArea taObs;
+	private JTextArea taObs, tfDescricao;
 	DAO dao;
 	private DocumentFilter filter = new IntDocumentFilter();
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -62,45 +60,29 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		JPanel panelEntrada = new JPanel();
 		panelEntrada.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Entrada",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelEntrada.setBounds(10, 135, 153, 55);
+		panelEntrada.setBounds(10, 155, 153, 55);
 		add(panelEntrada);
 
 		JPanel panelDeposito = new JPanel();
 		panelDeposito.setBorder(new TitledBorder(null, "Deposito", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelDeposito.setBounds(163, 135, 100, 55);
+		panelDeposito.setBounds(163, 155, 100, 55);
 		add(panelDeposito);
 		JPanel panelLaboratorio = new JPanel();
 		panelLaboratorio
 				.setBorder(new TitledBorder(null, "Laboratorio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelLaboratorio.setBounds(263, 135, 100, 55);
+		panelLaboratorio.setBounds(263, 155, 100, 55);
 		add(panelLaboratorio);
 
-		/*
-		 * JPanel panelValidade = new JPanel(); panelValidade.setBorder(new
-		 * TitledBorder(new LineBorder(new Color(184, 207, 229)), "Validade",
-		 * TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		 * panelValidade.setBounds(10, 135, 153, 50); add(panelValidade);
-		 * 
-		 * JPanel panelFabricacao = new JPanel(); panelFabricacao.setBorder(new
-		 * TitledBorder(new LineBorder(new Color(184, 207, 229)),
-		 * "Fabrica\u00E7\u00E3o", TitledBorder.LEADING, TitledBorder.TOP, null,
-		 * null)); panelFabricacao.setBounds(240, 135, 153, 50);
-		 * add(panelFabricacao);
-		 */
+		JPanel panelQuantidade = new JPanel();
+		panelQuantidade.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Quantidade",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelQuantidade.setBounds(363, 155, 153, 55);
+		add(panelQuantidade);
+
 		cbItens = new JComboBox<>(dao.ListarItens());
 		cbItens.setBounds(50, 22, 350, 26);
 		cbItens.setFont(new Font("Arial", Font.BOLD, 14));
 		add(cbItens);
-
-		cbUnidades = new JComboBox<>(dao.ListarUnidades());
-		cbUnidades.setBounds(468, 22, 300, 26);
-		cbUnidades.setFont(new Font("Arial", Font.BOLD, 14));
-		add(cbUnidades);
-
-		cbFabricantes = new JComboBox<>(dao.ListarFabricantes());
-		cbFabricantes.setBounds(112, 56, 350, 26);
-		cbFabricantes.setFont(new Font("Arial", Font.BOLD, 14));
-		add(cbFabricantes);
 
 		Integer[] dep = { 1, 2, 3, 4, 5 };
 		cbDepositos = new JComboBox<>(dep);
@@ -113,22 +95,15 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		cbLaboratorios.setBounds(0, 0, 100, 40);
 		panelLaboratorio.add(cbLaboratorios);
 
-		JLabel lblFornecedor = new JLabel("Fabricante:");
-		lblFornecedor.setBounds(12, 56, 100, 20);
-		lblFornecedor.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblFornecedor);
+		JLabel lblPatrimonio = new JLabel("Nº de Patrimonio: ");
+		lblPatrimonio.setBounds(425, 22, 190, 20);
+		lblPatrimonio.setFont(new Font("Arial", Font.BOLD, 14));
+		add(lblPatrimonio);
 
-		JLabel lblQtd = new JLabel("Quantidade: ");
-		lblQtd.setBounds(13, 92, 120, 20);
-		lblQtd.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblQtd);
-
-		tfQtd = new JTextField();
-		tfQtd.setBounds(123, 94, 120, 26);
-		tfQtd.setColumns(15);
-		AbstractDocument document = (AbstractDocument) tfQtd.getDocument();
-		document.setDocumentFilter(filter);
-		add(tfQtd);
+		tfPatrimonio = new JTextField();
+		tfPatrimonio.setBounds(570, 22, 200, 26);
+		tfPatrimonio.setColumns(15);
+		add(tfPatrimonio);
 
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
@@ -136,46 +111,41 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		formatter.setOverwriteMode(true);
 
 		tfDataEntrada = new JFormattedTextField(formatter);
-		tfDataEntrada.setBounds(0, 0, 100, 40);
+		tfDataEntrada.setBounds(0, 0, 90, 40);
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		panelEntrada.add(tfDataEntrada);
 		tfDataEntrada.setValue(new Date());
 		tfDataEntrada.setColumns(10);
-		/*
-		 * tfDataValidade = new JFormattedTextField(formatter);
-		 * tfDataValidade.setBounds(0, 0, 100, 26);
-		 * 
-		 * tfDataValidade.setFont(new Font("Arial", Font.BOLD, 14));
-		 * panelValidade.add(tfDataValidade); tfDataValidade.setValue(new
-		 * Date()); tfDataValidade.setColumns(10);
-		 * 
-		 * tfDataFabricacao = new JFormattedTextField(formatter);
-		 * tfDataFabricacao.setBounds(0, 0, 100, 40);
-		 * tfDataFabricacao.setFont(new Font("Arial", Font.BOLD, 14));
-		 * panelFabricacao.add(tfDataFabricacao); tfDataFabricacao.setValue(new
-		 * Date()); tfDataFabricacao.setColumns(10);
-		 * 
-		 */
-		
+
+		tfQtd = new JTextField();
+		AbstractDocument document = (AbstractDocument) tfQtd.getDocument();
+		document.setDocumentFilter(filter);
+		tfQtd.setBounds(0, 0, 100, 40);
+		panelQuantidade.add(tfQtd);
+
+		tfQtd.setColumns(10);
+
 		JLabel lblItem = new JLabel("Item: ");
 		lblItem.setBounds(10, 22, 50, 20);
 		lblItem.setFont(new Font("Arial", Font.BOLD, 14));
 		add(lblItem);
 
-		JLabel lblUnidade = new JLabel("UND: ");
-		lblUnidade.setBounds(425, 22, 100, 20);
-		lblUnidade.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblUnidade);
-
 		taObs = new JTextArea();
-		taObs.setBounds(10, 205, 760, 105);
+		taObs.setBounds(10, 225, 760, 105);
 		taObs.setLineWrap(true);
 		taObs.setWrapStyleWord(true);
-		taObs.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Obs",
-						 TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		taObs.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Obs", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		add(taObs);
+
 		
-		
+		tfDescricao = new JTextArea();
+		tfDescricao.setBounds(10, 60, 760, 80);
+		tfDescricao.setLineWrap(true);
+		tfDescricao.setWrapStyleWord(true);
+		tfDescricao.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Descrição", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
+		add(tfDescricao);
 		
 		btCadastrar = new JButton("Salvar");
 		btCadastrar.setBounds(10, 340, 100, 30);
@@ -196,18 +166,15 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 			lblStatus.setText("Existe campo em branco.");
 		} else {
 
-			Fabricante f = dao.GetFabricantePorNome(cbFabricantes.getSelectedItem().toString());
 			Item i = dao.GetItemPorNome(cbItens.getSelectedItem().toString());
-			Unidade u = dao.GetUnidadePorNome(cbUnidades.getSelectedItem().toString());
 			@SuppressWarnings("deprecation")
-		
+
 			EntradaPermanente perm;
-			perm = new EntradaPermanente( i, u, f, USUARIO_LOGADO, 
-					new Date(tfDataEntrada.getText().toString()),
+			perm = new EntradaPermanente(i, USUARIO_LOGADO, new Date(tfDataEntrada.getText().toString()),
 					Integer.parseInt(tfQtd.getText().toString().trim()),
-					Integer.parseInt(cbDepositos.getSelectedItem().toString().trim()), 
-					Integer.parseInt(cbLaboratorios.getSelectedItem().toString().trim()), 
-					taObs.getText().trim());
+					Integer.parseInt(cbDepositos.getSelectedItem().toString().trim()),
+					Integer.parseInt(cbLaboratorios.getSelectedItem().toString().trim()), taObs.getText().trim(),
+					tfPatrimonio.getText().trim());
 			try {
 				perm = dao.CadastrarEntradaPermanente(perm);
 			} catch (SQLException e1) {
@@ -219,15 +186,12 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 				lblStatus.setText("Cadastrado");
 				tfDataEntrada.setValue(new Date());
 				tfQtd.setText("");
-				cbFabricantes.setSelectedIndex(0);
 				cbItens.setSelectedIndex(0);
-				cbUnidades.setSelectedIndex(0);
 
 			} else {
 				lblStatus.setText("Problema ao efetuar cadastro");
 			}
 		}
-	
 
 	}
 
