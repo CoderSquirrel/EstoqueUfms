@@ -605,8 +605,8 @@ public class DAO {
 		StringBuilder query = new StringBuilder();
 		query.append(" INSERT INTO tb_permanentes  ");
 		query.append(
-				"  (item_id,  usuario_id, entrada, qtd, deposito, laboratorio, obs, patrimonio )  ");
-		query.append("  VALUES ( ? ,  ? , ? , ? , ? , ? , ? , ? ) ");
+				"  (item_id, descricao, usuario_id, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado )  ");
+		query.append("  VALUES ( ? , ? ,  ? , ? , ? , ? , ? , ? , ? , ? ) ");
 
 		PreparedStatement st = null;
 

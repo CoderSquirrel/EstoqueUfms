@@ -27,6 +27,7 @@ import javax.swing.text.DocumentFilter;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
+import com.br.ufms.schirrel.classes.EntradaPermanente.Estado;
 import com.br.ufms.schirrel.classes.Fabricante;
 import com.br.ufms.schirrel.classes.Item;
 import com.br.ufms.schirrel.classes.Unidade;
@@ -43,6 +44,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 	private JLabel lblStatus;
 	private JComboBox<Item> cbItens;
 	private JComboBox<Integer> cbDepositos, cbLaboratorios;
+	private JComboBox<Estado> cbEstados;
 	private Usuario USUARIO_LOGADO;
 	private JTextArea taObs, tfDescricao;
 	DAO dao;
@@ -79,6 +81,12 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		panelQuantidade.setBounds(363, 155, 153, 55);
 		add(panelQuantidade);
 
+		JPanel panelEstado= new JPanel();
+		panelEstado.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Estado",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelEstado.setBounds(518, 155, 120, 55);
+		add(panelEstado);
+		
 		cbItens = new JComboBox<>(dao.ListarItens());
 		cbItens.setBounds(50, 22, 350, 26);
 		cbItens.setFont(new Font("Arial", Font.BOLD, 14));
@@ -174,7 +182,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 					Integer.parseInt(tfQtd.getText().toString().trim()),
 					Integer.parseInt(cbDepositos.getSelectedItem().toString().trim()),
 					Integer.parseInt(cbLaboratorios.getSelectedItem().toString().trim()), taObs.getText().trim(),
-					tfPatrimonio.getText().trim());
+					tfPatrimonio.getText().trim(),"", Estado.bom);
 			try {
 				perm = dao.CadastrarEntradaPermanente(perm);
 			} catch (SQLException e1) {

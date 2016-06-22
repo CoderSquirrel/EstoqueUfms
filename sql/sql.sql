@@ -56,6 +56,7 @@ deposito int,
 laboratorio int,
 obs text,
 patrimonio text,
+estado int,
 FOREIGN KEY (item_id) REFERENCES tb_itens (id_item),
 FOREIGN KEY (usuario_id) REFERENCES tb_usuarios (id_usuario)
 );

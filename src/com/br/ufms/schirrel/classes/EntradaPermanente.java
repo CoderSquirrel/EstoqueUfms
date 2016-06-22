@@ -11,12 +11,14 @@ public class EntradaPermanente {
 	int laboratorio;
 	String patrimonio;
 	Item item;
+	String descricao;
 	Usuario usuario;
 	Date  dataEntrada;
 	String obs;
+	Estado estado;
 
 	
-	public EntradaPermanente(int id, Item item, Usuario usuario, Date dataEntrada, int qtd, int dep, int lab, String obs, String patrimonio) {
+	public EntradaPermanente(int id, Item item, Usuario usuario, Date dataEntrada, int qtd, int dep, int lab, String obs, String patrimonio, String descricao, Estado e) {
 	this.id = id;
 		this.item = item;
 		this.usuario = usuario;
@@ -26,9 +28,11 @@ public class EntradaPermanente {
 		this.laboratorio = lab;
 		this.obs = obs;
 		this.patrimonio = patrimonio;
+		this.descricao = descricao;
+		this.estado = e;
 	}
 	
-	public EntradaPermanente(Item item,  Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab, String obs, String patrimonio) {
+	public EntradaPermanente(Item item,  Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab, String obs, String patrimonio, String descricao, Estado e) {
 		this.item = item;
 		this.usuario = usuario;
 		this.dataEntrada = dataEntrada;
@@ -37,6 +41,8 @@ public class EntradaPermanente {
 		this.laboratorio = lab;
 		this.obs = obs;
 		this.patrimonio = patrimonio;
+		this.descricao = descricao;
+		this.estado = e;
 	}
 	
 	public int getQtd() {
@@ -116,6 +122,27 @@ public class EntradaPermanente {
 	public void setPatrimonio(String patrimonio) {
 		this.patrimonio = patrimonio;
 	}
+	
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
+	}
 
 
+	public enum Estado {
+		bom, ruim
+	}
 }
+

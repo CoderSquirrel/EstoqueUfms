@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.banco.DAO;
+import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.panels.CadastrarFabricante;
 import com.br.ufms.schirrel.panels.CadastrarItem;
