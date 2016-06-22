@@ -15,6 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
@@ -44,7 +45,8 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 	private JComboBox<Item> cbItens;
 	private JComboBox<Unidade> cbUnidades;
 	private JComboBox<Integer> cbDepositos, cbLaboratorios;
-	private Usuario USUARIO_LOGADO;// Dener o mais lindo menino s2
+	private Usuario USUARIO_LOGADO;
+	private JTextArea taObs;
 	DAO dao;
 	private DocumentFilter filter = new IntDocumentFilter();
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -91,7 +93,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		add(cbItens);
 
 		cbUnidades = new JComboBox<>(dao.ListarUnidades());
-		cbUnidades.setBounds(473, 22, 300, 26);
+		cbUnidades.setBounds(468, 22, 300, 26);
 		cbUnidades.setFont(new Font("Arial", Font.BOLD, 14));
 		add(cbUnidades);
 
@@ -154,16 +156,25 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		 * Date()); tfDataFabricacao.setColumns(10);
 		 * 
 		 */
+		
 		JLabel lblItem = new JLabel("Item: ");
 		lblItem.setBounds(10, 22, 50, 20);
 		lblItem.setFont(new Font("Arial", Font.BOLD, 14));
 		add(lblItem);
 
-		JLabel lblUnidade = new JLabel("Unidade: ");
-		lblUnidade.setBounds(402, 22, 100, 20);
+		JLabel lblUnidade = new JLabel("UND: ");
+		lblUnidade.setBounds(425, 22, 100, 20);
 		lblUnidade.setFont(new Font("Arial", Font.BOLD, 14));
 		add(lblUnidade);
 
+		taObs = new JTextArea();
+		taObs.setBounds(10, 205, 760, 105);
+		taObs.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Obs",
+						 TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		add(taObs);
+		
+		
+		
 		btCadastrar = new JButton("Salvar");
 		btCadastrar.setBounds(10, 340, 100, 30);
 		btCadastrar.addActionListener(this);
@@ -188,7 +199,13 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 			Unidade u = dao.GetUnidadePorNome(cbUnidades.getSelectedItem().toString());
 			@SuppressWarnings("deprecation")
 		
-			EntradaPermanente perm = new EntradaPermanente( i, u, f, USUARIO_LOGADO,  new Date(tfDataEntrada.getText().toString()), Integer.parseInt(tfQtd.getText().toString().trim()), Integer.parseInt(cbDepositos.getSelectedItem().toString().trim()), Integer.parseInt(cbLaboratorios.getSelectedItem().toString().trim()));
+			EntradaPermanente perm;
+			perm = new EntradaPermanente( i, u, f, USUARIO_LOGADO, 
+					new Date(tfDataEntrada.getText().toString()),
+					Integer.parseInt(tfQtd.getText().toString().trim()),
+					Integer.parseInt(cbDepositos.getSelectedItem().toString().trim()), 
+					Integer.parseInt(cbLaboratorios.getSelectedItem().toString().trim()), 
+					taObs.getText().trim());
 			try {
 				perm = dao.CadastrarEntradaPermanente(perm);
 			} catch (SQLException e1) {

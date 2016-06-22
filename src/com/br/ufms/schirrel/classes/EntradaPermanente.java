@@ -3,19 +3,18 @@ package com.br.ufms.schirrel.classes;
 import java.util.Date;
 
 public class EntradaPermanente {
-	public int getQtd() {
-		return qtd;
-	}
 
-	public void setQtd(int qtd) {
-		this.qtd = qtd;
-	}
 
 	int id;
 	int qtd;
 	int deposito;
 	int laboratorio;
-	
+	Item item;
+	Unidade unidade;
+	Fabricante fabricante;
+	Usuario usuario;
+	Date  dataEntrada;
+	String obs;
 	public int getDeposito() {
 		return deposito;
 	}
@@ -32,16 +31,12 @@ public class EntradaPermanente {
 		this.laboratorio = laboratorio;
 	}
 
-	Item item;
-	Unidade unidade;
-	Fabricante fabricante;
-	Usuario usuario;
-	Date  dataEntrada;
+
 	public EntradaPermanente() {
 		dataEntrada = new Date();
 	}
 	
-	public EntradaPermanente(int id, Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataEntrada, int qtd, int dep, int lab) {
+	public EntradaPermanente(int id, Item item, Unidade unidade, Fabricante fabricante, Usuario usuario, Date dataEntrada, int qtd, int dep, int lab, String obs) {
 	this.id = id;
 		this.item = item;
 		this.unidade = unidade;
@@ -51,9 +46,10 @@ public class EntradaPermanente {
 		this.qtd = qtd;
 		this.deposito = dep;
 		this.laboratorio = lab;
+		this.obs = obs;
 	}
 	
-	public EntradaPermanente(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab) {
+	public EntradaPermanente(Item item, Unidade unidade, Fabricante fabricante, Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab, String obs) {
 		this.item = item;
 		this.unidade = unidade;
 		this.fabricante = fabricante;
@@ -62,6 +58,15 @@ public class EntradaPermanente {
 		this.qtd = qtd;
 		this.deposito = dep;
 		this.laboratorio = lab;
+		this.obs = obs;
+	}
+	
+	public int getQtd() {
+		return qtd;
+	}
+
+	public void setQtd(int qtd) {
+		this.qtd = qtd;
 	}
 	public Item getItem() {
 		return item;
