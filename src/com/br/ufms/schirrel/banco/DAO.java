@@ -605,8 +605,8 @@ public class DAO {
 		StringBuilder query = new StringBuilder();
 		query.append(" INSERT INTO tb_permanentes  ");
 		query.append(
-				"  (item_id, unidade_id, fabricante_id, usuario_id, entrada, qtd, deposito, laboratorio )  ");
-		query.append("  VALUES ( ? , ? , ? , ? , ? , ? , ? , ? ) ");
+				"  (item_id, unidade_id, fabricante_id, usuario_id, entrada, qtd, deposito, laboratorio, obs )  ");
+		query.append("  VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? ) ");
 
 		PreparedStatement st = null;
 
@@ -621,6 +621,7 @@ public class DAO {
 			st.setInt(6, e.getQtd());
 			st.setInt(7, e.getDeposito());
 			st.setInt(8, e.getLaboratorio());
+			st.setString(9, e.getObs());
 			st.execute();
 			ResultSet rs = st.getGeneratedKeys();
 

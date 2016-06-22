@@ -117,6 +117,14 @@ public class EntradaPermanente {
 		return id;
 	}
 
+	public String getObs() {
+		return obs;
+	}
+
+	public void setObs(String obs) {
+		this.obs = obs;
+	}
+
 
 
 }

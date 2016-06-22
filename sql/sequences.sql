@@ -53,3 +53,12 @@ maxvalue 2147483647
 start 1
 cache 1
 no cycle;
+
+
+CREATE SEQUENCE seq_novaentrada
+increment 1
+minvalue 1
+maxvalue 2147483647
+start 1
+cache 1
+no cycle;

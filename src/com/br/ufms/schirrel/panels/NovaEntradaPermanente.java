@@ -169,6 +169,8 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 
 		taObs = new JTextArea();
 		taObs.setBounds(10, 205, 760, 105);
+		taObs.setLineWrap(true);
+		taObs.setWrapStyleWord(true);
 		taObs.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Obs",
 						 TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		add(taObs);
