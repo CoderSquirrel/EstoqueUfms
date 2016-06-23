@@ -1,8 +1,8 @@
 ﻿
-SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e
-INNER JOIN TB_ITENS i on e.item_id = i.id 
-INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id
-INNER JOIN TB_UNIDADES u on e.unidade_id = u.id  WHERE  qtd_retirada < 1 order by e.id ASC;
+SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e
+INNER JOIN TB_ITENS i on e.item_id = i.id_item 
+INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante
+INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade  WHERE  qtd_retirada < 1 order by e.id_entrada ASC;
 
 
 SELECT p.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, entrada, qtd, deposito, laboratorio FROM TB_PERMANENTES p INNER JOIN TB_ITENS i on p.item_id = i.id INNER JOIN TB_FABRICANTES f on p.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on p.unidade_id = u.id order by p.id ASC;

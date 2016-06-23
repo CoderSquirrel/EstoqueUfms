@@ -135,6 +135,10 @@ public class EntradaPermanente {
 	public Estado getEstado() {
 		return estado;
 	}
+	
+	public int getEstadoInt(){
+		return estado.ordinal();
+	}
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;

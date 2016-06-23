@@ -46,7 +46,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 	private JComboBox<Integer> cbDepositos, cbLaboratorios;
 	private JComboBox<Estado> cbEstados;
 	private Usuario USUARIO_LOGADO;
-	private JTextArea taObs, tfDescricao;
+	private JTextArea taObs, taDescricao;
 	DAO dao;
 	private DocumentFilter filter = new IntDocumentFilter();
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -91,6 +91,9 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		cbItens.setBounds(50, 22, 350, 26);
 		cbItens.setFont(new Font("Arial", Font.BOLD, 14));
 		add(cbItens);
+		
+		cbEstados = new JComboBox<>(Estado.values());
+		panelEstado.add(cbEstados);
 
 		Integer[] dep = { 1, 2, 3, 4, 5 };
 		cbDepositos = new JComboBox<>(dep);
@@ -147,13 +150,13 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		add(taObs);
 
 		
-		tfDescricao = new JTextArea();
-		tfDescricao.setBounds(10, 60, 760, 80);
-		tfDescricao.setLineWrap(true);
-		tfDescricao.setWrapStyleWord(true);
-		tfDescricao.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Descrição", TitledBorder.LEADING,
+		taDescricao = new JTextArea();
+		taDescricao.setBounds(10, 60, 760, 80);
+		taDescricao.setLineWrap(true);
+		taDescricao.setWrapStyleWord(true);
+		taDescricao.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Descrição", TitledBorder.LEADING,
 				TitledBorder.TOP, null, null));
-		add(tfDescricao);
+		add(taDescricao);
 		
 		btCadastrar = new JButton("Salvar");
 		btCadastrar.setBounds(10, 340, 100, 30);
@@ -182,7 +185,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 					Integer.parseInt(tfQtd.getText().toString().trim()),
 					Integer.parseInt(cbDepositos.getSelectedItem().toString().trim()),
 					Integer.parseInt(cbLaboratorios.getSelectedItem().toString().trim()), taObs.getText().trim(),
-					tfPatrimonio.getText().trim(),"", Estado.bom);
+					tfPatrimonio.getText().trim(),taDescricao.getText().trim(), Estado.bom);
 			try {
 				perm = dao.CadastrarEntradaPermanente(perm);
 			} catch (SQLException e1) {
@@ -195,6 +198,12 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 				tfDataEntrada.setValue(new Date());
 				tfQtd.setText("");
 				cbItens.setSelectedIndex(0);
+				cbDepositos.setSelectedIndex(0);
+				cbLaboratorios.setSelectedIndex(0);
+				cbEstados.setSelectedIndex(0);
+				tfPatrimonio.setText("");
+				taObs.setText("");
+				taDescricao.setText("");
 
 			} else {
 				lblStatus.setText("Problema ao efetuar cadastro");

@@ -459,7 +459,8 @@ public class DAO {
 	 */
 	public List<Entrada> ListarEntradasAtivas() {
 		List<Entrada> entradas = new ArrayList<Entrada>();
-		String query = "SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on e.unidade_id = u.id WHERE  qtd_retirada != qtd order by e.id ASC";
+		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade  WHERE  qtd_retirada < 1 order by e.id_entrada ASC";
+		
 
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
@@ -483,8 +484,8 @@ public class DAO {
 
 	public List<Entrada> ListarEntradasInativas() {
 		List<Entrada> entradas = new ArrayList<Entrada>();
-		String query = "SELECT e.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on e.unidade_id = u.id WHERE  qtd_retirada = qtd order by e.id ASC";
-
+		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade  WHERE  qtd_retirada = qtd order by e.id_entrada ASC";
+		
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 			st.execute();
@@ -614,13 +615,15 @@ public class DAO {
 			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 
 			st.setInt(1, e.getItem().getId());
-			st.setInt(4, e.getUsuario().getId());
-			st.setDate(5, new java.sql.Date(e.getDataEntrada().getTime()));
-			st.setInt(6, e.getQtd());
-			st.setInt(7, e.getDeposito());
-			st.setInt(8, e.getLaboratorio());
-			st.setString(9, e.getObs());
-			st.setString(10, e.getPatrimonio());
+			st.setString(2, e.getDescricao());
+			st.setInt(3, e.getUsuario().getId());
+			st.setDate(4, new java.sql.Date(e.getDataEntrada().getTime()));
+			st.setInt(5, e.getQtd());
+			st.setInt(6, e.getDeposito());
+			st.setInt(7, e.getLaboratorio());
+			st.setString(8, e.getObs());
+			st.setString(9, e.getPatrimonio());
+			st.setInt(10, e.getEstado().ordinal());
 			st.execute();
 			ResultSet rs = st.getGeneratedKeys();
 
