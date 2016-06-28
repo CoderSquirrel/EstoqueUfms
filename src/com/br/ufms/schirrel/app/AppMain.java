@@ -34,8 +34,8 @@ public class AppMain extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros, menuBuscar;
 	private JMenuItem mieEntrada,mieEntradaPermanente, mieCadastrarItem, mieEditar, mieCadastrarUnidade, mieCadastrarFabricante,
-			mirAtivo, mirInativo, mirSaidaData, mirDataAnteriores, mirEntradaData, mieCadastrarUsuario, mibPermanenteNome, 
-			mibPermanentePatrimonio, mibConsumoData, mibConsumoNome  ;
+			mirAtivo, mirInativo, mirSaidaData, mirEntradaData, mieCadastrarUsuario, mibPermanente, 
+			 mibConsumo  ;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	public AppMain(Usuario u) {
@@ -70,19 +70,17 @@ public class AppMain extends JFrame implements ActionListener {
 		mieCadastrarUsuario = new JMenuItem("Cadastrar Usuario");
 		mirAtivo = new JMenuItem("Relatorio Ativo");
 		mirInativo = new JMenuItem("Relatorio Inativo");
-		mirDataAnteriores = new JMenuItem("Relatorio Datas Anteriores");
+	
 		
-		mibPermanenteNome = new JMenuItem("Mat. Permanente por Nome");
-		mibPermanentePatrimonio = new JMenuItem("Mat. Permanente por N. Patrimonio");
-		
-		mibConsumoNome = new JMenuItem("Mat. de Consumo por Nome");
-		mibConsumoData= new JMenuItem("Mat. de Consumo por Data");
-		
+		mibPermanente = new JMenuItem("Material Permanente");
+	
+		mibConsumo = new JMenuItem("Material de Consumo");
+	
 		mieCadastrarItem.addActionListener(this);
 		mieEditar.addActionListener(this);
 		mieEntrada.addActionListener(this);
 		mieEntradaPermanente.addActionListener(this);
-		mirDataAnteriores.addActionListener(this);
+	
 		
 		mieCadastrarUnidade.addActionListener(this);
 		mieCadastrarFabricante.addActionListener(this);
@@ -98,14 +96,13 @@ public class AppMain extends JFrame implements ActionListener {
 		menuEstoque.add(mieEntradaPermanente);
 		menuRelatorio.add(mirAtivo);
 		menuRelatorio.add(mirInativo);
-		menuRelatorio.add(mirDataAnteriores);
+	//	menuRelatorio.add(mirDataAnteriores);
 		
-		menuBuscar.add(mibConsumoNome);
-		menuBuscar.add(mibConsumoData);
+		menuBuscar.add(mibConsumo);
+
 		menuBuscar.addSeparator();
-		menuBuscar.add(mibPermanenteNome);
-		menuBuscar.add(mibPermanentePatrimonio);
-		
+		menuBuscar.add(mibPermanente);
+	
 		menuBar.add(menuEstoque);
 		menuBar.add(menuCadastros);
 		menuBar.add(menuRelatorio);
@@ -175,13 +172,20 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().add(new RelatorioInativos(dao));
 			getContentPane().revalidate();
 			getContentPane().repaint();
-		}else if (e.getSource() == mirDataAnteriores) {
+		}else if (e.getSource() == mibConsumo) {
+			getContentPane().removeAll();
+			Elementos();
+			getContentPane().add(new BuscaConsumo(dao, USUARIO_LOGADO));
+			getContentPane().revalidate();
+			getContentPane().repaint();
+		} else if (e.getSource() == mibPermanente) {
 			getContentPane().removeAll();
 			Elementos();
 			getContentPane().add(new BuscaConsumo(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} 
+
 
 	}
 	

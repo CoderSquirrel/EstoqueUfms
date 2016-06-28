@@ -31,7 +31,7 @@ import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.ItemTable;
 import com.br.ufms.schirrel.classes.Usuario;
 
-public class BuscaConsumo extends JPanel implements ActionListener {
+public class BuscaPermanente extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
@@ -49,7 +49,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 
 	JPanel PanelBusca;
 
-	public BuscaConsumo(DAO D, Usuario u) {
+	public BuscaPermanente(DAO D, Usuario u) {
 		USUARIO_LOGADO = u;
 		dao = D;
 		setBounds(0, 60, 798, 400);
