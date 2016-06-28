@@ -36,8 +36,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JFormattedTextField tf_DataInicial, tf_DataFinal;
-	private JButton btBuscar, btBuscarData, btBuscarNome;
+	private JButton btBuscarPatrimonio, btBuscarNome;
 	private List<Entrada> entradas;
 	DAO dao;
 	private JTable EntradaTable;
@@ -45,7 +44,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	private Month meses[] = { Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE,
 			Month.JULY, Month.AUGUST, Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER };
-	private JTextField tf_nome;
+	private JTextField tf_nome, tf_patrimonio;
 
 	JPanel PanelBusca;
 
@@ -54,7 +53,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Busca Materiais de Consumo", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Busca Materiais Permanentes", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
 		JRadioButton rdbtnBuscaPorNome = new JRadioButton("Busca Por Nome");
 		rdbtnBuscaPorNome.setBounds(18, 15, 149, 23);
@@ -64,15 +63,15 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 				PanelBuscaPorNome();
 			}
 		});
-		JRadioButton rdbtnBuscaPorData = new JRadioButton("Busca Por Data");
-		rdbtnBuscaPorData.setBounds(171, 15, 149, 23);
+		JRadioButton rdbtnBuscaPorData = new JRadioButton("Busca Por Numero de Patrimonio");
+		rdbtnBuscaPorData.setBounds(171, 15, 449, 23);
 		add(rdbtnBuscaPorData);
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnBuscaPorNome);
 		group.add(rdbtnBuscaPorData);
 		rdbtnBuscaPorData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PanelBuscaPorData();
+				PanelBuscaPorPatrimonio();
 			}
 		});
 
@@ -83,28 +82,6 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		add(PanelBusca);
 	}
 
-	void Busc() {
-		DateFormatter formatter = new DateFormatter(format);
-		format.setLenient(false);
-		formatter.setAllowsInvalid(false);
-		formatter.setOverwriteMode(true);
-
-		JLabel lblInicial = new JLabel("Data Inicial:");
-		lblInicial.setBounds(10, 25, 100, 20);
-		lblInicial.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblInicial);
-
-		JLabel lblFinal = new JLabel("Data Final:");
-		lblFinal.setBounds(250, 25, 100, 20);
-		lblFinal.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblFinal);
-
-		btBuscar = new JButton("Buscar");
-		btBuscar.setBounds(500, 20, 100, 30);
-		btBuscar.addActionListener(this);
-		add(btBuscar);
-
-	}
 
 	void IniciarTable() {
 
@@ -169,22 +146,9 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 				entradas = dao.ListarPorNome(tf_nome.getText().toString().trim());
 				IniciarTable();
 			}
-		} else if(e.getSource() == btBuscarData){
-			LocalDate date = LocalDate.of(Integer.parseInt(tf_DataInicial.getText().split("/")[2]),
-					meses[(Integer.parseInt(tf_DataInicial.getText().split("/")[1]) - 1)],
-					Integer.parseInt(tf_DataInicial.getText().split("/")[0]));
-			java.sql.Date i = java.sql.Date.valueOf(date);
-			LocalDate dateF = LocalDate.of(Integer.parseInt(tf_DataFinal.getText().split("/")[2]),
-					meses[(Integer.parseInt(tf_DataFinal.getText().split("/")[1]) - 1)],
-					Integer.parseInt(tf_DataFinal.getText().split("/")[0]));
-			java.sql.Date f = java.sql.Date.valueOf(dateF);
+		} else if(e.getSource() == btBuscarPatrimonio){
 
-			if (f.before(i)) {
-				JOptionPane.showMessageDialog(this, "Data final é anterior a data inicial");
-			} else {
-				entradas = dao.ListarPorData(i, f);
-				IniciarTable();
-			}
+			
 		}
 		
 		
@@ -192,7 +156,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 
 	}
 
-	void PanelBuscaPorData() {
+	void PanelBuscaPorPatrimonio() {
 
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
@@ -201,43 +165,23 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 
 		PanelBusca.removeAll();
 
-		JPanel PanelData = new JPanel();
-		PanelData.setBorder(
-				new TitledBorder(null, "Buscar Por Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		PanelData.setBounds(0, 0, 755, 75);
-		PanelBusca.add(PanelData);
-		PanelData.setLayout(null);
+		JPanel PanelPatrimonio = new JPanel();
+		PanelPatrimonio.setBorder(
+				new TitledBorder(null, "Buscar Por Numero de Patrimonio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelPatrimonio.setBounds(0, 0, 755, 65);
+		PanelBusca.add(PanelPatrimonio);
+		PanelPatrimonio.setLayout(null);
 
-		JPanel PanelDataInicial = new JPanel();
-		PanelDataInicial.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Inicial",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		PanelDataInicial.setBounds(12, 15, 295, 52);
-		PanelData.add(PanelDataInicial);
-		PanelDataInicial.setLayout(null);
 
-		tf_DataInicial = new JFormattedTextField(formatter);
-		tf_DataInicial.setBounds(12, 18, 200, 28);
-		PanelDataInicial.add(tf_DataInicial);
-		tf_DataInicial.setValue(new Date());
-		tf_DataInicial.setColumns(10);
+		tf_patrimonio = new JTextField();
+		tf_patrimonio.setBounds(12, 22, 602, 31);
+		PanelPatrimonio.add(tf_patrimonio);
+		tf_patrimonio.setColumns(10);
 
-		JPanel PanelDataFinal = new JPanel();
-		PanelDataFinal.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Final",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		PanelDataFinal.setBounds(315, 15, 295, 52);
-		PanelData.add(PanelDataFinal);
-		PanelDataFinal.setLayout(null);
-
-		tf_DataFinal = new JFormattedTextField(formatter);
-		tf_DataFinal.setBounds(12, 18, 200, 28);
-		PanelDataFinal.add(tf_DataFinal);
-		tf_DataFinal.setValue(new Date());
-		tf_DataFinal.setColumns(10);
-
-		btBuscarData = new JButton("Buscar");
-		btBuscarData.setBounds(616, 39, 117, 25);
-		btBuscarData.addActionListener(this);
-		PanelData.add(btBuscarData);
+		btBuscarPatrimonio = new JButton("Buscar");
+		btBuscarPatrimonio.setBounds(626, 25, 117, 25);
+		btBuscarPatrimonio.addActionListener(this);
+		PanelPatrimonio.add(btBuscarPatrimonio);
 		PanelBusca.repaint();
 
 	}
