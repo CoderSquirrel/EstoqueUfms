@@ -26,7 +26,7 @@ import com.br.ufms.schirrel.panels.NovaEntrada;
 import com.br.ufms.schirrel.panels.NovaEntradaPermanente;
 import com.br.ufms.schirrel.panels.RelatorioInativos;
 import com.br.ufms.schirrel.panels.RelatorioAtivos;
-import com.br.ufms.schirrel.panels.RelatorioDataAnteriores;
+import com.br.ufms.schirrel.panels.BuscaConsumo;
 import com.br.ufms.schirrel.panels.Saida;
 
 public class AppMain extends JFrame implements ActionListener {
@@ -114,7 +114,7 @@ public class AppMain extends JFrame implements ActionListener {
 		mirAtivo.addActionListener(this);
 		mirInativo.addActionListener(this);
 	//	getContentPane().add(new RelatorioAtivos(dao,  USUARIO_LOGADO));
-		getContentPane().add(new NovaEntradaPermanente(dao,  USUARIO_LOGADO));
+		getContentPane().add(new BuscaConsumo(dao,  USUARIO_LOGADO));
 		
 		Elementos();
 	}
@@ -178,7 +178,7 @@ public class AppMain extends JFrame implements ActionListener {
 		}else if (e.getSource() == mirDataAnteriores) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new RelatorioDataAnteriores(dao, USUARIO_LOGADO));
+			getContentPane().add(new BuscaConsumo(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} 
