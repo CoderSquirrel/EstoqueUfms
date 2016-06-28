@@ -614,6 +614,46 @@ public class DAO {
 		return entradas;
 	}
 	
+	public List<Entrada> ListarPorNome(String nome){
+		System.out.println("ListarPorData");
+		List<Entrada> entradas = new ArrayList<Entrada>();
+		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, "
+				+"fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e "+
+				"INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante "+
+				"INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade WHERE  item like '%"+nome+"%' ";
+		
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+
+			System.out.println(st.toString());
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					entradas.add(new Entrada(rs.getInt(1), 
+							new Item(rs.getInt(2),
+									rs.getString(3)),
+							new Unidade(rs.getInt(4), 
+									rs.getString(5)), 
+							new Fabricante(rs.getInt(6), 
+									rs.getString(7)),
+							null,
+							rs.getDate(8), 
+							rs.getDate(10), 
+							rs.getDate(9),
+							rs.getInt(11),
+							rs.getInt(12)));
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return entradas;
+	}
+	
 	
 	/*
 	 * CRUD ENTRADA PERMANENTE

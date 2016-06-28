@@ -163,7 +163,12 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		if(e.getSource() == btBuscarNome){
-			
+			if (tf_nome.getText().toString().trim().isEmpty() || tf_nome.getText().toString().trim().equals("")) {
+				JOptionPane.showMessageDialog(this, "Campo em branco");
+			} else {
+				entradas = dao.ListarPorNome(tf_nome.getText().toString().trim());
+				IniciarTable();
+			}
 		} else if(e.getSource() == btBuscarData){
 			LocalDate date = LocalDate.of(Integer.parseInt(tf_DataInicial.getText().split("/")[2]),
 					meses[(Integer.parseInt(tf_DataInicial.getText().split("/")[1]) - 1)],
