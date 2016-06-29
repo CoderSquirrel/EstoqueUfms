@@ -12,11 +12,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.banco.DAO;
-import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
+import com.br.ufms.schirrel.panels.BuscaConsumo;
+import com.br.ufms.schirrel.panels.BuscaPermanente;
 import com.br.ufms.schirrel.panels.CadastrarFabricante;
 import com.br.ufms.schirrel.panels.CadastrarItem;
 import com.br.ufms.schirrel.panels.CadastrarUnidade;
@@ -24,13 +27,9 @@ import com.br.ufms.schirrel.panels.CadastrarUsuario;
 import com.br.ufms.schirrel.panels.EditarItem;
 import com.br.ufms.schirrel.panels.NovaEntrada;
 import com.br.ufms.schirrel.panels.NovaEntradaPermanente;
-import com.br.ufms.schirrel.panels.RelatorioInativos;
 import com.br.ufms.schirrel.panels.RelatorioAtivos;
-import com.br.ufms.schirrel.panels.BuscaConsumo;
-import com.br.ufms.schirrel.panels.BuscaPermanente;
-import com.br.ufms.schirrel.panels.Saida;
-
-public class AppMain extends JFrame implements ActionListener {
+import com.br.ufms.schirrel.panels.RelatorioInativos;
+ public class AppMain extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros, menuBuscar;
@@ -50,6 +49,17 @@ public class AppMain extends JFrame implements ActionListener {
 		setResizable(false);
 		initializeMenu();
 		setVisible(true);
+//		try {
+//		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//		        if ("Nimbus".equals(info.getName())) {
+//		            UIManager.setLookAndFeel(info.getClassName());
+//		            break;
+//		        }
+//		    }
+//		} catch (Exception e) {
+//		    // If Nimbus is not available, you can set the GUI to another look and feel.
+//		}
+
 	}
 
 	private void initializeMenu() {

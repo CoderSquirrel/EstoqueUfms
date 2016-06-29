@@ -1,34 +1,30 @@
 package com.br.ufms.schirrel.panels;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 
 import com.br.ufms.schirrel.banco.DAO;
-import com.br.ufms.schirrel.classes.Entrada;
-import com.br.ufms.schirrel.classes.ItemTable;
+import com.br.ufms.schirrel.classes.EntradaPermanente;
+import com.br.ufms.schirrel.classes.ItemPermanenteTable;
 import com.br.ufms.schirrel.classes.Usuario;
 
 public class BuscaPermanente extends JPanel implements ActionListener {
@@ -37,7 +33,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JButton btBuscarPatrimonio, btBuscarNome;
-	private List<Entrada> entradas;
+	private List<EntradaPermanente> entradas;
 	DAO dao;
 	private JTable EntradaTable;
 	private Usuario USUARIO_LOGADO;
@@ -87,22 +83,35 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 
 		List<Object[]> a = CarregarLista();
 
-		EntradaTable = new JTable(new ItemTable(a));
+		EntradaTable = new JTable(new ItemPermanenteTable(a));
 		PreencherTabela();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
-		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(15);
-		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(80);
-		EntradaTable.getColumnModel().getColumn(3).setPreferredWidth(50);
-		EntradaTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
-		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
-		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
-
+		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(30);
+		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(30);
+		EntradaTable.getColumnModel().getColumn(3).setPreferredWidth(5);
+		EntradaTable.getColumnModel().getColumn(4).setPreferredWidth(5);
+		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(5);
+		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(30);
+		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(30);
+		EntradaTable.getColumnModel().getColumn(8).setPreferredWidth(100);
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 120, 780, 200);
 
 		add(scrollPane);
+		
+		EntradaTable.addMouseListener(new MouseAdapter() {
+		    public void mousePressed(MouseEvent me) {
+		        JTable table =(JTable) me.getSource();
+		        Point p = me.getPoint();
+		        int row = table.rowAtPoint(p);
+		        if (me.getClickCount() == 2) {
+		        	System.out.println("aqui");
+		        	new MostrarInfoPermanente(entradas.get(row));
+		        	
+		        }
+		    }
+		});
 
 	}
 
@@ -112,15 +121,16 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		List<Object[]> objetos = new ArrayList<Object[]>();
 
 		for (int i = 0; i < entradas.size(); i++) {
-			objs = new Object[8];
+			objs = new Object[9];
 			objs[0] = entradas.get(i).getItem().getItem();
-			objs[1] = entradas.get(i).getUnidade().getUnidade();
-			objs[2] = entradas.get(i).getFabricante().getFabricante();
-			objs[3] = entradas.get(i).getDataFabricacao();
-			objs[4] = entradas.get(i).getDataValidade();
-			objs[5] = entradas.get(i).getQtd();
-			objs[6] = entradas.get(i).getDataEntrada();
-			objs[7] = entradas.get(i).getRetirada();
+			objs[1] = entradas.get(i).getDescricao();
+			objs[2] = entradas.get(i).getDataEntrada();
+			objs[3] = entradas.get(i).getQtd();
+			objs[4] = entradas.get(i).getDeposito();
+			objs[5] = entradas.get(i).getLaboratorio();
+			objs[6] = entradas.get(i).getPatrimonio();
+			objs[7] = entradas.get(i).getEstadoString();
+			objs[8] = entradas.get(i).getObs();
 			objetos.add(objs);
 		}
 		return objetos;
@@ -129,7 +139,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 
 	void PreencherTabela() {
 
-		ItemTable it = (ItemTable) EntradaTable.getModel();
+		ItemPermanenteTable it = (ItemPermanenteTable) EntradaTable.getModel();
 
 		it.RemoveAll();
 		it.AddList(CarregarLista());
@@ -143,11 +153,16 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 			if (tf_nome.getText().toString().trim().isEmpty() || tf_nome.getText().toString().trim().equals("")) {
 				JOptionPane.showMessageDialog(this, "Campo em branco");
 			} else {
-				entradas = dao.ListarPorNome(tf_nome.getText().toString().trim());
+				entradas = dao.ListarPermanentePorNome(tf_nome.getText().toString().trim());
 				IniciarTable();
 			}
 		} else if(e.getSource() == btBuscarPatrimonio){
-
+			if (tf_patrimonio.getText().toString().trim().isEmpty() || tf_patrimonio.getText().toString().trim().equals("")) {
+				JOptionPane.showMessageDialog(this, "Campo em branco");
+			} else {
+				entradas = dao.ListarPermanentePorPatrimonio(tf_patrimonio.getText().toString().trim());
+				IniciarTable();
+			}
 			
 		}
 		
@@ -157,7 +172,11 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	}
 
 	void PanelBuscaPorPatrimonio() {
-
+		if(EntradaTable!=null ){
+			remove(EntradaTable);
+			repaint();
+			}
+		
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
 		formatter.setAllowsInvalid(false);
@@ -187,8 +206,13 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	}
 
 	void PanelBuscaPorNome() {
-
+		if(EntradaTable!=null ){
+			remove(EntradaTable);
+			repaint();
+			}
+		
 		PanelBusca.removeAll();
+
 		JPanel PanelNome = new JPanel();
 		PanelNome.setBorder(
 				new TitledBorder(null, "Busca Por Nome", TitledBorder.LEADING, TitledBorder.TOP, null, null));

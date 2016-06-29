@@ -5,11 +5,10 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class ItemPermanenteTable extends AbstractTableModel {
-	private String[] columnNames = { "Item", "Unidade", "Fabricante", "Entrada", "Qtd", "Deposito",  "Laboratorio",
-			"Estado", "OBS" };
+	private String[] columnNames = { "Item", "Descrição", "Entrada", "Qtd", "Dep",  "Lab",
+			"Patrimonio", "Estado", "OBS" };
 	public boolean DEBUG = false;
-	// private Object[][] data;
-	private List<Object[]> data;
+private List<Object[]> data;
 
 	public ItemPermanenteTable(List<Object[]> data) {
 		this.data = data;
@@ -41,18 +40,6 @@ public class ItemPermanenteTable extends AbstractTableModel {
 		return getValueAt(0, c).getClass();
 	}
 
-	/*
-	 * Don't need to implement this method unless your table's editable.
-	 */
-	public boolean isCellEditable(int row, int col) {
-		// Note that the data/cell address is constant,
-		// no matter where the cell appears onscreen.
-		if (col < 7) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
 	/*
 	 * Don't need to implement this method unless your table's data can change.

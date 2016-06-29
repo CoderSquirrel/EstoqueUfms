@@ -45,6 +45,20 @@ public class EntradaPermanente {
 		this.estado = e;
 	}
 	
+	public EntradaPermanente(int id, Item item,  Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab, String obs, String patrimonio, String descricao, int e) {
+		this.id = id;
+		this.item = item;
+		this.usuario = usuario;
+		this.dataEntrada = dataEntrada;
+		this.qtd = qtd;
+		this.deposito = dep;
+		this.laboratorio = lab;
+		this.obs = obs;
+		this.patrimonio = patrimonio;
+		this.descricao = descricao;
+		this.estado = Estado.values()[e];
+	}
+	
 	public int getQtd() {
 		return qtd;
 	}
@@ -147,6 +161,12 @@ public class EntradaPermanente {
 
 	public enum Estado {
 		bom, ruim
+	}
+
+
+	public String getEstadoString() {
+		// TODO Auto-generated method stub
+		return estado.name();
 	}
 }
 
