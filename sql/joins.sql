@@ -12,3 +12,11 @@ select * from tb_entradas order by ;
 
 
 update tb_entradas set qtd_retirada = 3 where id =1
+
+select re.entrada_id, it.item, fa.fabricante, en.entrada, en.validade, us.usuario from tb_retiradas re 
+inner join tb_entradas en on en.id_entrada = re.entrada_id
+inner join tb_itens it on en.item_id = it.id_item
+inner join tb_usuarios us on re.usuario_id = us.id_usuario
+inner join tb_fabricantes fa on en.fabricante_id = fa.id_fabricante
+group by re.entrada_id, it.item,fa.fabricante, us.usuario , en.entrada, en. validade
+order by re.entrada_id asc

@@ -51,16 +51,18 @@ public class DAO {
 	int CadastrarRetirada(Entrada e, int qtd) throws SQLException {
 		StringBuilder query = new StringBuilder();
 		query.append("  INSERT INTO TB_RETIRADAS  ");
-		query.append("  (entrada_id , usuario_id , qtd_retirada) ");
-		query.append("  VALUES ( ? , ? , ?) ");
+		query.append("  (entrada_id , usuario_id , qtd_retirada, data_retirada) ");
+		query.append("  VALUES ( ? , ? , ?, ? ) ");
 		PreparedStatement st = null;
-		int id = 0;
+
+	int id = 0;
 		try {
 			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 
 			st.setInt(1, e.getId());
 			st.setInt(2, e.getUsuario().getId());
 			st.setInt(3, qtd);
+			st.setDate(4, new Date(System.currentTimeMillis()));
 			st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
 
@@ -134,6 +136,16 @@ public class DAO {
 		}
 	}
 
+	
+	void ListarRetiradas(){
+//		select re.entrada_id, it.item, fa.fabricante, en.entrada, en.validade, us.usuario, re.data_retirada from tb_retiradas re 
+//		inner join tb_entradas en on en.id_entrada = re.entrada_id
+//		inner join tb_itens it on en.item_id = it.id_item
+//		inner join tb_usuarios us on re.usuario_id = us.id_usuario
+//		inner join tb_fabricantes fa on en.fabricante_id = fa.id_fabricante
+//		group by re.entrada_id, it.item,fa.fabricante, us.usuario , en.entrada, en. validade, re.data_retirada
+//		order by re.entrada_id asc
+	}
 	/*
 	 * CRUD UNIDADES
 	 */

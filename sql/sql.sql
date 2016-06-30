@@ -67,6 +67,7 @@ id_retirada int primary key DEFAULT nextval('seq_retirada'),
 entrada_id int,
 usuario_id int,
 qtd_retirada int,
+data_retirada date,
 FOREIGN KEY (usuario_id) REFERENCES tb_usuarios (id_usuario),
 FOREIGN KEY (entrada_id) REFERENCES tb_entradas (id_entrada)
 );
