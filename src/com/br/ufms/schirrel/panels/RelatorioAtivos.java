@@ -1,7 +1,10 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +65,37 @@ USUARIO_LOGADO = u;
 		scrollPane.setBounds(10, 20, 780, 370);
 
 		add(scrollPane);
+		
+		EntradaTable.addMouseListener(new MouseAdapter() {
+		    public void mousePressed(MouseEvent me) {
+		        JTable table =(JTable) me.getSource();
+		        Point p = me.getPoint();
+		        int row = table.rowAtPoint(p);
+		        if (me.getClickCount() == 2) {
+		      
+		        	try {
+		        	int qtd;
+		        	String obj = JOptionPane.showInputDialog("Digite Quantidade da nova retirada: ") ;
+					if (obj != null)
+						qtd = Integer.parseInt(obj);
+					else
+						qtd = 0;
+		        	
+		        	//entradas.get(row).setRetirada(qtd);
+		    		entradas.get(row).setUsuario(USUARIO_LOGADO);
+		    		
+		    			if (dao.UpdateRetirada(entradas.get(row), qtd)) {
+		    				
+		    				// PreencherTabela();
+		    				// System.out.println("Ok");
+		    			}
+		        	
+		        	} catch(Exception e){
+		        		e.printStackTrace();
+		        	}
+		        }
+		    }
+		});
 
 	}
 
@@ -109,14 +143,7 @@ USUARIO_LOGADO = u;
 		// System.out.println(row);
 		// System.out.println(entradas.get(row).getId());
 		
-		entradas.get(row).setRetirada(Integer.parseInt(EntradaTable.getValueAt(row, column).toString()));
-		entradas.get(row).setUsuario(USUARIO_LOGADO);
-			int q= Integer.parseInt(EntradaTable.getValueAt(row, column).toString());
-			if (dao.UpdateRetirada(entradas.get(row), q)) {
-				
-				// PreencherTabela();
-				// System.out.println("Ok");
-			}
+		
 		
 
 	}

@@ -41,18 +41,18 @@ public class ItemTable extends AbstractTableModel {
 		return getValueAt(0, c).getClass();
 	}
 
-	/*
-	 * Don't need to implement this method unless your table's editable.
-	 */
-	public boolean isCellEditable(int row, int col) {
-		// Note that the data/cell address is constant,
-		// no matter where the cell appears onscreen.
-		if (col < 7) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+//	/*
+//	 * Don't need to implement this method unless your table's editable.
+//	 */
+//	public boolean isCellEditable(int row, int col) {
+//		// Note that the data/cell address is constant,
+//		// no matter where the cell appears onscreen.
+//		if (col < 7) {
+//			return false;
+//		} else {
+//			return true;
+//		}
+//	}
 
 	/*
 	 * Don't need to implement this method unless your table's data can change.

@@ -18,6 +18,7 @@ import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Usuario;
+import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.panels.BuscaConsumo;
 import com.br.ufms.schirrel.panels.BuscaPermanente;
 import com.br.ufms.schirrel.panels.CadastrarFabricante;
@@ -180,6 +181,7 @@ import com.br.ufms.schirrel.panels.RelatorioInativos;
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} else if (e.getSource() == mirInativo) {
+			
 			getContentPane().removeAll();
 			Elementos();
 			getContentPane().add(new RelatorioInativos(dao));

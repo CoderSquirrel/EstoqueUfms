@@ -50,7 +50,7 @@ public class DAO {
 
 	int CadastrarRetirada(Entrada e, int qtd) throws SQLException {
 		StringBuilder query = new StringBuilder();
-		query.append("  INSERT INTO TB_RETIRADA  ");
+		query.append("  INSERT INTO TB_RETIRADAS  ");
 		query.append("  (entrada_id , usuario_id , qtd_retirada) ");
 		query.append("  VALUES ( ? , ? , ?) ");
 		PreparedStatement st = null;
@@ -79,25 +79,53 @@ public class DAO {
 
 		return id;
 	}
+	
+	int ObterTotalRetirado(Entrada e) throws SQLException {
+		int retirado = 0;
+		String query ="select entrada_id, sum(qtd_retirada) as retirada from tb_retiradas where entrada_id = ? group by entrada_id  ";
+		
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setInt(1, e.getId());
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					retirado = rs.getInt(2);
+				}
+			}
+			st.close();
+			rs.close();
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+		}
+		return retirado;
+	}
 
 	boolean UpdateEntrada(Entrada e) throws SQLException {
+		
+		
+		int qtd_retirada = ObterTotalRetirado(e);
+		
+		
+		
 		StringBuilder query = new StringBuilder();
 		query.append("  UPDATE TB_ENTRADAS  ");
 		query.append(" SET qtd_retirada = ?  ");
-		query.append("  WHERE id = ? ");
+		query.append("  WHERE id_entrada = ? ");
 		PreparedStatement st = null;
 
 		try {
 			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 
-			st.setInt(1, e.getRetirada());
+			st.setInt(1, qtd_retirada);
 			st.setInt(2, e.getId());
-			st.executeUpdate();
-
+			
+			st.execute();
 			conn.commit();
 			st.close();
-			System.out.println("ok");
-			return true;
+		return true;
 		} catch (SQLException e1) {
 			conn.rollback();
 
@@ -268,6 +296,7 @@ public class DAO {
 		return USUARIO;
 
 	}
+
 	public boolean EncontrarLogin(String usuario) {
 		String query = "SELECT * FROM TB_USUARIOS WHERE USUARIO LIKE ?";
 		try {
@@ -460,8 +489,17 @@ public class DAO {
 	 */
 	public List<Entrada> ListarEntradasAtivas() {
 		List<Entrada> entradas = new ArrayList<Entrada>();
-		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade  WHERE  qtd_retirada < 1 order by e.id_entrada ASC";
-		
+		// String query = "SELECT e.id_entrada, item_id, item, unidade_id,
+		// unidade, fabricante_id, fabricante, validade, fabricacao, entrada,
+		// qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on
+		// e.item_id = i.id_item INNER JOIN TB_FABRICANTES f on e.fabricante_id
+		// = f.id_fabricante INNER JOIN TB_UNIDADES u on e.unidade_id =
+		// u.id_unidade WHERE qtd_retirada < 1 order by e.id_entrada ASC";
+		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade,"
+				+ "fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id_item  "
+				+ "INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante "
+				+ "INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade "
+				+ "WHERE qtd_retirada < qtd order by e.id_entrada ASC";
 
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
@@ -486,10 +524,10 @@ public class DAO {
 	public List<Entrada> ListarEntradasInativas() {
 		List<Entrada> entradas = new ArrayList<Entrada>();
 		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade  WHERE  qtd_retirada = qtd order by e.id_entrada ASC";
-		
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
-		
+
 			st.execute();
 			ResultSet rs = st.getResultSet();
 
@@ -553,7 +591,7 @@ public class DAO {
 		StringBuilder query = new StringBuilder();
 		query.append("  UPDATE TB_ENTRADAS  ");
 		query.append(" SET qtd_retirada = ?, qtd = ?  ");
-		query.append("  WHERE id = ? ");
+		query.append("  WHERE id_entrada = ? ");
 		PreparedStatement st = null;
 
 		try {
@@ -567,7 +605,7 @@ public class DAO {
 			conn.commit();
 			st.close();
 			System.out.println("ok");
-			
+
 		} catch (SQLException e1) {
 			conn.rollback();
 
@@ -576,34 +614,22 @@ public class DAO {
 		}
 	}
 
-	public List<Entrada> ListarPorData(Date ini, Date fin){
-		System.out.println("ListarPorData");
+	public List<Entrada> ListarPorData(Date ini, Date fin) {
 		List<Entrada> entradas = new ArrayList<Entrada>();
 		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade   WHERE  entrada BETWEEN ? AND ?";
-		
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 			st.setDate(1, ini);
 			st.setDate(2, fin);
-			System.out.println(st.toString());
 			st.execute();
 			ResultSet rs = st.getResultSet();
 
 			while (rs.next()) {
 				if (rs != null) {
-					entradas.add(new Entrada(rs.getInt(1), 
-							new Item(rs.getInt(2),
-									rs.getString(3)),
-							new Unidade(rs.getInt(4), 
-									rs.getString(5)), 
-							new Fabricante(rs.getInt(6), 
-									rs.getString(7)),
-							null,
-							rs.getDate(8), 
-							rs.getDate(10), 
-							rs.getDate(9),
-							rs.getInt(11),
-							rs.getInt(12)));
+					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)),
+							new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6), rs.getString(7)),
+							null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
 				}
 			}
 		} catch (SQLException e) {
@@ -613,15 +639,15 @@ public class DAO {
 
 		return entradas;
 	}
-	
-	public List<Entrada> ListarPorNome(String nome){
+
+	public List<Entrada> ListarPorNome(String nome) {
 		System.out.println("ListarPorData");
 		List<Entrada> entradas = new ArrayList<Entrada>();
 		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, "
-				+"fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e "+
-				"INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante "+
-				"INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade WHERE  item like '%"+nome+"%' ";
-		
+				+ "fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e "
+				+ "INNER JOIN TB_ITENS i on e.item_id = i.id_item  INNER JOIN TB_FABRICANTES f on e.fabricante_id = f.id_fabricante "
+				+ "INNER JOIN TB_UNIDADES u on e.unidade_id = u.id_unidade WHERE  item like '%" + nome + "%' ";
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 
@@ -631,19 +657,9 @@ public class DAO {
 
 			while (rs.next()) {
 				if (rs != null) {
-					entradas.add(new Entrada(rs.getInt(1), 
-							new Item(rs.getInt(2),
-									rs.getString(3)),
-							new Unidade(rs.getInt(4), 
-									rs.getString(5)), 
-							new Fabricante(rs.getInt(6), 
-									rs.getString(7)),
-							null,
-							rs.getDate(8), 
-							rs.getDate(10), 
-							rs.getDate(9),
-							rs.getInt(11),
-							rs.getInt(12)));
+					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)),
+							new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6), rs.getString(7)),
+							null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
 				}
 			}
 		} catch (SQLException e) {
@@ -653,14 +669,13 @@ public class DAO {
 
 		return entradas;
 	}
-	
-	
+
 	/*
 	 * CRUD ENTRADA PERMANENTE
 	 */
 	public List<EntradaPermanente> ListarEntradasPermanentes() {
 		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
-		String query = "SELECT p.id, item_id, item, unidade_id, unidade, fabricante_id, fabricante, entrada, qtd, deposito, laboratorio FROM TB_PERMANENTES p INNER JOIN TB_ITENS i on p.item_id = i.id INNER JOIN TB_FABRICANTES f on p.fabricante_id = f.id  INNER JOIN TB_UNIDADES u on p.unidade_id = u.id order by p.id ASC;";
+		String query = "SELECT p.id_permanente, item_id, item, unidade_id, unidade, fabricante_id, fabricante, entrada, qtd, deposito, laboratorio FROM TB_PERMANENTES p INNER JOIN TB_ITENS i on p.item_id = i.id_item, INNER JOIN TB_FABRICANTES f on p.fabricante_id = f.id_fabricante  INNER JOIN TB_UNADES u on p.unidade_id = u.id_unidade order by p.id_permanente ASC";
 
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
@@ -669,9 +684,12 @@ public class DAO {
 
 			while (rs.next()) {
 				if (rs != null) {
-//					entradas.add(new Entrada(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)),
-//							new Unidade(rs.getInt(4), rs.getString(5)), new Fabricante(rs.getInt(6), rs.getString(7)),
-//							null, rs.getDate(8), rs.getDate(10), rs.getDate(9), rs.getInt(11), rs.getInt(12)));
+					// entradas.add(new Entrada(rs.getInt(1), new
+					// Item(rs.getInt(2), rs.getString(3)),
+					// new Unidade(rs.getInt(4), rs.getString(5)), new
+					// Fabricante(rs.getInt(6), rs.getString(7)),
+					// null, rs.getDate(8), rs.getDate(10), rs.getDate(9),
+					// rs.getInt(11), rs.getInt(12)));
 				}
 			}
 		} catch (SQLException e) {
@@ -681,7 +699,6 @@ public class DAO {
 
 		return entradas;
 	}
-
 
 	public EntradaPermanente CadastrarEntradaPermanente(EntradaPermanente e) throws SQLException {
 		StringBuilder query = new StringBuilder();
@@ -710,7 +727,7 @@ public class DAO {
 
 			if (rs.next()) {
 				e.setId(rs.getInt(1));
-				
+
 			}
 			conn.commit();
 			st.close();
@@ -725,13 +742,12 @@ public class DAO {
 
 	}
 
-	
-	
-	public List<EntradaPermanente> ListarPermanentePorPatrimonio(String patrimonio){
+	public List<EntradaPermanente> ListarPermanentePorPatrimonio(String patrimonio) {
 		System.out.println("ListarPorData");
 		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
-		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE patrimonio like '%"+patrimonio+"%' ";
-		
+		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE patrimonio like '%"
+				+ patrimonio + "%' ";
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 
@@ -741,32 +757,10 @@ public class DAO {
 
 			while (rs.next()) {
 				if (rs != null) {
-				/*	entradas.add(new EntradaPermanente(rs.getInt(1), 
-							new Item(rs.getInt(2),
-									rs.getString(3)),
-							new Unidade(rs.getInt(4), 
-									rs.getString(5)), 
-							new Fabricante(rs.getInt(6), 
-									rs.getString(7)),
-							null,
-							rs.getDate(8), 
-							rs.getDate(10), 
-							rs.getDate(9),
-							rs.getInt(11),
-							rs.getInt(12)));*/
-					
-					entradas.add(new EntradaPermanente(rs.getInt(1),
-							new Item(rs.getInt(2),
-									rs.getString(3)),
-							null, 
-							rs.getDate(5),
-							rs.getInt(6), 
-							rs.getInt(7), 
-							rs.getInt(8), 
-							rs.getString(9), 
-							rs.getString(10), 
-							rs.getString(4), 
-							rs.getInt(11)));
+
+					entradas.add(new EntradaPermanente(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)), null,
+							rs.getDate(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10),
+							rs.getString(4), rs.getInt(11)));
 				}
 			}
 		} catch (SQLException e) {
@@ -776,13 +770,13 @@ public class DAO {
 
 		return entradas;
 	}
-	
-	
-	public List<EntradaPermanente> ListarPermanentePorNome(String nome){
+
+	public List<EntradaPermanente> ListarPermanentePorNome(String nome) {
 		System.out.println("ListarPorData");
 		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
-		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE  item like '%"+nome+"%' ";
-		
+		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE  item like '%"
+				+ nome + "%' ";
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 
@@ -792,19 +786,10 @@ public class DAO {
 
 			while (rs.next()) {
 				if (rs != null) {
-					entradas.add(new EntradaPermanente(rs.getInt(1),
-							new Item(rs.getInt(2),
-									rs.getString(3)),
-							null, 
-							rs.getDate(5),
-							rs.getInt(6), 
-							rs.getInt(7), 
-							rs.getInt(8), 
-							rs.getString(9), 
-							rs.getString(10), 
-							rs.getString(4), 
-							rs.getInt(11)));
-				
+					entradas.add(new EntradaPermanente(rs.getInt(1), new Item(rs.getInt(2), rs.getString(3)), null,
+							rs.getDate(5), rs.getInt(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getString(10),
+							rs.getString(4), rs.getInt(11)));
+
 				}
 			}
 		} catch (SQLException e) {
@@ -814,7 +799,5 @@ public class DAO {
 
 		return entradas;
 	}
-	
-	
-	
+
 }

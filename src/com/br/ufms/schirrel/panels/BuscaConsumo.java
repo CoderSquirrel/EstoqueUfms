@@ -30,6 +30,7 @@ import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.ItemTable;
 import com.br.ufms.schirrel.classes.Usuario;
+import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 
 public class BuscaConsumo extends JPanel implements ActionListener {
 	/**
@@ -48,13 +49,15 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 	private JTextField tf_nome;
 
 	JPanel PanelBusca;
-
+ExportarRelatorio EXPORTAR;
 	public BuscaConsumo(DAO D, Usuario u) {
+		EXPORTAR = new ExportarRelatorio();
 		USUARIO_LOGADO = u;
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Busca Materiais de Consumo", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Busca Materiais de Consumo", TitledBorder.LEADING, TitledBorder.CENTER, null,
+				null));
 
 		JRadioButton rdbtnBuscaPorNome = new JRadioButton("Busca Por Nome");
 		rdbtnBuscaPorNome.setBounds(18, 15, 149, 23);
@@ -81,29 +84,6 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		PanelBusca = new JPanel();
 		PanelBusca.setBounds(12, 40, 774, 124);
 		add(PanelBusca);
-	}
-
-	void Busc() {
-		DateFormatter formatter = new DateFormatter(format);
-		format.setLenient(false);
-		formatter.setAllowsInvalid(false);
-		formatter.setOverwriteMode(true);
-
-		JLabel lblInicial = new JLabel("Data Inicial:");
-		lblInicial.setBounds(10, 25, 100, 20);
-		lblInicial.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblInicial);
-
-		JLabel lblFinal = new JLabel("Data Final:");
-		lblFinal.setBounds(250, 25, 100, 20);
-		lblFinal.setFont(new Font("Arial", Font.BOLD, 14));
-		add(lblFinal);
-
-		btBuscar = new JButton("Buscar");
-		btBuscar.setBounds(500, 20, 100, 30);
-		btBuscar.addActionListener(this);
-		add(btBuscar);
-
 	}
 
 	void IniciarTable() {
@@ -162,14 +142,14 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource() == btBuscarNome){
+		if (e.getSource() == btBuscarNome) {
 			if (tf_nome.getText().toString().trim().isEmpty() || tf_nome.getText().toString().trim().equals("")) {
 				JOptionPane.showMessageDialog(this, "Campo em branco");
 			} else {
 				entradas = dao.ListarPorNome(tf_nome.getText().toString().trim());
 				IniciarTable();
 			}
-		} else if(e.getSource() == btBuscarData){
+		} else if (e.getSource() == btBuscarData) {
 			LocalDate date = LocalDate.of(Integer.parseInt(tf_DataInicial.getText().split("/")[2]),
 					meses[(Integer.parseInt(tf_DataInicial.getText().split("/")[1]) - 1)],
 					Integer.parseInt(tf_DataInicial.getText().split("/")[0]));
@@ -183,12 +163,10 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 				JOptionPane.showMessageDialog(this, "Data final é anterior a data inicial");
 			} else {
 				entradas = dao.ListarPorData(i, f);
+				EXPORTAR.GerarRelatorioDatasDeEntrada(entradas, tf_DataInicial.getText(), tf_DataFinal.getText());
 				IniciarTable();
 			}
 		}
-		
-		
-		
 
 	}
 
