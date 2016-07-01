@@ -12,6 +12,7 @@ import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Fabricante;
 import com.br.ufms.schirrel.classes.Item;
+import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Unidade;
 import com.br.ufms.schirrel.classes.Usuario;
 
@@ -137,15 +138,43 @@ public class DAO {
 	}
 
 	
-	void ListarRetiradas(){
-//		select re.entrada_id, it.item, fa.fabricante, en.entrada, en.validade, us.usuario, re.data_retirada from tb_retiradas re 
-//		inner join tb_entradas en on en.id_entrada = re.entrada_id
-//		inner join tb_itens it on en.item_id = it.id_item
-//		inner join tb_usuarios us on re.usuario_id = us.id_usuario
-//		inner join tb_fabricantes fa on en.fabricante_id = fa.id_fabricante
-//		group by re.entrada_id, it.item,fa.fabricante, us.usuario , en.entrada, en. validade, re.data_retirada
-//		order by re.entrada_id asc
-	}
+	public List<SaidaView> ListarRetiradas(Date ini, Date fin) {
+
+		List<SaidaView> saida = new ArrayList<SaidaView>();
+
+		String query = "SELECT * FROM LISTA_SAIDA";
+		
+		
+			try {
+				PreparedStatement st = conn.prepareStatement(query);
+				st.setDate(1, ini);
+				st.setDate(2, fin);
+				st.execute();
+				ResultSet rs = st.getResultSet();
+
+				while (rs.next()) {
+					if (rs != null) {
+						saida.add(new SaidaView(rs.getInt(1),
+								rs.getString(2),
+								rs.getString(3),
+								rs.getDate(4),
+								rs.getDate(5),
+								rs.getString(6),
+								rs.getDate(7),
+								rs.getInt(8)
+								)
+								);
+					}
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return saida;
+		}
+
+	
 	/*
 	 * CRUD UNIDADES
 	 */

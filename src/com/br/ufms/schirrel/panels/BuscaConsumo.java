@@ -28,9 +28,10 @@ import javax.swing.text.DateFormatter;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
-import com.br.ufms.schirrel.classes.ItemTable;
+import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
+import com.br.ufms.schirrel.tabelas.ItemTable;
 
 public class BuscaConsumo extends JPanel implements ActionListener {
 	/**
@@ -38,8 +39,9 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField tf_DataInicial, tf_DataFinal;
-	private JButton btBuscar, btBuscarData, btBuscarNome;
+	private JButton btBuscarData, btBuscarNome, btBuscarRetirada;
 	private List<Entrada> entradas;
+	private List<SaidaView> saidas;
 	DAO dao;
 	private JTable EntradaTable;
 	private Usuario USUARIO_LOGADO;
@@ -67,17 +69,30 @@ ExportarRelatorio EXPORTAR;
 				PanelBuscaPorNome();
 			}
 		});
-		JRadioButton rdbtnBuscaPorData = new JRadioButton("Busca Por Data");
-		rdbtnBuscaPorData.setBounds(171, 15, 149, 23);
+		JRadioButton rdbtnBuscaPorData = new JRadioButton("Busca Por Data de Entrada");
+		rdbtnBuscaPorData.setBounds(171, 15, 229, 23);
 		add(rdbtnBuscaPorData);
-		ButtonGroup group = new ButtonGroup();
-		group.add(rdbtnBuscaPorNome);
-		group.add(rdbtnBuscaPorData);
 		rdbtnBuscaPorData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelBuscaPorData();
 			}
 		});
+
+		
+		JRadioButton rdbtnBuscaPorRetirada = new JRadioButton("Busca Por Data de Retirada");
+		rdbtnBuscaPorRetirada.setBounds(400, 15, 249, 23);
+		add(rdbtnBuscaPorRetirada);
+		rdbtnBuscaPorRetirada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PanelBuscaPorDataRetirada();
+			}
+		});
+		
+		ButtonGroup group = new ButtonGroup();
+		group.add(rdbtnBuscaPorNome);
+		group.add(rdbtnBuscaPorData);
+		group.add(rdbtnBuscaPorRetirada);
+		
 
 		rdbtnBuscaPorNome.setSelected(true);
 
@@ -109,6 +124,33 @@ ExportarRelatorio EXPORTAR;
 
 	}
 
+	
+	
+	void IniciarTableSaida() {
+
+		List<Object[]> a = CarregarListaSaida();
+
+		EntradaTable = new JTable(new ItemTable(a));
+		PreencherTabela();
+
+		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
+		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(15);
+		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(80);
+		EntradaTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+		EntradaTable.getColumnModel().getColumn(4).setPreferredWidth(50);
+		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
+		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
+		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
+
+		JScrollPane scrollPane = new JScrollPane(EntradaTable);
+		scrollPane.setBounds(10, 120, 780, 200);
+
+		add(scrollPane);
+
+	}
+
+	
+	
 	List<Object[]> CarregarLista() {
 		// entradas = dao.ListarEntradasAtivas();
 		Object[] objs;
@@ -130,6 +172,28 @@ ExportarRelatorio EXPORTAR;
 
 	}
 
+	
+	List<Object[]> CarregarListaSaida() {
+		Object[] objs;
+		List<Object[]> objetos = new ArrayList<Object[]>();
+
+		for (int i = 0; i < saidas.size(); i++) {
+			objs = new Object[8];
+			objs[0] = saidas.get(i).getEntrada_id();
+			objs[1] = saidas.get(i).getItem();
+			objs[2] = saidas.get(i).getFabricante();
+			objs[3] = saidas.get(i).getEntrada();
+			objs[4] = saidas.get(i).getValidade();
+			objs[5] = saidas.get(i).getUsuario();
+			objs[6] = saidas.get(i).getRetirada();
+			objs[7] = saidas.get(i).getQtd_retirada();
+			objetos.add(objs);
+		}
+		return objetos;
+
+	}
+
+	
 	void PreencherTabela() {
 
 		ItemTable it = (ItemTable) EntradaTable.getModel();
@@ -166,6 +230,24 @@ ExportarRelatorio EXPORTAR;
 				EXPORTAR.GerarRelatorioDatasDeEntrada(entradas, tf_DataInicial.getText(), tf_DataFinal.getText());
 				IniciarTable();
 			}
+		} else if(e.getSource() == btBuscarRetirada){
+			
+			LocalDate date = LocalDate.of(Integer.parseInt(tf_DataInicial.getText().split("/")[2]),
+					meses[(Integer.parseInt(tf_DataInicial.getText().split("/")[1]) - 1)],
+					Integer.parseInt(tf_DataInicial.getText().split("/")[0]));
+			java.sql.Date i = java.sql.Date.valueOf(date);
+			LocalDate dateF = LocalDate.of(Integer.parseInt(tf_DataFinal.getText().split("/")[2]),
+					meses[(Integer.parseInt(tf_DataFinal.getText().split("/")[1]) - 1)],
+					Integer.parseInt(tf_DataFinal.getText().split("/")[0]));
+			java.sql.Date f = java.sql.Date.valueOf(dateF);
+
+			if (f.before(i)) {
+				JOptionPane.showMessageDialog(this, "Data final é anterior a data inicial");
+			} else {
+				saidas = dao.ListarRetiradas(i, f);
+				EXPORTAR.GerarRelatorioDatasDeEntrada(entradas, tf_DataInicial.getText(), tf_DataFinal.getText());
+				IniciarTable();
+			}
 		}
 
 	}
@@ -181,7 +263,7 @@ ExportarRelatorio EXPORTAR;
 
 		JPanel PanelData = new JPanel();
 		PanelData.setBorder(
-				new TitledBorder(null, "Buscar Por Data", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, "Buscar Por Data de Entrada", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		PanelData.setBounds(0, 0, 755, 75);
 		PanelBusca.add(PanelData);
 		PanelData.setLayout(null);
@@ -240,6 +322,56 @@ ExportarRelatorio EXPORTAR;
 		btBuscarNome.setBounds(626, 25, 117, 25);
 		PanelNome.add(btBuscarNome);
 		PanelBusca.repaint();
+	}
+	
+	void PanelBuscaPorDataRetirada() {
+
+		DateFormatter formatter = new DateFormatter(format);
+		format.setLenient(false);
+		formatter.setAllowsInvalid(false);
+		formatter.setOverwriteMode(true);
+
+		PanelBusca.removeAll();
+
+		JPanel PanelRetirada = new JPanel();
+		PanelRetirada.setBorder(
+				new TitledBorder(null, "Buscar Por Data de Retirada", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelRetirada.setBounds(0, 0, 755, 75);
+		PanelBusca.add(PanelRetirada);
+		PanelRetirada.setLayout(null);
+
+		JPanel PanelDataInicial = new JPanel();
+		PanelDataInicial.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Inicial",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelDataInicial.setBounds(12, 15, 295, 52);
+		PanelRetirada.add(PanelDataInicial);
+		PanelDataInicial.setLayout(null);
+
+		tf_DataInicial = new JFormattedTextField(formatter);
+		tf_DataInicial.setBounds(12, 18, 200, 28);
+		PanelDataInicial.add(tf_DataInicial);
+		tf_DataInicial.setValue(new Date());
+		tf_DataInicial.setColumns(10);
+
+		JPanel PanelDataFinal = new JPanel();
+		PanelDataFinal.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Final",
+				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelDataFinal.setBounds(315, 15, 295, 52);
+		PanelRetirada.add(PanelDataFinal);
+		PanelDataFinal.setLayout(null);
+
+		tf_DataFinal = new JFormattedTextField(formatter);
+		tf_DataFinal.setBounds(12, 18, 200, 28);
+		PanelDataFinal.add(tf_DataFinal);
+		tf_DataFinal.setValue(new Date());
+		tf_DataFinal.setColumns(10);
+
+		btBuscarRetirada = new JButton("Buscar");
+		btBuscarRetirada.setBounds(616, 39, 117, 25);
+		btBuscarRetirada.addActionListener(this);
+		PanelRetirada.add(btBuscarRetirada);
+		PanelBusca.repaint();
+
 	}
 
 }

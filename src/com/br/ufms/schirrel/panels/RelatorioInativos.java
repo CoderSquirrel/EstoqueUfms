@@ -21,7 +21,7 @@ import javax.swing.event.TableModelListener;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
-import com.br.ufms.schirrel.classes.ItemTable;
+import com.br.ufms.schirrel.tabelas.ItemTable;
 
 public class RelatorioInativos extends JPanel implements ActionListener, TableModelListener {
 	/**

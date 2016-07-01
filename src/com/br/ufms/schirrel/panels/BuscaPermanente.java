@@ -24,8 +24,8 @@ import javax.swing.text.DateFormatter;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
-import com.br.ufms.schirrel.classes.ItemPermanenteTable;
 import com.br.ufms.schirrel.classes.Usuario;
+import com.br.ufms.schirrel.tabelas.ItemPermanenteTable;
 
 public class BuscaPermanente extends JPanel implements ActionListener {
 	/**

@@ -1,4 +1,4 @@
-package com.br.ufms.schirrel.classes;
+package com.br.ufms.schirrel.tabelas;
 
 import java.util.List;
 
