@@ -95,12 +95,7 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 	public void actionPerformed(ActionEvent e) {
 		int qtd = Integer.parseInt(JOptionPane.showInputDialog("Quantidade: "));
 		entradas.get(EntradaTable.getSelectedRow()).setQtd(qtd);
-		try {
-			dao.NovaEntrada(entradas.get(EntradaTable.getSelectedRow()));
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		dao.NovaEntrada(entradas.get(EntradaTable.getSelectedRow()));
 	}
 
 	@Override

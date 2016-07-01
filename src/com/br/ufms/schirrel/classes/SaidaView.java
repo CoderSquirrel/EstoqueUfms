@@ -30,6 +30,21 @@ public class SaidaView {
 	}
 	
 	
+	
+	
+	public SaidaView(int ei, String it, String fa, Date en, Date va, int qtd) {
+		this.entrada_id = ei;
+		this.item = it;
+		this.fabricante = fa;
+		this.entrada = en;
+		this.validade = va;
+		this.qtd_retirada = qtd;
+		
+		
+	}
+	
+	
+	
 	public int getEntrada_id() {
 		return entrada_id;
 	}

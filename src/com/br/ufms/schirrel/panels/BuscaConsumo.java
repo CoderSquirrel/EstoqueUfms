@@ -254,7 +254,7 @@ ExportarRelatorio EXPORTAR;
 			if (f.before(i)) {
 				JOptionPane.showMessageDialog(this, "Data final é anterior a data inicial");
 			} else {
-				saidas = dao.ListarRetiradas(i, f);
+				saidas = dao.ListarRetiradasPorData(i, f);
 				IniciarTableSaida();
 				EXPORTAR.GerarRelatorioDatasDeSaida(saidas, tf_DataInicial.getText(), tf_DataFinal.getText());
 				

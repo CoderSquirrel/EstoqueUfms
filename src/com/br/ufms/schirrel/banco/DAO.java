@@ -56,7 +56,7 @@ public class DAO {
 		query.append("  VALUES ( ? , ? , ?, ? ) ");
 		PreparedStatement st = null;
 
-	int id = 0;
+		int id = 0;
 		try {
 			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 
@@ -82,11 +82,11 @@ public class DAO {
 
 		return id;
 	}
-	
+
 	int ObterTotalRetirado(Entrada e) throws SQLException {
 		int retirado = 0;
-		String query ="select entrada_id, sum(qtd_retirada) as retirada from tb_retiradas where entrada_id = ? group by entrada_id  ";
-		
+		String query = "select entrada_id, sum(qtd_retirada) as retirada from tb_retiradas where entrada_id = ? group by entrada_id  ";
+
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 			st.setInt(1, e.getId());
@@ -107,12 +107,9 @@ public class DAO {
 	}
 
 	boolean UpdateEntrada(Entrada e) throws SQLException {
-		
-		
+
 		int qtd_retirada = ObterTotalRetirado(e);
-		
-		
-		
+
 		StringBuilder query = new StringBuilder();
 		query.append("  UPDATE TB_ENTRADAS  ");
 		query.append(" SET qtd_retirada = ?  ");
@@ -124,11 +121,11 @@ public class DAO {
 
 			st.setInt(1, qtd_retirada);
 			st.setInt(2, e.getId());
-			
+
 			st.execute();
 			conn.commit();
 			st.close();
-		return true;
+			return true;
 		} catch (SQLException e1) {
 			conn.rollback();
 
@@ -137,44 +134,67 @@ public class DAO {
 		}
 	}
 
-	
-	public List<SaidaView> ListarRetiradas(Date ini, Date fin) {
+	public List<SaidaView> ListarRetiradasPorData(Date ini, Date fin) {
 
 		List<SaidaView> saida = new ArrayList<SaidaView>();
 
-		String query = "SELECT * FROM LISTA_SAIDA WHERE  data_retirada BETWEEN ? AND ? ";
-		
-		
-			try {
-				PreparedStatement st = conn.prepareStatement(query);
-				st.setDate(1, ini);
-				st.setDate(2, fin);
-				st.execute();
-				ResultSet rs = st.getResultSet();
+		String query = "SELECT * FROM VW_LISTA_SAIDA WHERE  data_retirada BETWEEN ? AND ? ";
 
-				while (rs.next()) {
-					if (rs != null) {
-						saida.add(new SaidaView(rs.getInt(1),
-								rs.getString(2),
-								rs.getString(3),
-								rs.getDate(4),
-								rs.getDate(5),
-								rs.getString(6),
-								rs.getDate(7),
-								rs.getInt(8)
-								)
-								);
-					}
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.setDate(1, ini);
+			st.setDate(2, fin);
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					saida.add(new SaidaView(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4),
+							rs.getDate(5), rs.getString(6), rs.getDate(7), rs.getInt(8)));
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
-
-			return saida;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-	
+		return saida;
+	}
+
+	public List<SaidaView> ListarRetiradasTotal() {
+		String query = "SELECT * FROM VW_LISTAR_RETIRADAS_TOTAL";
+		List<SaidaView> saida = new ArrayList<SaidaView>();
+
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					// saida.add(new SaidaView(rs.getInt(1),
+					// rs.getString(2),
+					// rs.getString(3),
+					// rs.getDate(4),
+					// rs.getDate(5),
+					// rs.getString(6),
+					// rs.getDate(7),
+					// rs.getInt(8)
+					// )
+					// );
+					//
+					saida.add(new SaidaView(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4),
+							rs.getDate(5), rs.getInt(6)));
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return saida;
+	}
+
 	/*
 	 * CRUD UNIDADES
 	 */
@@ -628,7 +648,43 @@ public class DAO {
 
 	}
 
-	public void NovaEntrada(Entrada e) throws SQLException {
+	public void NovaEntrada(Entrada e) {
+
+		
+		try {
+			AtualizarNovaEntrada(e);
+			CriarNovaEntrada(e);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+	}
+
+	public void CriarNovaEntrada(Entrada e) throws SQLException {
+		String query = "insert into tb_novaentradas (entrada_id, qtd, entrada) values ( ? , ? , ? ) ";
+
+		PreparedStatement st = null;
+
+		try {
+			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
+
+			st.setInt(1, e.getId());
+			st.setInt(2, e.getQtd());
+			st.setDate(3, new Date(System.currentTimeMillis()));
+			st.executeUpdate();
+
+			conn.commit();
+			st.close();
+
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}
+
+	public void AtualizarNovaEntrada(Entrada e) throws SQLException {
 		StringBuilder query = new StringBuilder();
 		query.append("  UPDATE TB_ENTRADAS  ");
 		query.append(" SET qtd_retirada = ?, qtd = ?  ");

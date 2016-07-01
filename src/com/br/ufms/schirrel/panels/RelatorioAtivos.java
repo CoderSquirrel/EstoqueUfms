@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,8 +36,9 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 	DAO dao;
 	private JTable EntradaTable;
 	private Usuario USUARIO_LOGADO;
+
 	public RelatorioAtivos(DAO D, Usuario u) {
-USUARIO_LOGADO = u;
+		USUARIO_LOGADO = u;
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
@@ -65,36 +65,36 @@ USUARIO_LOGADO = u;
 		scrollPane.setBounds(10, 20, 780, 370);
 
 		add(scrollPane);
-		
+
 		EntradaTable.addMouseListener(new MouseAdapter() {
-		    public void mousePressed(MouseEvent me) {
-		        JTable table =(JTable) me.getSource();
-		        Point p = me.getPoint();
-		        int row = table.rowAtPoint(p);
-		        if (me.getClickCount() == 2) {
-		      
-		        	try {
-		        	int qtd;
-		        	String obj = JOptionPane.showInputDialog("Digite Quantidade da nova retirada: ") ;
-					if (obj != null)
-						qtd = Integer.parseInt(obj);
-					else
-						qtd = 0;
-		        	
-		        	//entradas.get(row).setRetirada(qtd);
-		    		entradas.get(row).setUsuario(USUARIO_LOGADO);
-		    		
-		    			if (dao.UpdateRetirada(entradas.get(row), qtd)) {
-		    				
-		    				// PreencherTabela();
-		    				// System.out.println("Ok");
-		    			}
-		        	
-		        	} catch(Exception e){
-		        		e.printStackTrace();
-		        	}
-		        }
-		    }
+			public void mousePressed(MouseEvent me) {
+				JTable table = (JTable) me.getSource();
+				Point p = me.getPoint();
+				int row = table.rowAtPoint(p);
+				if (me.getClickCount() == 2) {
+					int disp = ((int) table.getModel().getValueAt(row, 5))
+							- ((int) table.getModel().getValueAt(row, 7));
+
+					try {
+						int qtd;
+						String obj = JOptionPane.showInputDialog("Digite Quantidade da nova retirada: ");
+						if (obj != null)
+							qtd = Integer.parseInt(obj);
+						else
+							qtd = 0;
+
+						if (qtd > disp) {
+							JOptionPane.showMessageDialog(null, "Quantidade a ser retirada é maior que a de estoque.");
+						} else {
+						entradas.get(row).setUsuario(USUARIO_LOGADO);
+						if (dao.UpdateRetirada(entradas.get(row), qtd)) {
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
 		});
 
 	}
@@ -123,10 +123,8 @@ USUARIO_LOGADO = u;
 
 		ItemTable it = (ItemTable) EntradaTable.getModel();
 
-		
-			it.RemoveAll();
-			it.AddList(CarregarLista());
-		
+		it.RemoveAll();
+		it.AddList(CarregarLista());
 
 	}
 
@@ -142,9 +140,6 @@ USUARIO_LOGADO = u;
 		int column = e.getColumn();
 		// System.out.println(row);
 		// System.out.println(entradas.get(row).getId());
-		
-		
-		
 
 	}
 
