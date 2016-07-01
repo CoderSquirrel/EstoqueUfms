@@ -256,7 +256,7 @@ ExportarRelatorio EXPORTAR;
 			} else {
 				saidas = dao.ListarRetiradas(i, f);
 				IniciarTableSaida();
-			//	EXPORTAR.GerarRelatorioDatasDeEntrada(entradas, tf_DataInicial.getText(), tf_DataFinal.getText());
+				EXPORTAR.GerarRelatorioDatasDeSaida(saidas, tf_DataInicial.getText(), tf_DataFinal.getText());
 				
 			}
 		}

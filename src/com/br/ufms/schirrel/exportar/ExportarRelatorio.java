@@ -10,18 +10,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Color;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.br.ufms.schirrel.classes.Entrada;
+import com.br.ufms.schirrel.classes.SaidaView;
 
 public class ExportarRelatorio {
 	private static HSSFWorkbook workbook;
@@ -183,7 +182,7 @@ public class ExportarRelatorio {
 		try {
 
 			Date hj = new Date(System.currentTimeMillis());
-			File file = new File("RelatorioMdCPorDatas-" + formatArquivo.format(hj) + ".pdf");
+			File file = new File("RelatorioMdCPorDatas-" + formatArquivo.format(hj) + ".xls");
 			FileOutputStream out = new FileOutputStream(file, false);
 			workbook.write(out);
 			out.flush();
@@ -199,8 +198,82 @@ public class ExportarRelatorio {
 		}
 	}
 
-	public void GerarRelatorioDatasDeSaida(List<Entrada> entradas, String dataIni, String dataFinal) {
+	public void GerarRelatorioDatasDeSaida(List<SaidaView> saidasList, String dataIni, String dataFinal) {
+		String colunasNomes[] = { "Item", "Fabricante", "Data de Entrada", "Data de Validade",
+				"Usuario", "Data da Retirada", "Qtd Retirada" };
+		int colunasWidth[] = { 10000, 10000, 5000, 5000, 5000, 5000, 5000 };
+		sheet = workbook.createSheet("RelatorioSMdCPorDatas");
+		// HSSFSheet sheetIndividual = workbook.createSheet("arquivoteste2");
+		preencherEstilos();
+		Row titulo = sheet.createRow(0);
+		Cell primeira = titulo.createCell(0);
+		primeira.setCellValue("Relatório da Saida de Material de Consumo por Intervalo de Datas " + dataIni + " - " + dataFinal);
+		primeira.setCellStyle(estilos.get(0));
+		sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 6));
 
+		Row cabecalho = sheet.createRow(CABECALHO_INDEX);
+		Cell colunas[] = new Cell[7];
+
+		for (int i = 0; i < colunas.length; i++) {
+			colunas[i] = cabecalho.createCell(i);
+			colunas[i].setCellValue(colunasNomes[i]);
+			colunas[i].setCellStyle(estilos.get(2));
+			sheet.setColumnWidth(i, colunasWidth[i]);
+		}
+
+		format.setLenient(false);
+
+		Cell c1, c2, c3, c4, c5, c6, c7;
+		for (int r = CABECALHO_INDEX + 1, i = 0; i < saidasList.size(); r++, i++) {
+			Row nova = sheet.createRow(r);
+			c1 = nova.createCell(0);
+			c1.setCellValue(saidasList.get(i).getItem());
+			c2 = nova.createCell(1);
+			c2.setCellValue(saidasList.get(i).getFabricante());
+			c3 = nova.createCell(2);
+			c3.setCellValue(format.format(saidasList.get(i).getEntrada()));
+			c4 = nova.createCell(3);
+			c4.setCellValue(format.format(saidasList.get(i).getValidade()));
+			c5 = nova.createCell(4);
+			c5.setCellValue(saidasList.get(i).getUsuario());
+			c6 = nova.createCell(5);
+			c6.setCellValue(format.format(saidasList.get(i).getRetirada()));
+			c7 = nova.createCell(6);
+			c7.setCellValue(saidasList.get(i).getQtd_retirada());
+
+			c1.setCellStyle(estilos.get(3));
+			c2.setCellStyle(estilos.get(3));
+			c3.setCellStyle(estilos.get(3));
+			c4.setCellStyle(estilos.get(3));
+			c5.setCellStyle(estilos.get(3));
+			c6.setCellStyle(estilos.get(3));
+			c7.setCellStyle(estilos.get(3));
+		}
+
+		Row rodape = sheet.createRow(CABECALHO_INDEX + saidasList.size() + 1);
+		Cell coluna = rodape.createCell(0);
+		coluna.setCellValue("Relatório Gerado pelo Sistema de Estoque de Laboratórios da UFMS-CPCX");
+		coluna.setCellStyle(estilos.get(1));
+		sheet.addMergedRegion(new CellRangeAddress(CABECALHO_INDEX + saidasList.size() + 1,
+				CABECALHO_INDEX + saidasList.size() + 2, 0, 6));
+
+		try {
+
+			Date hj = new Date(System.currentTimeMillis());
+			File file = new File("RelatorioSMdCPorDatas-" + formatArquivo.format(hj) + ".xls");
+			FileOutputStream out = new FileOutputStream(file, false);
+			workbook.write(out);
+			out.flush();
+			out.close();
+			if (file.length() != 0) {
+
+			} else {
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
