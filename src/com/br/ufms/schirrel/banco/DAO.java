@@ -142,7 +142,7 @@ public class DAO {
 
 		List<SaidaView> saida = new ArrayList<SaidaView>();
 
-		String query = "SELECT * FROM LISTA_SAIDA";
+		String query = "SELECT * FROM LISTA_SAIDA WHERE  data_retirada BETWEEN ? AND ? ";
 		
 		
 			try {

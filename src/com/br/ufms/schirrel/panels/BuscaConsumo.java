@@ -32,6 +32,7 @@ import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.tabelas.ItemTable;
+import com.br.ufms.schirrel.tabelas.SaidaTable;
 
 public class BuscaConsumo extends JPanel implements ActionListener {
 	/**
@@ -130,17 +131,17 @@ ExportarRelatorio EXPORTAR;
 
 		List<Object[]> a = CarregarListaSaida();
 
-		EntradaTable = new JTable(new ItemTable(a));
-		PreencherTabela();
+		EntradaTable = new JTable(new SaidaTable(a));
+		PreencherTabelaSaida();
 
-		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
-		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(15);
-		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(80);
-		EntradaTable.getColumnModel().getColumn(3).setPreferredWidth(50);
+		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(120);
+		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(120);
+		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(15);
+		EntradaTable.getColumnModel().getColumn(3).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
-		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
-		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
+		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15); 	
+		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(10);
+
 
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 120, 780, 200);
@@ -178,15 +179,15 @@ ExportarRelatorio EXPORTAR;
 		List<Object[]> objetos = new ArrayList<Object[]>();
 
 		for (int i = 0; i < saidas.size(); i++) {
-			objs = new Object[8];
-			objs[0] = saidas.get(i).getEntrada_id();
-			objs[1] = saidas.get(i).getItem();
-			objs[2] = saidas.get(i).getFabricante();
-			objs[3] = saidas.get(i).getEntrada();
-			objs[4] = saidas.get(i).getValidade();
-			objs[5] = saidas.get(i).getUsuario();
-			objs[6] = saidas.get(i).getRetirada();
-			objs[7] = saidas.get(i).getQtd_retirada();
+			objs = new Object[7];
+
+			objs[0] = saidas.get(i).getItem();
+			objs[1] = saidas.get(i).getFabricante();
+			objs[2] = saidas.get(i).getEntrada();
+			objs[3] = saidas.get(i).getValidade();
+			objs[4] = saidas.get(i).getUsuario();
+			objs[5] = saidas.get(i).getRetirada();
+			objs[6] = saidas.get(i).getQtd_retirada();
 			objetos.add(objs);
 		}
 		return objetos;
@@ -203,6 +204,15 @@ ExportarRelatorio EXPORTAR;
 
 	}
 
+	void PreencherTabelaSaida() {
+
+		SaidaTable it = (SaidaTable) EntradaTable.getModel();
+
+		it.RemoveAll();
+		it.AddList(CarregarListaSaida());
+
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -245,15 +255,16 @@ ExportarRelatorio EXPORTAR;
 				JOptionPane.showMessageDialog(this, "Data final é anterior a data inicial");
 			} else {
 				saidas = dao.ListarRetiradas(i, f);
-				EXPORTAR.GerarRelatorioDatasDeEntrada(entradas, tf_DataInicial.getText(), tf_DataFinal.getText());
-				IniciarTable();
+				IniciarTableSaida();
+			//	EXPORTAR.GerarRelatorioDatasDeEntrada(entradas, tf_DataInicial.getText(), tf_DataFinal.getText());
+				
 			}
 		}
 
 	}
 
 	void PanelBuscaPorData() {
-
+		
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
 		formatter.setAllowsInvalid(false);

@@ -5,8 +5,10 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 public class SaidaTable extends AbstractTableModel {
-	private String[] columnNames = { "Item", "Descrição", "Entrada", "Qtd", "Dep",  "Lab",
-			"Patrimonio", "Estado", "OBS" };
+	private String[] columnNames = {
+			"Item", "Fabricante", "Entrada",
+			"Validade",  "Usuario",
+			"Retirada", "QTD" };
 	public boolean DEBUG = false;
 private List<Object[]> data;
 
