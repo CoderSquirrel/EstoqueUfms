@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.banco.DAO;
+import com.br.ufms.schirrel.classes.EntradaView;
 import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
@@ -37,13 +38,13 @@ public class AppMain extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros, menuBuscar;
 	private JMenuItem mieEntrada, mieEntradaPermanente, mieCadastrarItem, mieEditar, mieCadastrarUnidade,
-			mieCadastrarFabricante, mirAtivo, mirInativo, mirMaisEntrados, mirMaisSaida, mieCadastrarUsuario,
+			mieCadastrarFabricante, mirAtivo, mirInativo, mirMaisEntradas, mirMaisSaida, mieCadastrarUsuario,
 			mibPermanente, mibConsumo;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	private ExportarRelatorio EXPORTAR;
 
-	int count = 0;
+	int contRetirada = 0, contEntrada;
 
 	public AppMain(Usuario u) {
 
@@ -91,7 +92,7 @@ public class AppMain extends JFrame implements ActionListener {
 		mieCadastrarUsuario = new JMenuItem("Cadastrar Usuario");
 		mirAtivo = new JMenuItem("Relatorio Ativo");
 		mirInativo = new JMenuItem("Relatorio Inativo");
-		mirMaisEntrados = new JMenuItem("Itens Com Maior Entrada");
+		mirMaisEntradas = new JMenuItem("Itens Com Maior Entrada");
 		mirMaisSaida = new JMenuItem("Itens Com Maior Retirada");
 		mibPermanente = new JMenuItem("Material Permanente");
 
@@ -116,7 +117,7 @@ public class AppMain extends JFrame implements ActionListener {
 		menuEstoque.add(mieEntradaPermanente);
 		menuRelatorio.add(mirAtivo);
 		menuRelatorio.add(mirInativo);
-		menuRelatorio.add(mirMaisEntrados);
+		menuRelatorio.add(mirMaisEntradas);
 		menuRelatorio.add(mirMaisSaida);
 		// menuRelatorio.add(mirDataAnteriores);
 
@@ -135,7 +136,7 @@ public class AppMain extends JFrame implements ActionListener {
 		mibConsumo.addActionListener(this);
 		mibPermanente.addActionListener(this);
 		mirMaisSaida.addActionListener(this);
-		mirMaisSaida.addActionListener(this);
+		mirMaisEntradas.addActionListener(this);
 
 		// getContentPane().add(new RelatorioAtivos(dao, USUARIO_LOGADO));
 		// getContentPane().add(new BuscaConsumo(dao, USUARIO_LOGADO));
@@ -215,8 +216,8 @@ public class AppMain extends JFrame implements ActionListener {
 		} else if (e.getSource() == mirMaisSaida) {
 			
 			//por algum motivo o clique do menu esta indo duas vezes, isso é para evitar
-			if (count == 0) {
-				count++;
+			if (contRetirada == 0) {
+				contRetirada++;
 
 				int op = JOptionPane.showConfirmDialog(this, "Gerar Relatorio de Itens com Maior Saida?");
 				if (op == 0) {
@@ -231,9 +232,31 @@ public class AppMain extends JFrame implements ActionListener {
 					System.out.println("Não");
 				}
 
+			}else {
+				contRetirada = 0;
 			}
-		} else {
-			count = 0;
+		} else if(e.getSource() == mirMaisEntradas){
+
+			//por algum motivo o clique do menu esta indo duas vezes, isso é para evitar
+			if (contEntrada == 0) {
+				contEntrada++;
+
+				int op = JOptionPane.showConfirmDialog(this, "Gerar Relatorio de Itens com Maior Entrada?");
+				if (op == 0) {
+					System.out.println("Sim");
+					List<EntradaView> entradas = dao.ListarEntradaTotal();
+					if (EXPORTAR.GerarRelatorioTotalDeEntradda(entradas)) {
+						JOptionPane.showMessageDialog(this, "Relatorio Gerado Com Sucesso");
+					} else {
+						JOptionPane.showMessageDialog(this, "Problema na Geração do Relatorio");
+					}
+				} else {
+					System.out.println("Não");
+				}
+
+			}else {
+				contEntrada = 0;
+			}
 		}
 
 	}

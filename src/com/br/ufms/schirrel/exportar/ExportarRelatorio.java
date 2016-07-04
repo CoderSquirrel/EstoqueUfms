@@ -20,6 +20,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.br.ufms.schirrel.classes.Entrada;
+import com.br.ufms.schirrel.classes.EntradaView;
 import com.br.ufms.schirrel.classes.SaidaView;
 
 public class ExportarRelatorio {
@@ -307,6 +308,88 @@ public class ExportarRelatorio {
 
 			try {
 				File file = new File("RelatorioSMdCTotal.xls");
+				FileOutputStream out = new FileOutputStream(file, false);
+				workbook.write(out);
+				out.flush();
+				out.close();
+				if (file.length() != 0) {
+
+				} else {
+					return false;
+				}
+			} catch (FileNotFoundException e) {
+
+				e.printStackTrace();
+				return false;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
+	
+	
+	public boolean GerarRelatorioTotalDeEntradda(List<EntradaView> entradasList) {
+
+		try {
+			String colunasNomes[] = { "Item", "Fabricante", "Data de Fabricação", "Data de Validade", "Qtd" };
+			int colunasWidth[] = { 10000, 10000, 5000, 5000, 5000 };
+			sheet = workbook.createSheet("RelatorioEMdCTotal");
+
+			Row titulo = sheet.createRow(0);
+			Cell primeira = titulo.createCell(0);
+			primeira.setCellValue("Relatório da Entrada de Material de Consumo por Total");
+			primeira.setCellStyle(estilos.get(0));
+			sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 4));
+
+			Row cabecalho = sheet.createRow(CABECALHO_INDEX);
+			Cell colunas[] = new Cell[5];
+
+			for (int i = 0; i < colunas.length; i++) {
+				colunas[i] = cabecalho.createCell(i);
+				colunas[i].setCellValue(colunasNomes[i]);
+				colunas[i].setCellStyle(estilos.get(2));
+				sheet.setColumnWidth(i, colunasWidth[i]);
+			}
+
+			format.setLenient(false);
+
+			Cell c1, c2, c3, c4, c5;
+			for (int r = CABECALHO_INDEX + 1, i = 0; i < entradasList.size(); r++, i++) {
+				Row nova = sheet.createRow(r);
+				c1 = nova.createCell(0);
+				c1.setCellValue(entradasList.get(i).getItem());
+				c2 = nova.createCell(1);
+				c2.setCellValue(entradasList.get(i).getFabricante());
+				c3 = nova.createCell(2);
+				c3.setCellValue(format.format(entradasList.get(i).getFabricacao()));
+				c4 = nova.createCell(3);
+				c4.setCellValue(format.format(entradasList.get(i).getValidade()));
+				c5 = nova.createCell(4);
+				c5.setCellValue(entradasList.get(i).getQtd());
+
+				c1.setCellStyle(estilos.get(3));
+				c2.setCellStyle(estilos.get(3));
+				c3.setCellStyle(estilos.get(3));
+				c4.setCellStyle(estilos.get(3));
+				c5.setCellStyle(estilos.get(3));
+
+			}
+
+			Row rodape = sheet.createRow(CABECALHO_INDEX + entradasList.size() + 1);
+			Cell coluna = rodape.createCell(0);
+			coluna.setCellValue("Relatório Gerado pelo Sistema de Estoque de Laboratórios da UFMS-CPCX");
+			coluna.setCellStyle(estilos.get(1));
+			sheet.addMergedRegion(new CellRangeAddress(CABECALHO_INDEX + entradasList.size() + 1,
+					CABECALHO_INDEX + entradasList.size() + 2, 0, 4));
+
+			try {
+				File file = new File("RelatorioEMdCTotal.xls");
 				FileOutputStream out = new FileOutputStream(file, false);
 				workbook.write(out);
 				out.flush();

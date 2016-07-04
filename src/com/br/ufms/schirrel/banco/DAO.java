@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
+import com.br.ufms.schirrel.classes.EntradaView;
 import com.br.ufms.schirrel.classes.Fabricante;
 import com.br.ufms.schirrel.classes.Item;
 import com.br.ufms.schirrel.classes.SaidaView;
@@ -136,7 +137,7 @@ public class DAO {
 
 		List<SaidaView> saida = new ArrayList<SaidaView>();
 
-		String query = "SELECT * FROM VW_LISTA_SAIDA WHERE  data_retirada BETWEEN ? AND ? ";
+		String query = "SELECT * FROM VW_LISTAR_RETIRADAS WHERE  data_retirada BETWEEN ? AND ? ";
 
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
@@ -895,4 +896,29 @@ public class DAO {
 		return entradas;
 	}
 
+	
+	public List<EntradaView> ListarEntradaTotal() {
+		String query = "SELECT * FROM VW_LISTAR_RETIRADAS_TOTAL";
+		List<EntradaView> entrada = new ArrayList<EntradaView>();
+
+		try {
+			PreparedStatement st = conn.prepareStatement(query);
+			st.execute();
+			ResultSet rs = st.getResultSet();
+
+			while (rs.next()) {
+				if (rs != null) {
+					entrada.add(new EntradaView(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDate(4),
+							rs.getDate(5), rs.getInt(6)));
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return entrada;
+	}
+
+	
 }
