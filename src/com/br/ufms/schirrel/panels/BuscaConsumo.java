@@ -31,6 +31,7 @@ import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.tabelas.ItemTableModel;
 import com.br.ufms.schirrel.tabelas.SaidaTableModel;
+import com.itextpdf.text.DocumentException;
 
 public class BuscaConsumo extends JPanel implements ActionListener {
 	/**
@@ -255,7 +256,12 @@ ExportarRelatorio EXPORTAR;
 			} else {
 				saidas = dao.ListarRetiradasPorData(i, f);
 				IniciarTableSaida();
-				EXPORTAR.GerarRelatorioDatasDeSaida(saidas, tf_DataInicial.getText(), tf_DataFinal.getText());
+				try {
+					EXPORTAR.GerarRelatorioDatasDeSaida(saidas, tf_DataInicial.getText(), tf_DataFinal.getText());
+				} catch (DocumentException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
 			}
 		}

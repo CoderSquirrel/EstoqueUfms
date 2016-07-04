@@ -15,11 +15,11 @@
 	order by retirada DESC
 
 
-	CREATE VIEW VW_LISTAR_ENTRADAS_TOTAL AS select entrada_id, it.item, fa.fabricante,en.entrada, en.validade, sum(nova.qtd) as entrada from tb_novaentradas nova
+	CREATE VIEW VW_LISTAR_ENTRADAS_TOTAL AS select entrada_id, it.item, fa.fabricante, en.fabricacao, en.validade, sum(nova.qtd) as total_entrada from tb_novaentradas nova
 	inner join tb_entradas en on en.id_entrada = nova.entrada_id
 	inner join tb_itens it on en.item_id = it.id_item
 	inner join tb_fabricantes fa on en.fabricante_id = fa.id_fabricante
-	group by entrada_id,it.item, en.entrada, en.validade, fa.fabricante
-	order by retirada DESC
+	group by entrada_id,it.item, en.fabricacao, en.validade, fa.fabricante
+	order by total_entrada DESC
 
 select * from VW_LISTAR_RETIRADAS_TOTAL

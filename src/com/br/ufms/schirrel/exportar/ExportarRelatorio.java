@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -22,6 +23,14 @@ import org.apache.poi.ss.util.CellRangeAddress;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.EntradaView;
 import com.br.ufms.schirrel.classes.SaidaView;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class ExportarRelatorio {
 	private static HSSFWorkbook workbook;
@@ -44,10 +53,10 @@ public class ExportarRelatorio {
 		CellStyle estilo3 = workbook.createCellStyle();
 
 		Font fonte = workbook.createFont();
-		estilo0.setFillPattern(CellStyle.SOLID_FOREGROUND);
-		estilo0.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		fonte.setFontHeightInPoints((short) 20);
 		fonte.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		estilo0.setFillPattern(CellStyle.SOLID_FOREGROUND);
+		estilo0.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
 		estilo0.setBorderRight(CellStyle.BORDER_THIN);
 		estilo0.setBorderLeft(CellStyle.BORDER_THIN);
 		estilo0.setBorderTop(CellStyle.BORDER_THIN);
@@ -100,12 +109,12 @@ public class ExportarRelatorio {
 		String colunasNomes[] = { "Item", "Unidade", "Fabricante", "Data de Validade", "Data de Entrada",
 				"Qtd Recebida", "Qtd Retirada" };
 		int colunasWidth[] = { 10000, 10000, 10000, 5000, 5000, 5000, 5000 };
-
+		String tituloString = "Relatório de Material de Consumo por Intervalo de Datas ";
 		sheet = workbook.createSheet("RelatorioMdCPorDatas");
 		preencherEstilos();
 		Row titulo = sheet.createRow(0);
 		Cell primeira = titulo.createCell(0);
-		primeira.setCellValue("Relatório de Material de Consumo por Intervalo de Datas " + dataIni + " - " + dataFinal);
+		primeira.setCellValue(tituloString + dataIni + " - " + dataFinal);
 		primeira.setCellStyle(estilos.get(0));
 		sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 6));
 
@@ -164,17 +173,23 @@ public class ExportarRelatorio {
 			out.flush();
 			out.close();
 			if (file.length() != 0) {
-
+				xls2pdf(file, "RelatorioMdCPorDatas", tituloString, colunasNomes.length);
 			} else {
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	public void GerarRelatorioDatasDeSaida(List<SaidaView> saidasList, String dataIni, String dataFinal) {
+	public void GerarRelatorioDatasDeSaida(List<SaidaView> saidasList, String dataIni, String dataFinal)
+			throws DocumentException {
+
+		String tituloString = "Relatório da Saida de Material de Consumo por Intervalo de Datas ";
 		String colunasNomes[] = { "Item", "Fabricante", "Data de Entrada", "Data de Validade", "Usuario",
 				"Data da Retirada", "Qtd Retirada" };
 		int colunasWidth[] = { 10000, 10000, 5000, 5000, 5000, 5000, 5000 };
@@ -182,8 +197,7 @@ public class ExportarRelatorio {
 
 		Row titulo = sheet.createRow(0);
 		Cell primeira = titulo.createCell(0);
-		primeira.setCellValue(
-				"Relatório da Saida de Material de Consumo por Intervalo de Datas " + dataIni + " - " + dataFinal);
+		primeira.setCellValue(tituloString + dataIni + " - " + dataFinal);
 		primeira.setCellStyle(estilos.get(0));
 		sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 6));
 
@@ -242,7 +256,7 @@ public class ExportarRelatorio {
 			out.flush();
 			out.close();
 			if (file.length() != 0) {
-
+				xls2pdf(file, "RelatorioSMdCPorDatas", tituloString, colunasNomes.length);
 			} else {
 			}
 		} catch (FileNotFoundException e) {
@@ -253,7 +267,7 @@ public class ExportarRelatorio {
 	}
 
 	public boolean GerarRelatorioTotalDeSaida(List<SaidaView> saidasList) {
-
+		String tituloString = "Relatório da Saida de Material de Consumo por Total";
 		try {
 			String colunasNomes[] = { "Item", "Fabricante", "Data de Entrada", "Data de Validade", "Qtd Retirada" };
 			int colunasWidth[] = { 10000, 10000, 5000, 5000, 5000 };
@@ -261,7 +275,7 @@ public class ExportarRelatorio {
 
 			Row titulo = sheet.createRow(0);
 			Cell primeira = titulo.createCell(0);
-			primeira.setCellValue("Relatório da Saida de Material de Consumo por Total");
+			primeira.setCellValue(tituloString);
 			primeira.setCellStyle(estilos.get(0));
 			sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 4));
 
@@ -313,7 +327,7 @@ public class ExportarRelatorio {
 				out.flush();
 				out.close();
 				if (file.length() != 0) {
-
+					xls2pdf(file, "RelatorioSMdCTotal", tituloString, colunasNomes.length);
 				} else {
 					return false;
 				}
@@ -332,10 +346,8 @@ public class ExportarRelatorio {
 		}
 	}
 
-	
-	
 	public boolean GerarRelatorioTotalDeEntradda(List<EntradaView> entradasList) {
-
+		String tituloString = "Relatório da Entrada de Material de Consumo por Total";
 		try {
 			String colunasNomes[] = { "Item", "Fabricante", "Data de Fabricação", "Data de Validade", "Qtd" };
 			int colunasWidth[] = { 10000, 10000, 5000, 5000, 5000 };
@@ -343,7 +355,7 @@ public class ExportarRelatorio {
 
 			Row titulo = sheet.createRow(0);
 			Cell primeira = titulo.createCell(0);
-			primeira.setCellValue("Relatório da Entrada de Material de Consumo por Total");
+			primeira.setCellValue(tituloString);
 			primeira.setCellStyle(estilos.get(0));
 			sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 4));
 
@@ -395,7 +407,7 @@ public class ExportarRelatorio {
 				out.flush();
 				out.close();
 				if (file.length() != 0) {
-
+					xls2pdf(file, "RelatorioEMdCTotal", tituloString, colunasNomes.length);
 				} else {
 					return false;
 				}
@@ -412,6 +424,80 @@ public class ExportarRelatorio {
 			ex.printStackTrace();
 			return false;
 		}
+	}
+
+	/*
+	 * http://stackoverflow.com/questions/26056485/java-apache-poi-excel-save-as
+	 * -pdf
+	 */
+	void xls2pdf(File f, String name, String titulo, int c) throws IOException, DocumentException {
+
+		Iterator<Row> rowIterator = sheet.iterator();
+
+		// We will create output PDF document objects at this point
+		Document iText_xls_2_pdf = new Document();
+		PdfWriter.getInstance(iText_xls_2_pdf, new FileOutputStream(name + ".pdf"));
+		iText_xls_2_pdf.open();
+		// we have two columns in the Excel sheet, so we create a PDF table with
+		// two columns
+		// Note: There are ways to make this dynamic in nature, if you want to.
+		PdfPTable my_table = new PdfPTable(c);
+		// We will use the object below to dynamically add new data to the table
+		PdfPCell table_cell;
+		// Loop through rows.
+		rowIterator.next();
+		BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.EMBEDDED);
+
+		com.itextpdf.text.Font foo = new com.itextpdf.text.Font(bf, 22);
+
+		PdfPCell header = new PdfPCell(new Phrase(titulo, foo));
+		header.setColspan(c);
+		header.setRowspan(21);
+		header.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+		BaseColor mycolor = new BaseColor(192, 192, 192, 185);
+
+		header.setBackgroundColor(mycolor);
+
+		my_table.addCell(header);
+		while (rowIterator.hasNext()) {
+			Row row = rowIterator.next();
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while (cellIterator.hasNext()) {
+				Cell cell = cellIterator.next(); // Fetch CELL
+				switch (cell.getCellType()) { // Identify CELL type
+				// you need to add more code here based on
+				// your requirement / transformations
+				case Cell.CELL_TYPE_STRING:
+					// Push the data from Excel to PDF Cell
+					table_cell = new PdfPCell(new Phrase(cell.getStringCellValue()));
+					// feel free to move the code below to suit to your needs
+					my_table.addCell(table_cell);
+					break;
+
+				case Cell.CELL_TYPE_NUMERIC:
+					table_cell = new PdfPCell(new Phrase(cell.getNumericCellValue() + ""));
+					// feel free to move the code below to suit to your needs
+					my_table.addCell(table_cell);
+					break;
+				}
+				// next line
+			}
+
+		}
+
+		my_table.addCell(
+				new PdfPCell(new Phrase("Relatório Gerado pelo Sistema de Estoque de Laboratórios da UFMS-CPCX")));
+		my_table.addCell(
+				new PdfPCell(new Phrase("Relatório Gerado pelo Sistema de Estoque de Laboratórios da UFMS-CPCX")));
+		my_table.addCell(
+				new PdfPCell(new Phrase("Relatório Gerado pelo Sistema de Estoque de Laboratórios da UFMS-CPCX")));
+
+		// Finally add the table to PDF document
+		iText_xls_2_pdf.add(my_table);
+		iText_xls_2_pdf.close();
+		// we created our pdf file..
+
 	}
 
 }
