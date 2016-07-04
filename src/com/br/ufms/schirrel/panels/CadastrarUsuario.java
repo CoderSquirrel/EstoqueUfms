@@ -94,6 +94,7 @@ public class CadastrarUsuario extends JPanel implements ActionListener {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {

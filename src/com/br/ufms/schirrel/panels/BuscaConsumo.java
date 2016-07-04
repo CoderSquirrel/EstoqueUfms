@@ -1,7 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -15,7 +14,6 @@ import java.util.List;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,8 +29,8 @@ import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
-import com.br.ufms.schirrel.tabelas.ItemTable;
-import com.br.ufms.schirrel.tabelas.SaidaTable;
+import com.br.ufms.schirrel.tabelas.ItemTableModel;
+import com.br.ufms.schirrel.tabelas.SaidaTableModel;
 
 public class BuscaConsumo extends JPanel implements ActionListener {
 	/**
@@ -45,6 +43,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 	private List<SaidaView> saidas;
 	DAO dao;
 	private JTable EntradaTable;
+	@SuppressWarnings("unused")
 	private Usuario USUARIO_LOGADO;
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	private Month meses[] = { Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE,
@@ -106,7 +105,7 @@ ExportarRelatorio EXPORTAR;
 
 		List<Object[]> a = CarregarLista();
 
-		EntradaTable = new JTable(new ItemTable(a));
+		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
@@ -131,7 +130,7 @@ ExportarRelatorio EXPORTAR;
 
 		List<Object[]> a = CarregarListaSaida();
 
-		EntradaTable = new JTable(new SaidaTable(a));
+		EntradaTable = new JTable(new SaidaTableModel(a));
 		PreencherTabelaSaida();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(120);
@@ -197,7 +196,7 @@ ExportarRelatorio EXPORTAR;
 	
 	void PreencherTabela() {
 
-		ItemTable it = (ItemTable) EntradaTable.getModel();
+		ItemTableModel it = (ItemTableModel) EntradaTable.getModel();
 
 		it.RemoveAll();
 		it.AddList(CarregarLista());
@@ -206,7 +205,7 @@ ExportarRelatorio EXPORTAR;
 
 	void PreencherTabelaSaida() {
 
-		SaidaTable it = (SaidaTable) EntradaTable.getModel();
+		SaidaTableModel it = (SaidaTableModel) EntradaTable.getModel();
 
 		it.RemoveAll();
 		it.AddList(CarregarListaSaida());

@@ -1,6 +1,5 @@
 package com.br.ufms.schirrel.classes;
 
-import java.math.BigInteger;
 
 public class Usuario{
 	int id;

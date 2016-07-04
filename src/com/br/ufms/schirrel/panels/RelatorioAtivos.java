@@ -8,13 +8,10 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -22,16 +19,13 @@ import javax.swing.event.TableModelListener;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.Usuario;
-import com.br.ufms.schirrel.tabelas.ItemTable;
+import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
 public class RelatorioAtivos extends JPanel implements ActionListener, TableModelListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField tfFornecedor;
-	private JButton btCadastrar;
-	private JLabel lblStatus;
 	private List<Entrada> entradas;
 	DAO dao;
 	private JTable EntradaTable;
@@ -49,7 +43,7 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 
 		// Create the scroll pane and add the table to it.
 		List<Object[]> a = CarregarLista();
-		EntradaTable = new JTable(new ItemTable(a));
+		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
@@ -86,8 +80,8 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 						if (qtd > disp) {
 							JOptionPane.showMessageDialog(null, "Quantidade a ser retirada é maior que a de estoque.");
 						} else {
-						entradas.get(row).setUsuario(USUARIO_LOGADO);
-						if (dao.UpdateRetirada(entradas.get(row), qtd)) {
+							entradas.get(row).setUsuario(USUARIO_LOGADO);
+							if (dao.UpdateRetirada(entradas.get(row), qtd)) {
 							}
 						}
 					} catch (Exception e) {
@@ -121,7 +115,7 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 
 	void PreencherTabela() {
 
-		ItemTable it = (ItemTable) EntradaTable.getModel();
+		ItemTableModel it = (ItemTableModel) EntradaTable.getModel();
 
 		it.RemoveAll();
 		it.AddList(CarregarLista());
@@ -136,10 +130,6 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 
 	@Override
 	public void tableChanged(TableModelEvent e) {
-		int row = e.getFirstRow();
-		int column = e.getColumn();
-		// System.out.println(row);
-		// System.out.println(entradas.get(row).getId());
 
 	}
 

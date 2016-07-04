@@ -4,14 +4,18 @@ import java.util.List;
 
 import javax.swing.table.AbstractTableModel;
 
-public class ItemTable extends AbstractTableModel {
+public class ItemTableModel extends AbstractTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1451953691800449874L;
 	private String[] columnNames = { "Item", "Unidade", "Fabricante", "Fabricacao", "Validade", "Q. Rec", "Recepcao",
 			"Q. Ret" };
 	public boolean DEBUG = false;
 	// private Object[][] data;
 	private List<Object[]> data;
 
-	public ItemTable(List<Object[]> data) {
+	public ItemTableModel(List<Object[]> data) {
 		this.data = data;
 
 	}
@@ -37,7 +41,7 @@ public class ItemTable extends AbstractTableModel {
 	 * each cell. If we didn't implement this method, then the last column would
 	 * contain text ("true"/"false"), rather than a check box.
 	 */
-	public Class getColumnClass(int c) {
+	public Class<? extends Object> getColumnClass(int c) {
 		return getValueAt(0, c).getClass();
 	}
 

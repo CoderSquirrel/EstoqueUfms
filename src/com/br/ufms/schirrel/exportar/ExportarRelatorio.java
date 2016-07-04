@@ -119,9 +119,7 @@ public class ExportarRelatorio {
 		}
 
 		format.setLenient(false);
-		for (Entrada e : entradas) {
 
-		}
 		Cell c1, c2, c3, c4, c5, c6, c7;
 		for (int r = CABECALHO_INDEX + 1, i = 0; i < entradas.size(); r++, i++) {
 			Row nova = sheet.createRow(r);

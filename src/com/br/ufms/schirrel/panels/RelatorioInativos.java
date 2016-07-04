@@ -1,27 +1,22 @@
 package com.br.ufms.schirrel.panels;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
-import com.br.ufms.schirrel.tabelas.ItemTable;
+import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
 public class RelatorioInativos extends JPanel implements ActionListener, TableModelListener {
 	/**
@@ -39,7 +34,7 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
 		List<Object[]> a = CarregarLista();
-		EntradaTable = new JTable(new ItemTable(a));
+		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
@@ -84,7 +79,7 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 
 	void PreencherTabela() {
 
-		ItemTable it = (ItemTable) EntradaTable.getModel();
+		ItemTableModel it = (ItemTableModel) EntradaTable.getModel();
 
 		it.RemoveAll();
 		it.AddList(CarregarLista());

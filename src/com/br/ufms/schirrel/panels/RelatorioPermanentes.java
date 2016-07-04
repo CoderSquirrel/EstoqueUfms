@@ -2,38 +2,29 @@ package com.br.ufms.schirrel.panels;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import com.br.ufms.schirrel.banco.DAO;
-import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
-import com.br.ufms.schirrel.tabelas.ItemTable;
+import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
-public class RelatorioPermanentes extends JPanel implements ActionListener, TableModelListener {
+public class RelatorioPermanentes extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField tfFornecedor;
-	private JButton btCadastrar;
-	private JLabel lblStatus;
+
 	private List<EntradaPermanente> entradas;
 	DAO dao;
 	private JTable EntradaTable;
+	@SuppressWarnings("unused")
 	private Usuario USUARIO_LOGADO;
 	public RelatorioPermanentes(DAO D, Usuario u) {
 USUARIO_LOGADO = u;
@@ -47,7 +38,7 @@ USUARIO_LOGADO = u;
 
 		// Create the scroll pane and add the table to it.
 		List<Object[]> a = CarregarLista();
-		EntradaTable = new JTable(new ItemTable(a));
+		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
@@ -58,7 +49,7 @@ USUARIO_LOGADO = u;
 		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
-		EntradaTable.getModel().addTableModelListener(this);
+		
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 20, 780, 370);
 
@@ -88,7 +79,7 @@ USUARIO_LOGADO = u;
 
 	void PreencherTabela() {
 
-		ItemTable it = (ItemTable) EntradaTable.getModel();
+		ItemTableModel it = (ItemTableModel) EntradaTable.getModel();
 
 		
 			it.RemoveAll();
@@ -100,25 +91,6 @@ USUARIO_LOGADO = u;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// dao.CadastrarFornecedor(tfFornecedor.getText().toString().trim());
-
-	}
-
-	@Override
-	public void tableChanged(TableModelEvent e) {
-		int row = e.getFirstRow();
-		int column = e.getColumn();
-		// System.out.println(row);
-		// System.out.println(entradas.get(row).getId());
-		
-		//entradas.get(row).setRetirada(Integer.parseInt(EntradaTable.getValueAt(row, column).toString()));
-		entradas.get(row).setUsuario(USUARIO_LOGADO);
-			int q= Integer.parseInt(EntradaTable.getValueAt(row, column).toString());
-		//	if (dao.UpdateRetirada(entradas.get(row), q)) {
-				
-				// PreencherTabela();
-				// System.out.println("Ok");
-			//}
-		
 
 	}
 

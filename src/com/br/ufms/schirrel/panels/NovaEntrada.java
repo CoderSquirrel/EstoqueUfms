@@ -35,7 +35,7 @@ public class NovaEntrada extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField tfItem, tfQtd;
+	private JTextField tfQtd;
 	private JFormattedTextField tfDataValidade, tfDataFabricacao, tfDataEntrada;
 	private JButton btCadastrar;
 	private JLabel lblStatus;

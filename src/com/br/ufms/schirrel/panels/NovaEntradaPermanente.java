@@ -25,12 +25,9 @@ import javax.swing.text.DateFormatter;
 import javax.swing.text.DocumentFilter;
 
 import com.br.ufms.schirrel.banco.DAO;
-import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.EntradaPermanente.Estado;
-import com.br.ufms.schirrel.classes.Fabricante;
 import com.br.ufms.schirrel.classes.Item;
-import com.br.ufms.schirrel.classes.Unidade;
 import com.br.ufms.schirrel.classes.Usuario;
 
 public class NovaEntradaPermanente extends JPanel implements ActionListener {
@@ -38,7 +35,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField tfItem, tfQtd, tfPatrimonio;
+	private JTextField tfQtd, tfPatrimonio;
 	private JFormattedTextField tfDataEntrada;
 	private JButton btCadastrar;
 	private JLabel lblStatus;
@@ -171,6 +168,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (EmBranco(tfDataEntrada) || EmBranco(tfQtd)) {
@@ -178,8 +176,6 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		} else {
 
 			Item i = dao.GetItemPorNome(cbItens.getSelectedItem().toString());
-			@SuppressWarnings("deprecation")
-
 			EntradaPermanente perm;
 			perm = new EntradaPermanente(i, USUARIO_LOGADO, new Date(tfDataEntrada.getText().toString()),
 					Integer.parseInt(tfQtd.getText().toString().trim()),

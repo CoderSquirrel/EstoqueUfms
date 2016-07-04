@@ -1,7 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,6 +14,11 @@ import javax.swing.border.TitledBorder;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 
 public class MostrarInfoPermanente extends JFrame {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1612517913044249516L;
 
 	/**
 	 * Create the panel.

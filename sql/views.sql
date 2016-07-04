@@ -1,4 +1,4 @@
-﻿		CREATE VIEW  VW_LISTA_SAIDA AS select re.entrada_id, it.item, fa.fabricante, en.entrada, en.validade, us.usuario, re.data_retirada, re.qtd_retirada from tb_retiradas re 
+﻿		CREATE VIEW  VW_LISTAR_RETIRADAS AS select re.entrada_id, it.item, fa.fabricante, en.entrada, en.validade, us.usuario, re.data_retirada, re.qtd_retirada from tb_retiradas re 
 		inner join tb_entradas en on en.id_entrada = re.entrada_id
 		inner join tb_itens it on en.item_id = it.id_item
 		inner join tb_usuarios us on re.usuario_id = us.id_usuario

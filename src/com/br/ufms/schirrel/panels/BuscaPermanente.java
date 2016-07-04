@@ -25,7 +25,7 @@ import javax.swing.text.DateFormatter;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
-import com.br.ufms.schirrel.tabelas.ItemPermanenteTable;
+import com.br.ufms.schirrel.tabelas.ItemPermanenteTableModel;
 
 public class BuscaPermanente extends JPanel implements ActionListener {
 	/**
@@ -36,8 +36,10 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	private List<EntradaPermanente> entradas;
 	DAO dao;
 	private JTable EntradaTable;
+	@SuppressWarnings("unused")
 	private Usuario USUARIO_LOGADO;
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+	@SuppressWarnings("unused")
 	private Month meses[] = { Month.JANUARY, Month.FEBRUARY, Month.MARCH, Month.APRIL, Month.MAY, Month.JUNE,
 			Month.JULY, Month.AUGUST, Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER };
 	private JTextField tf_nome, tf_patrimonio;
@@ -83,7 +85,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 
 		List<Object[]> a = CarregarLista();
 
-		EntradaTable = new JTable(new ItemPermanenteTable(a));
+		EntradaTable = new JTable(new ItemPermanenteTableModel(a));
 		PreencherTabela();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
@@ -139,7 +141,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 
 	void PreencherTabela() {
 
-		ItemPermanenteTable it = (ItemPermanenteTable) EntradaTable.getModel();
+		ItemPermanenteTableModel it = (ItemPermanenteTableModel) EntradaTable.getModel();
 
 		it.RemoveAll();
 		it.AddList(CarregarLista());
