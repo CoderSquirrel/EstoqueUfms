@@ -83,7 +83,7 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 
 		it.RemoveAll();
 		it.AddList(CarregarLista());
-
+		repaint();
 	}
 
 	@Override
@@ -91,6 +91,7 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		int qtd = Integer.parseInt(JOptionPane.showInputDialog("Quantidade: "));
 		entradas.get(EntradaTable.getSelectedRow()).setQtd(qtd);
 		dao.NovaEntrada(entradas.get(EntradaTable.getSelectedRow()));
+		PreencherTabela();
 	}
 
 	@Override

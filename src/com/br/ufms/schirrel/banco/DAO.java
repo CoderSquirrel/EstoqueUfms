@@ -38,7 +38,7 @@ public class DAO {
 
 	public boolean UpdateRetirada(Entrada e, int qtd) {
 		try {
-			UpdateEntrada(e);
+			UpdateEntrada(e, qtd);
 			CadastrarRetirada(e, qtd);
 			return true;
 		} catch (SQLException e1) {
@@ -106,9 +106,7 @@ public class DAO {
 		return retirado;
 	}
 
-	boolean UpdateEntrada(Entrada e) throws SQLException {
-
-		int qtd_retirada = ObterTotalRetirado(e);
+	boolean UpdateEntrada(Entrada e, int qtd) throws SQLException {
 
 		StringBuilder query = new StringBuilder();
 		query.append("  UPDATE TB_ENTRADAS  ");
@@ -119,7 +117,7 @@ public class DAO {
 		try {
 			st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 
-			st.setInt(1, qtd_retirada);
+			st.setInt(1, (qtd + e.getRetirada()));
 			st.setInt(2, e.getId());
 
 			st.execute();
@@ -650,7 +648,6 @@ public class DAO {
 
 	public void NovaEntrada(Entrada e) {
 
-		
 		try {
 			AtualizarNovaEntrada(e);
 			CriarNovaEntrada(e);
@@ -658,7 +655,7 @@ public class DAO {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+
 	}
 
 	public void CriarNovaEntrada(Entrada e) throws SQLException {
@@ -687,7 +684,7 @@ public class DAO {
 	public void AtualizarNovaEntrada(Entrada e) throws SQLException {
 		StringBuilder query = new StringBuilder();
 		query.append("  UPDATE TB_ENTRADAS  ");
-		query.append(" SET qtd_retirada = ?, qtd = ?  ");
+		query.append(" SET qtd_retirada = ?, qtd = ?, entrada = ?  ");
 		query.append("  WHERE id_entrada = ? ");
 		PreparedStatement st = null;
 
@@ -696,7 +693,8 @@ public class DAO {
 
 			st.setInt(1, 0);
 			st.setInt(2, e.getQtd());
-			st.setInt(3, e.getId());
+			st.setDate(3, new Date(System.currentTimeMillis()));
+			st.setInt(4, e.getId());
 			st.executeUpdate();
 
 			conn.commit();

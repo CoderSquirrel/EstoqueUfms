@@ -21,7 +21,7 @@ import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
-public class RelatorioAtivos extends JPanel implements ActionListener, TableModelListener {
+public class RelatorioAtivos extends JPanel {
 	/**
 	 * 
 	 */
@@ -54,7 +54,7 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
-		EntradaTable.getModel().addTableModelListener(this);
+		
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 20, 780, 370);
 
@@ -82,6 +82,7 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 						} else {
 							entradas.get(row).setUsuario(USUARIO_LOGADO);
 							if (dao.UpdateRetirada(entradas.get(row), qtd)) {
+								PreencherTabela();
 							}
 						}
 					} catch (Exception e) {
@@ -119,18 +120,8 @@ public class RelatorioAtivos extends JPanel implements ActionListener, TableMode
 
 		it.RemoveAll();
 		it.AddList(CarregarLista());
-
+		repaint();
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// dao.CadastrarFornecedor(tfFornecedor.getText().toString().trim());
-
-	}
-
-	@Override
-	public void tableChanged(TableModelEvent e) {
-
-	}
 
 }
