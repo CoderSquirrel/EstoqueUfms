@@ -59,6 +59,23 @@ public class EntradaPermanente {
 		this.estado = Estado.values()[e];
 	}
 	
+	
+	public EntradaPermanente( Item item,  Usuario usuario,  Date dataEntrada,int qtd, int dep, int lab, String obs, String patrimonio, String descricao, int e) {
+
+		this.item = item;
+		this.usuario = usuario;
+		this.dataEntrada = dataEntrada;
+		this.qtd = qtd;
+		this.deposito = dep;
+		this.laboratorio = lab;
+		this.obs = obs;
+		this.patrimonio = patrimonio;
+		this.descricao = descricao;
+		this.estado = Estado.values()[e];
+	}
+	
+	
+	
 	public int getQtd() {
 		return qtd;
 	}

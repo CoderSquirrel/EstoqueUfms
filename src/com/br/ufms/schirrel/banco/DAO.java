@@ -700,8 +700,7 @@ public class DAO {
 
 			conn.commit();
 			st.close();
-			System.out.println("ok");
-
+			
 		} catch (SQLException e1) {
 			conn.rollback();
 
@@ -737,7 +736,6 @@ public class DAO {
 	}
 
 	public List<Entrada> ListarPorNome(String nome) {
-		System.out.println("ListarPorData");
 		List<Entrada> entradas = new ArrayList<Entrada>();
 		String query = "SELECT e.id_entrada, item_id, item, unidade_id, unidade, fabricante_id, "
 				+ "fabricante, validade, fabricacao, entrada, qtd, qtd_retirada FROM TB_ENTRADAS e "
@@ -747,7 +745,6 @@ public class DAO {
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 
-			System.out.println(st.toString());
 			st.execute();
 			ResultSet rs = st.getResultSet();
 
@@ -771,8 +768,11 @@ public class DAO {
 	 */
 	public List<EntradaPermanente> ListarEntradasPermanentes() {
 		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
-		String query = "SELECT p.id_permanente, item_id, item, unidade_id, unidade, fabricante_id, fabricante, entrada, qtd, deposito, laboratorio FROM TB_PERMANENTES p INNER JOIN TB_ITENS i on p.item_id = i.id_item, INNER JOIN TB_FABRICANTES f on p.fabricante_id = f.id_fabricante  INNER JOIN TB_UNADES u on p.unidade_id = u.id_unidade order by p.id_permanente ASC";
-
+		String query =		"SELECT * FROM TB_PERMANENTES p "+
+		 "INNER JOIN TB_ITENS i on p.item_id = i.id_item "+
+		 "INNER JOIN TB_USUARIOS u on p.usuario_id = u.id_usuario "+
+		    "order by p.id_permanente ASC";
+		
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 			st.execute();
@@ -780,13 +780,20 @@ public class DAO {
 
 			while (rs.next()) {
 				if (rs != null) {
-					// entradas.add(new Entrada(rs.getInt(1), new
-					// Item(rs.getInt(2), rs.getString(3)),
-					// new Unidade(rs.getInt(4), rs.getString(5)), new
-					// Fabricante(rs.getInt(6), rs.getString(7)),
-					// null, rs.getDate(8), rs.getDate(10), rs.getDate(9),
-					// rs.getInt(11), rs.getInt(12)));
+
+					entradas.add(new EntradaPermanente(new Item(
+							rs.getInt(2), rs.getString("item")), 
+							new Usuario(rs.getInt("usuario_id"), rs.getString("usuario"), rs.getInt("registro"), ""),
+							rs.getDate("entrada"), 
+							rs.getInt("qtd"), 
+							rs.getInt("deposito"),
+							rs.getInt("laboratorio"), 
+							rs.getString("obs"), 
+							rs.getString("patrimonio"), 
+							rs.getString("descricao"), 
+							rs.getInt("estado")));
 				}
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -839,7 +846,6 @@ public class DAO {
 	}
 
 	public List<EntradaPermanente> ListarPermanentePorPatrimonio(String patrimonio) {
-		System.out.println("ListarPorData");
 		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
 		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE patrimonio like '%"
 				+ patrimonio + "%' ";
@@ -847,7 +853,6 @@ public class DAO {
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 
-			System.out.println(st.toString());
 			st.execute();
 			ResultSet rs = st.getResultSet();
 
@@ -868,7 +873,6 @@ public class DAO {
 	}
 
 	public List<EntradaPermanente> ListarPermanentePorNome(String nome) {
-		System.out.println("ListarPorData");
 		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
 		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE  item like '%"
 				+ nome + "%' ";
@@ -876,7 +880,6 @@ public class DAO {
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
 
-			System.out.println(st.toString());
 			st.execute();
 			ResultSet rs = st.getResultSet();
 

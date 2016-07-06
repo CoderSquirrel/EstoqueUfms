@@ -32,14 +32,15 @@ import com.br.ufms.schirrel.panels.NovaEntrada;
 import com.br.ufms.schirrel.panels.NovaEntradaPermanente;
 import com.br.ufms.schirrel.panels.RelatorioAtivos;
 import com.br.ufms.schirrel.panels.RelatorioInativos;
+import com.br.ufms.schirrel.panels.RelatorioPermanentes;
 
 public class AppMain extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros, menuBuscar;
 	private JMenuItem mieEntrada, mieEntradaPermanente, mieCadastrarItem, mieEditar, mieCadastrarUnidade,
-			mieCadastrarFabricante, mirAtivo, mirInativo, mirMaisEntradas, mirMaisSaida, mieCadastrarUsuario,
-			mibPermanente, mibConsumo;
+			mieCadastrarFabricante, mirAtivo, mirInativo, mirPermanente, mirMaisEntradas, mirMaisSaida,
+			mieCadastrarUsuario, mibPermanente, mibConsumo;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	private ExportarRelatorio EXPORTAR;
@@ -86,12 +87,12 @@ public class AppMain extends JFrame implements ActionListener {
 		mieEditar = new JMenuItem("Editar Item");
 		mieEntrada = new JMenuItem("Entrada de Item");
 		mieEntradaPermanente = new JMenuItem("Entrada de Item Permanente");
-		// mieSaida = new JMenuItem("Saida de Item");
 		mieCadastrarUnidade = new JMenuItem("Cadastrar Unidade");
 		mieCadastrarFabricante = new JMenuItem("Cadastrar Fabricante");
 		mieCadastrarUsuario = new JMenuItem("Cadastrar Usuario");
-		mirAtivo = new JMenuItem("Relatorio Ativo");
-		mirInativo = new JMenuItem("Relatorio Inativo");
+		mirAtivo = new JMenuItem("Relatorio Consumo Ativo");
+		mirInativo = new JMenuItem("Relatorio Consumo Inativo");
+		mirPermanente = new JMenuItem("Relatorio de Material Permanente");
 		mirMaisEntradas = new JMenuItem("Itens Com Maior Entrada");
 		mirMaisSaida = new JMenuItem("Itens Com Maior Retirada");
 		mibPermanente = new JMenuItem("Material Permanente");
@@ -117,6 +118,8 @@ public class AppMain extends JFrame implements ActionListener {
 		menuEstoque.add(mieEntradaPermanente);
 		menuRelatorio.add(mirAtivo);
 		menuRelatorio.add(mirInativo);
+		menuRelatorio.add(mirPermanente);
+		menuRelatorio.addSeparator();
 		menuRelatorio.add(mirMaisEntradas);
 		menuRelatorio.add(mirMaisSaida);
 		// menuRelatorio.add(mirDataAnteriores);
@@ -130,7 +133,7 @@ public class AppMain extends JFrame implements ActionListener {
 		menuBar.add(menuCadastros);
 		menuBar.add(menuRelatorio);
 		menuBar.add(menuBuscar);
-
+		mirPermanente.addActionListener(this);
 		mirAtivo.addActionListener(this);
 		mirInativo.addActionListener(this);
 		mibConsumo.addActionListener(this);
@@ -201,6 +204,12 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().add(new RelatorioInativos(dao));
 			getContentPane().revalidate();
 			getContentPane().repaint();
+		} else if (e.getSource() == mirPermanente) {
+			getContentPane().removeAll();
+			Elementos();
+			getContentPane().add(new RelatorioPermanentes(dao, USUARIO_LOGADO));
+			getContentPane().revalidate();
+			getContentPane().repaint();
 		} else if (e.getSource() == mibConsumo) {
 			getContentPane().removeAll();
 			Elementos();
@@ -214,8 +223,9 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} else if (e.getSource() == mirMaisSaida) {
-			
-			//por algum motivo o clique do menu esta indo duas vezes, isso é para evitar
+
+			// por algum motivo o clique do menu esta indo duas vezes, isso é
+			// para evitar
 			if (contRetirada == 0) {
 				contRetirada++;
 
@@ -232,12 +242,13 @@ public class AppMain extends JFrame implements ActionListener {
 					System.out.println("Não");
 				}
 
-			}else {
+			} else {
 				contRetirada = 0;
 			}
-		} else if(e.getSource() == mirMaisEntradas){
+		} else if (e.getSource() == mirMaisEntradas) {
 
-			//por algum motivo o clique do menu esta indo duas vezes, isso é para evitar
+			// por algum motivo o clique do menu esta indo duas vezes, isso é
+			// para evitar
 			if (contEntrada == 0) {
 				contEntrada++;
 
@@ -254,7 +265,7 @@ public class AppMain extends JFrame implements ActionListener {
 					System.out.println("Não");
 				}
 
-			}else {
+			} else {
 				contEntrada = 0;
 			}
 		}

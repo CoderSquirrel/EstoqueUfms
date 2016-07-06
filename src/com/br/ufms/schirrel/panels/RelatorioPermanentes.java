@@ -1,7 +1,10 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
+import com.br.ufms.schirrel.tabelas.ItemPermanenteTableModel;
 import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
 public class RelatorioPermanentes extends JPanel implements ActionListener {
@@ -26,19 +30,17 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 	private JTable EntradaTable;
 	@SuppressWarnings("unused")
 	private Usuario USUARIO_LOGADO;
+
 	public RelatorioPermanentes(DAO D, Usuario u) {
-USUARIO_LOGADO = u;
+		USUARIO_LOGADO = u;
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
-		// { { "Item", "10", "Fornecedor", new Date(), new Date(), new
-		// Integer(5), new Date(), new Integer(2) } };
 
-		// Create the scroll pane and add the table to it.
 		List<Object[]> a = CarregarLista();
-		EntradaTable = new JTable(new ItemTableModel(a));
+		EntradaTable = new JTable(new ItemPermanenteTableModel(a));
 		PreencherTabela();
 
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
@@ -49,29 +51,45 @@ USUARIO_LOGADO = u;
 		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
-		
+
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 20, 780, 370);
 
 		add(scrollPane);
+		
+		EntradaTable.addMouseListener(new MouseAdapter() {
+		    public void mousePressed(MouseEvent me) {
+		        JTable table =(JTable) me.getSource();
+		        Point p = me.getPoint();
+		        int row = table.rowAtPoint(p);
+		        if (me.getClickCount() == 2) {
+		        	System.out.println("aqui");
+		        	new MostrarInfoPermanente(entradas.get(row));
+		        	
+		        }
+		    }
+		});
 
 	}
 
 	List<Object[]> CarregarLista() {
 		entradas = dao.ListarEntradasPermanentes();
+		System.out.println(entradas.size());
 		Object[] objs;
 		List<Object[]> objetos = new ArrayList<Object[]>();
 
 		for (int i = 0; i < entradas.size(); i++) {
-			objs = new Object[8];
+			objs = new Object[9];
 			objs[0] = entradas.get(i).getItem().getItem();
-		//	objs[1] = entradas.get(i).getUnidade().getUnidade();
-		//	objs[2] = entradas.get(i).getFabricante().getFabricante();
-		//	objs[3] = entradas.get(i).getDataFabricacao();
-		//	objs[4] = entradas.get(i).getDataValidade();
-			objs[5] = entradas.get(i).getQtd();
-			objs[6] = entradas.get(i).getDataEntrada();
-		//	objs[7] = entradas.get(i).getRetirada();
+			objs[1] = entradas.get(i).getDescricao();
+			objs[2] = entradas.get(i).getDataEntrada();
+			objs[3] = entradas.get(i).getQtd();
+			objs[4] = entradas.get(i).getDeposito();
+			objs[5] = entradas.get(i).getLaboratorio();
+			objs[6] = entradas.get(i).getPatrimonio();
+			objs[7] = entradas.get(i).getEstadoString();
+			objs[8] = entradas.get(i).getObs();
+	
 			objetos.add(objs);
 		}
 		return objetos;
@@ -79,18 +97,15 @@ USUARIO_LOGADO = u;
 
 	void PreencherTabela() {
 
-		ItemTableModel it = (ItemTableModel) EntradaTable.getModel();
+		ItemPermanenteTableModel it = (ItemPermanenteTableModel) EntradaTable.getModel();
 
-		
-			it.RemoveAll();
-			it.AddList(CarregarLista());
-		
+		it.RemoveAll();
+		it.AddList(CarregarLista());
 
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// dao.CadastrarFornecedor(tfFornecedor.getText().toString().trim());
 
 	}
 
