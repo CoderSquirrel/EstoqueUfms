@@ -8,13 +8,14 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
@@ -28,6 +29,7 @@ public class RelatorioAtivos extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private List<Entrada> entradas;
 	DAO dao;
+	private JButton bt;
 	private JTable EntradaTable;
 	private Usuario USUARIO_LOGADO;
 
@@ -37,11 +39,7 @@ public class RelatorioAtivos extends JPanel {
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-
-		// { { "Item", "10", "Fornecedor", new Date(), new Date(), new
-		// Integer(5), new Date(), new Integer(2) } };
-
-		// Create the scroll pane and add the table to it.
+ 
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
@@ -56,7 +54,7 @@ public class RelatorioAtivos extends JPanel {
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
 		
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
-		scrollPane.setBounds(10, 20, 780, 370);
+		scrollPane.setBounds(10, 20, 780, 320);
 
 		add(scrollPane);
 
@@ -91,7 +89,24 @@ public class RelatorioAtivos extends JPanel {
 				}
 			}
 		});
-
+	
+		
+		bt = new JButton("Gerar Relatorio");
+		bt.setBounds(10, 350, 200, 30);
+		add(bt);
+		
+		
+	bt.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+	
+		
+		
 	}
 
 	List<Object[]> CarregarLista() {

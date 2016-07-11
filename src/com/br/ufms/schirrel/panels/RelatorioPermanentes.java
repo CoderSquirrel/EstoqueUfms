@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,7 +18,6 @@ import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.tabelas.ItemPermanenteTableModel;
-import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
 public class RelatorioPermanentes extends JPanel implements ActionListener {
 	/**
@@ -27,6 +27,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 
 	private List<EntradaPermanente> entradas;
 	DAO dao;
+	private JButton btGerar;
 	private JTable EntradaTable;
 	@SuppressWarnings("unused")
 	private Usuario USUARIO_LOGADO;
@@ -53,7 +54,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
 
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
-		scrollPane.setBounds(10, 20, 780, 370);
+		scrollPane.setBounds(10, 20, 780, 320);
 
 		add(scrollPane);
 		
@@ -70,6 +71,13 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		    }
 		});
 
+		
+		btGerar = new JButton("Gerar Relatorio");
+		btGerar.setBounds(10, 350, 200, 30);
+		add(btGerar);
+		
+		
+		btGerar.addActionListener(this);
 	}
 
 	List<Object[]> CarregarLista() {
@@ -89,7 +97,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 			objs[6] = entradas.get(i).getPatrimonio();
 			objs[7] = entradas.get(i).getEstadoString();
 			objs[8] = entradas.get(i).getObs();
-	
+
 			objetos.add(objs);
 		}
 		return objetos;
@@ -106,7 +114,8 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
+		// TODO Auto-generated method stub
+		
 	}
 
 }

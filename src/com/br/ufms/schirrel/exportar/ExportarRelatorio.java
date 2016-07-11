@@ -26,6 +26,7 @@ import com.br.ufms.schirrel.classes.SaidaView;
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
@@ -102,6 +103,14 @@ public class ExportarRelatorio {
 
 		estilo3.setBorderBottom(CellStyle.BORDER_THIN);
 		estilos.add(estilo3);
+
+	}
+
+	public void GerarRelatorioAtivoConsumo(List<Entrada> entradas) {
+
+	}
+
+	public void GerarRelatorioInativoConsumo(List<Entrada> entradas) {
 
 	}
 
@@ -347,6 +356,7 @@ public class ExportarRelatorio {
 	}
 
 	public boolean GerarRelatorioTotalDeEntradda(List<EntradaView> entradasList) {
+		preencherEstilos();
 		String tituloString = "Relatório da Entrada de Material de Consumo por Total";
 		try {
 			String colunasNomes[] = { "Item", "Fabricante", "Data de Fabricação", "Data de Validade", "Qtd" };
@@ -436,6 +446,7 @@ public class ExportarRelatorio {
 
 		// We will create output PDF document objects at this point
 		Document iText_xls_2_pdf = new Document();
+		iText_xls_2_pdf.setPageSize(PageSize.A4.rotate());
 		PdfWriter.getInstance(iText_xls_2_pdf, new FileOutputStream(name + ".pdf"));
 		iText_xls_2_pdf.open();
 		// we have two columns in the Excel sheet, so we create a PDF table with

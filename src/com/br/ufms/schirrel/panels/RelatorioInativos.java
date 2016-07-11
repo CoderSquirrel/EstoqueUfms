@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
@@ -26,6 +28,7 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 	private List<Entrada> entradas;
 	DAO dao;
 	private JTable EntradaTable;
+	private JButton btGerar, btNova;
 
 	public RelatorioInativos(DAO D) {
 		dao = D;
@@ -33,6 +36,18 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
+
+		btNova = new JButton("Nova Entrada");
+		btNova.setBounds(220, 340, 200, 30);
+		btNova.addActionListener(this);
+		btNova.setEnabled(false);
+		add(btNova);
+	
+		btGerar = new JButton("Gerar Relatorio");
+		btGerar.setBounds(10, 340, 200, 30);
+		add(btGerar);
+		
+		
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
@@ -49,12 +64,18 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 20, 780, 300);
 
+		EntradaTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				btNova.setEnabled(true);
+			}
+		});
+		
+		
 		add(scrollPane);
 
-		JButton btNova = new JButton("Nova Entrada");
-		btNova.setBounds(300, 340, 200, 30);
-		btNova.addActionListener(this);
-		add(btNova);
+		
 	}
 
 	List<Object[]> CarregarLista() {
@@ -74,6 +95,8 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 			objs[7] = entradas.get(i).getRetirada();
 			objetos.add(objs);
 		}
+			btGerar.setEnabled(!(objetos.size() == 0));
+			btNova.setEnabled(false);
 		return objetos;
 	}
 
@@ -88,10 +111,13 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int qtd = Integer.parseInt(JOptionPane.showInputDialog("Quantidade: "));
-		entradas.get(EntradaTable.getSelectedRow()).setQtd(qtd);
-		dao.NovaEntrada(entradas.get(EntradaTable.getSelectedRow()));
-		PreencherTabela();
+
+		if (e.getSource() == btNova) {
+			int qtd = Integer.parseInt(JOptionPane.showInputDialog("Quantidade: "));
+			entradas.get(EntradaTable.getSelectedRow()).setQtd(qtd);
+			dao.NovaEntrada(entradas.get(EntradaTable.getSelectedRow()));
+			PreencherTabela();
+		}
 	}
 
 	@Override
