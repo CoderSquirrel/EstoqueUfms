@@ -21,6 +21,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.util.CellRangeAddress;
 
 import com.br.ufms.schirrel.classes.Entrada;
+import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.EntradaView;
 import com.br.ufms.schirrel.classes.SaidaView;
 import com.itextpdf.text.BaseColor;
@@ -86,6 +87,7 @@ public class ExportarRelatorio {
 
 		Font fonte3 = workbook.createFont();
 		fonte3.setFontHeightInPoints((short) 10);
+		fonte3.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		estilo2.setBorderRight(CellStyle.BORDER_THIN);
 		estilo2.setBorderLeft(CellStyle.BORDER_THIN);
 		estilo2.setBorderTop(CellStyle.BORDER_THIN);
@@ -106,13 +108,180 @@ public class ExportarRelatorio {
 
 	}
 
-	public void GerarRelatorioAtivoConsumo(List<Entrada> entradas) {
+	public boolean GerarRelatorioConsumo(List<Entrada> entradas, String TITULO, String arquivoNome) {
+		String colunasNomes[] = { "Item", "Unidade", "Fabricante", "Data de Validade", "Data de Entrada",
+				"Qtd Recebida", "Qtd Retirada" };
+		int colunasWidth[] = { 10000, 10000, 10000, 5000, 5000, 5000, 5000 };
+		String tituloString = TITULO;
+		sheet = workbook.createSheet("RelatorioMdCPorDatas");
+		preencherEstilos();
+		Row titulo = sheet.createRow(0);
+		Cell primeira = titulo.createCell(0);
+		primeira.setCellValue(tituloString);
+		primeira.setCellStyle(estilos.get(0));
+		sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 6));
 
+		Row cabecalho = sheet.createRow(CABECALHO_INDEX);
+		Cell colunas[] = new Cell[7];
+
+		for (int i = 0; i < colunas.length; i++) {
+			colunas[i] = cabecalho.createCell(i);
+			colunas[i].setCellValue(colunasNomes[i]);
+			colunas[i].setCellStyle(estilos.get(2));
+			sheet.setColumnWidth(i, colunasWidth[i]);
+		}
+
+		format.setLenient(false);
+
+		Cell c1, c2, c3, c4, c5, c6, c7;
+		for (int r = CABECALHO_INDEX + 1, i = 0; i < entradas.size(); r++, i++) {
+			Row nova = sheet.createRow(r);
+			c1 = nova.createCell(0);
+			c1.setCellValue(entradas.get(i).getItem().getItem());
+			c2 = nova.createCell(1);
+			c2.setCellValue(entradas.get(i).getUnidade().getUnidade());
+			c3 = nova.createCell(2);
+			c3.setCellValue(entradas.get(i).getFabricante().getFabricante());
+			c4 = nova.createCell(3);
+			c4.setCellValue(format.format(entradas.get(i).getDataValidade()));
+			c5 = nova.createCell(4);
+			c5.setCellValue(format.format(entradas.get(i).getDataEntrada()));
+			c6 = nova.createCell(5);
+			c6.setCellValue(entradas.get(i).getQtd());
+			c7 = nova.createCell(6);
+			c7.setCellValue(entradas.get(i).getRetirada());
+
+			c1.setCellStyle(estilos.get(3));
+			c2.setCellStyle(estilos.get(3));
+			c3.setCellStyle(estilos.get(3));
+			c4.setCellStyle(estilos.get(3));
+			c5.setCellStyle(estilos.get(3));
+			c6.setCellStyle(estilos.get(3));
+			c7.setCellStyle(estilos.get(3));
+		}
+
+		Row rodape = sheet.createRow(CABECALHO_INDEX + entradas.size() + 1);
+		Cell coluna = rodape.createCell(0);
+		coluna.setCellValue("Relatório Gerado em" + formatArquivo.format(new Date(System.currentTimeMillis()))
+				+ "pelo Sistema de Estoque de Laboratórios da UFMS-CPCX");
+		coluna.setCellStyle(estilos.get(1));
+		sheet.addMergedRegion(new CellRangeAddress(CABECALHO_INDEX + entradas.size() + 1,
+				CABECALHO_INDEX + entradas.size() + 2, 0, 6));
+
+		try {
+			File file = new File(arquivoNome);
+			FileOutputStream out = new FileOutputStream(file, false);
+			workbook.write(out);
+			out.flush();
+			out.close();
+			if (file.length() != 0) {
+				System.out.println(arquivoNome.replace(".xls", ""));
+				xls2pdf(file, arquivoNome.replace(".xls", ""), tituloString, colunasNomes.length);
+			} else {
+				return false;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+return true;
 	}
 
-	public void GerarRelatorioInativoConsumo(List<Entrada> entradas) {
+	public boolean GerarRelatorioPermanente(List<EntradaPermanente> entradas, String TITULO, String arquivoNome) {
+		String colunasNomes[] = { "Item", "Descrição", "Entrada", "Qtd", "Dep",
+				"Lab", "Patrimonio", "Estado", "OBS" };
+		int colunasWidth[] = { 10000, 10000, 10000, 2000, 2000, 2000, 5000,2000,10000  };
+		String tituloString = TITULO;
+		sheet = workbook.createSheet("RelatorioMdCPorDatas");
+		preencherEstilos();
+		Row titulo = sheet.createRow(0);
+		Cell primeira = titulo.createCell(0);
+		primeira.setCellValue(tituloString);
+		primeira.setCellStyle(estilos.get(0));
+		sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, colunasNomes.length-1));
+		Row cabecalho = sheet.createRow(CABECALHO_INDEX);
+		Cell colunas[] = new Cell[colunasNomes.length];
+		for (int i = 0; i < colunas.length; i++) {
+			colunas[i] = cabecalho.createCell(i);
+			colunas[i].setCellValue(colunasNomes[i]);
+			colunas[i].setCellStyle(estilos.get(2));
+			sheet.setColumnWidth(i, colunasWidth[i]);
+		}
+		format.setLenient(false);
+		Cell c1, c2, c3, c4, c5, c6, c7, c8, c9;
+		for (int r = CABECALHO_INDEX + 1, i = 0; i < entradas.size(); r++, i++) {
+			Row nova = sheet.createRow(r);
+			c1 = nova.createCell(0);
+			c1.setCellValue(entradas.get(i).getItem().getItem());
+			c2 = nova.createCell(1);
+			c2.setCellValue(entradas.get(i).getDescricao());
+			c3 = nova.createCell(2);
+			c3.setCellValue(format.format(entradas.get(i).getDataEntrada()));
+			c4 = nova.createCell(3);
+			c4.setCellValue(entradas.get(i).getQtd());
+			c5 = nova.createCell(4);
+			c5.setCellValue(entradas.get(i).getDeposito());
+			c6 = nova.createCell(5);
+			c6.setCellValue(entradas.get(i).getLaboratorio());
+			c7 = nova.createCell(6);
+			c7.setCellValue(entradas.get(i).getPatrimonio());
+			c8 = nova.createCell(7);
+			c8.setCellValue(entradas.get(i).getEstadoString());
+			c9 = nova.createCell(8);
+			c9.setCellValue(entradas.get(i).getObs());
 
+			c1.setCellStyle(estilos.get(3));
+			c2.setCellStyle(estilos.get(3));
+			c3.setCellStyle(estilos.get(3));
+			c4.setCellStyle(estilos.get(3));
+			c5.setCellStyle(estilos.get(3));
+			c6.setCellStyle(estilos.get(3));
+			c7.setCellStyle(estilos.get(3));
+			c8.setCellStyle(estilos.get(3));
+			c9.setCellStyle(estilos.get(3));
+		}
+
+		Row rodape = sheet.createRow(CABECALHO_INDEX + entradas.size() + 1);
+		Cell coluna = rodape.createCell(0);
+		coluna.setCellValue("Relatório Gerado em" + formatArquivo.format(new Date(System.currentTimeMillis()))
+				+ "pelo Sistema de Estoque de Laboratórios da UFMS-CPCX");
+		coluna.setCellStyle(estilos.get(1));
+		sheet.addMergedRegion(new CellRangeAddress(CABECALHO_INDEX + entradas.size() + 1,
+				CABECALHO_INDEX + entradas.size() + 2, 0, colunasNomes.length-1));
+
+		try {
+			File file = new File(arquivoNome);
+			FileOutputStream out = new FileOutputStream(file, false);
+			workbook.write(out);
+			out.flush();
+			out.close();
+			if (file.length() != 0) {
+				System.out.println(arquivoNome.replace(".xls", ""));
+				xls2pdf(file, arquivoNome.replace(".xls", ""), tituloString, colunasNomes.length);
+			} else {
+				return false;
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+return true;
 	}
+
 
 	public void GerarRelatorioDatasDeEntrada(List<Entrada> entradas, String dataIni, String dataFinal) {
 		String colunasNomes[] = { "Item", "Unidade", "Fabricante", "Data de Validade", "Data de Entrada",

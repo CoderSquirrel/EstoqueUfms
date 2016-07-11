@@ -108,7 +108,6 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		        Point p = me.getPoint();
 		        int row = table.rowAtPoint(p);
 		        if (me.getClickCount() == 2) {
-		        	System.out.println("aqui");
 		        	new MostrarInfoPermanente(entradas.get(row));
 		        	
 		        }

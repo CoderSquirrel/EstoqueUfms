@@ -1,6 +1,7 @@
 package com.br.ufms.schirrel.panels;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -30,8 +31,8 @@ import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.tabelas.ItemTableModel;
+import com.br.ufms.schirrel.tabelas.MyDefaultModel;
 import com.br.ufms.schirrel.tabelas.SaidaTableModel;
-import com.itextpdf.text.DocumentException;
 
 public class BuscaConsumo extends JPanel implements ActionListener {
 	/**
@@ -39,7 +40,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField tf_DataInicial, tf_DataFinal;
-	private JButton btBuscarData, btBuscarNome, btBuscarRetirada;
+	private JButton btBuscarData, btGerarD, btBuscarNome, btBuscarRetirada;
 	private List<Entrada> entradas;
 	private List<SaidaView> saidas;
 	DAO dao;
@@ -51,8 +52,10 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 			Month.JULY, Month.AUGUST, Month.SEPTEMBER, Month.OCTOBER, Month.NOVEMBER, Month.DECEMBER };
 	private JTextField tf_nome;
 
+	JScrollPane scrollPane;
 	JPanel PanelBusca;
-ExportarRelatorio EXPORTAR;
+	ExportarRelatorio EXPORTAR;
+
 	public BuscaConsumo(DAO D, Usuario u) {
 		EXPORTAR = new ExportarRelatorio();
 		USUARIO_LOGADO = u;
@@ -79,7 +82,6 @@ ExportarRelatorio EXPORTAR;
 			}
 		});
 
-		
 		JRadioButton rdbtnBuscaPorRetirada = new JRadioButton("Busca Por Data de Retirada");
 		rdbtnBuscaPorRetirada.setBounds(400, 15, 249, 23);
 		add(rdbtnBuscaPorRetirada);
@@ -88,17 +90,16 @@ ExportarRelatorio EXPORTAR;
 				PanelBuscaPorDataRetirada();
 			}
 		});
-		
+
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnBuscaPorNome);
 		group.add(rdbtnBuscaPorData);
 		group.add(rdbtnBuscaPorRetirada);
-		
 
 		rdbtnBuscaPorNome.setSelected(true);
 
 		PanelBusca = new JPanel();
-		PanelBusca.setBounds(12, 40, 774, 124);
+		PanelBusca.setBounds(12, 40, 774, 80);
 		add(PanelBusca);
 	}
 
@@ -118,15 +119,13 @@ ExportarRelatorio EXPORTAR;
 		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
 
-		JScrollPane scrollPane = new JScrollPane(EntradaTable);
-		scrollPane.setBounds(10, 120, 780, 200);
+		scrollPane = new JScrollPane(EntradaTable);
+		scrollPane.setBounds(10, 120, 780, 300);
 
 		add(scrollPane);
 
 	}
 
-	
-	
 	void IniciarTableSaida() {
 
 		List<Object[]> a = CarregarListaSaida();
@@ -139,19 +138,16 @@ ExportarRelatorio EXPORTAR;
 		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(3).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(4).setPreferredWidth(50);
-		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15); 	
+		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(10);
 
-
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
-		scrollPane.setBounds(10, 120, 780, 200);
+		scrollPane.setBounds(10, 120, 780, 270);
 
 		add(scrollPane);
 
 	}
 
-	
-	
 	List<Object[]> CarregarLista() {
 		// entradas = dao.ListarEntradasAtivas();
 		Object[] objs;
@@ -173,7 +169,6 @@ ExportarRelatorio EXPORTAR;
 
 	}
 
-	
 	List<Object[]> CarregarListaSaida() {
 		Object[] objs;
 		List<Object[]> objetos = new ArrayList<Object[]>();
@@ -194,25 +189,37 @@ ExportarRelatorio EXPORTAR;
 
 	}
 
-	
 	void PreencherTabela() {
 
-		ItemTableModel it = (ItemTableModel) EntradaTable.getModel();
+		for (Component c : getComponents()) {
+			if (c == scrollPane) {
+				remove(scrollPane);
+			}
+		}
 
+		ItemTableModel it = (ItemTableModel) EntradaTable.getModel();
+		EntradaTable.getTableHeader().setReorderingAllowed(false);
 		it.RemoveAll();
 		it.AddList(CarregarLista());
+		repaint();
+		PanelBusca.repaint();
 
 	}
 
 	void PreencherTabelaSaida() {
-
+		for (Component c : getComponents()) {
+			if (c == scrollPane) {
+				remove(scrollPane);
+			}
+		}
 		SaidaTableModel it = (SaidaTableModel) EntradaTable.getModel();
 
 		it.RemoveAll();
 		it.AddList(CarregarListaSaida());
-
+		repaint();
+		PanelBusca.repaint();
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -237,11 +244,12 @@ ExportarRelatorio EXPORTAR;
 				JOptionPane.showMessageDialog(this, "Data final é anterior a data inicial");
 			} else {
 				entradas = dao.ListarPorData(i, f);
-				EXPORTAR.GerarRelatorioDatasDeEntrada(entradas, tf_DataInicial.getText(), tf_DataFinal.getText());
+				// EXPORTAR.GerarRelatorioDatasDeEntrada(entradas,
+				// tf_DataInicial.getText(), tf_DataFinal.getText());
 				IniciarTable();
 			}
-		} else if(e.getSource() == btBuscarRetirada){
-			
+		} else if (e.getSource() == btBuscarRetirada) {
+
 			LocalDate date = LocalDate.of(Integer.parseInt(tf_DataInicial.getText().split("/")[2]),
 					meses[(Integer.parseInt(tf_DataInicial.getText().split("/")[1]) - 1)],
 					Integer.parseInt(tf_DataInicial.getText().split("/")[0]));
@@ -256,30 +264,31 @@ ExportarRelatorio EXPORTAR;
 			} else {
 				saidas = dao.ListarRetiradasPorData(i, f);
 				IniciarTableSaida();
-				try {
-					EXPORTAR.GerarRelatorioDatasDeSaida(saidas, tf_DataInicial.getText(), tf_DataFinal.getText());
-				} catch (DocumentException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
+				// try {
+				// //EXPORTAR.GerarRelatorioDatasDeSaida(saidas,
+				// tf_DataInicial.getText(), tf_DataFinal.getText());
+				// } catch (DocumentException e1) {
+				// // TODO Auto-generated catch block
+				// e1.printStackTrace();
+				// }
+
 			}
 		}
 
 	}
 
 	void PanelBuscaPorData() {
-		
+
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
 		formatter.setAllowsInvalid(false);
 		formatter.setOverwriteMode(true);
-
+		RemoverItensTable();
 		PanelBusca.removeAll();
-
+		PanelBusca.repaint();
 		JPanel PanelData = new JPanel();
-		PanelData.setBorder(
-				new TitledBorder(null, "Buscar Por Data de Entrada", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelData.setBorder(new TitledBorder(null, "Buscar Por Data de Entrada", TitledBorder.LEADING, TitledBorder.TOP,
+				null, null));
 		PanelData.setBounds(0, 0, 755, 75);
 		PanelBusca.add(PanelData);
 		PanelData.setLayout(null);
@@ -315,12 +324,14 @@ ExportarRelatorio EXPORTAR;
 		btBuscarData.addActionListener(this);
 		PanelData.add(btBuscarData);
 		PanelBusca.repaint();
+		repaint();
 
 	}
 
 	void PanelBuscaPorNome() {
-
+		RemoverItensTable();
 		PanelBusca.removeAll();
+		PanelBusca.repaint();
 		JPanel PanelNome = new JPanel();
 		PanelNome.setBorder(
 				new TitledBorder(null, "Busca Por Nome", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -335,23 +346,24 @@ ExportarRelatorio EXPORTAR;
 
 		btBuscarNome = new JButton("Buscar");
 		btBuscarNome.addActionListener(this);
-		btBuscarNome.setBounds(626, 25, 117, 25);
+		btBuscarNome.setBounds(626, 20, 117, 25);
 		PanelNome.add(btBuscarNome);
 		PanelBusca.repaint();
+		repaint();
 	}
-	
-	void PanelBuscaPorDataRetirada() {
 
+	void PanelBuscaPorDataRetirada() {
+		RemoverItensTable();
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
 		formatter.setAllowsInvalid(false);
 		formatter.setOverwriteMode(true);
 
 		PanelBusca.removeAll();
-
+		PanelBusca.repaint();
 		JPanel PanelRetirada = new JPanel();
-		PanelRetirada.setBorder(
-				new TitledBorder(null, "Buscar Por Data de Retirada", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelRetirada.setBorder(new TitledBorder(null, "Buscar Por Data de Retirada", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
 		PanelRetirada.setBounds(0, 0, 755, 75);
 		PanelBusca.add(PanelRetirada);
 		PanelRetirada.setLayout(null);
@@ -387,7 +399,19 @@ ExportarRelatorio EXPORTAR;
 		btBuscarRetirada.addActionListener(this);
 		PanelRetirada.add(btBuscarRetirada);
 		PanelBusca.repaint();
+		repaint();
 
 	}
 
+	void RemoverItensTable() {
+		if (EntradaTable != null) {
+			MyDefaultModel model = (MyDefaultModel) EntradaTable.getModel();
+			model.RemoveAll();
+			scrollPane.
+
+					repaint();
+			PanelBusca.repaint();
+		}
+
+	}
 }

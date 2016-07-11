@@ -8,18 +8,18 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
+import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Usuario;
+import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
 public class RelatorioAtivos extends JPanel {
@@ -32,13 +32,14 @@ public class RelatorioAtivos extends JPanel {
 	private JButton bt;
 	private JTable EntradaTable;
 	private Usuario USUARIO_LOGADO;
-
+	ExportarRelatorio EXPORTAR;
 	public RelatorioAtivos(DAO D, Usuario u) {
+		EXPORTAR = new ExportarRelatorio();
 		USUARIO_LOGADO = u;
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Itens Ativos", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
  
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemTableModel(a));
@@ -100,7 +101,15 @@ public class RelatorioAtivos extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+		
+			int op = JOptionPane.showConfirmDialog(null, "Gerar Relatorio de  Materias de Consumo Ativos?");
+			if (op == 0) {
+				if (EXPORTAR.GerarRelatorioConsumo(entradas, "Relatorio de Materiais de Consumo Ativos", "RelatorioMCAtivos.xls")) {
+					JOptionPane.showMessageDialog(null, "Relatorio Gerado Com Sucesso");
+				} else {
+					JOptionPane.showMessageDialog(null, "Problema na Geração do Relatorio");
+				}
+			} 
 			
 		}
 	});

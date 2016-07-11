@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -17,6 +18,7 @@ import javax.swing.border.TitledBorder;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
+import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.tabelas.ItemPermanenteTableModel;
 
 public class RelatorioPermanentes extends JPanel implements ActionListener {
@@ -37,7 +39,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Relatorio de Material Permanente", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
 
 		List<Object[]> a = CarregarLista();
@@ -64,7 +66,6 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		        Point p = me.getPoint();
 		        int row = table.rowAtPoint(p);
 		        if (me.getClickCount() == 2) {
-		        	System.out.println("aqui");
 		        	new MostrarInfoPermanente(entradas.get(row));
 		        	
 		        }
@@ -82,7 +83,6 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 
 	List<Object[]> CarregarLista() {
 		entradas = dao.ListarEntradasPermanentes();
-		System.out.println(entradas.size());
 		Object[] objs;
 		List<Object[]> objetos = new ArrayList<Object[]>();
 
@@ -114,7 +114,16 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		if(e.getSource() == btGerar){
+			int op = JOptionPane.showConfirmDialog(null, "Gerar Relatorio de  Materias de Consumo Ativos?");
+			if (op == 0) {
+				if (new ExportarRelatorio().GerarRelatorioPermanente(entradas, "Relatorio de Materiais de Consumo Ativos", "RelatorioMPermanente.xls")) {
+					JOptionPane.showMessageDialog(null, "Relatorio Gerado Com Sucesso");
+				} else {
+					JOptionPane.showMessageDialog(null, "Problema na Geração do Relatorio");
+				}
+			} 
+		}
 		
 	}
 

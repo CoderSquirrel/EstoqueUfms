@@ -18,6 +18,7 @@ import javax.swing.event.TableModelListener;
 
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
+import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.tabelas.ItemTableModel;
 
 public class RelatorioInativos extends JPanel implements ActionListener, TableModelListener {
@@ -34,20 +35,19 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Itens", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-
+		setBorder(new TitledBorder(null, "Itens Inativos", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
 		btNova = new JButton("Nova Entrada");
 		btNova.setBounds(220, 340, 200, 30);
 		btNova.addActionListener(this);
 		btNova.setEnabled(false);
 		add(btNova);
-	
+
 		btGerar = new JButton("Gerar Relatorio");
 		btGerar.setBounds(10, 340, 200, 30);
+		btGerar.addActionListener(this);
 		add(btGerar);
-		
-		
+
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
@@ -65,17 +65,15 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		scrollPane.setBounds(10, 20, 780, 300);
 
 		EntradaTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-			
+
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				btNova.setEnabled(true);
 			}
 		});
-		
-		
+
 		add(scrollPane);
 
-		
 	}
 
 	List<Object[]> CarregarLista() {
@@ -95,8 +93,8 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 			objs[7] = entradas.get(i).getRetirada();
 			objetos.add(objs);
 		}
-			btGerar.setEnabled(!(objetos.size() == 0));
-			btNova.setEnabled(false);
+		btGerar.setEnabled(!(objetos.size() == 0));
+		btNova.setEnabled(false);
 		return objetos;
 	}
 
@@ -117,7 +115,19 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 			entradas.get(EntradaTable.getSelectedRow()).setQtd(qtd);
 			dao.NovaEntrada(entradas.get(EntradaTable.getSelectedRow()));
 			PreencherTabela();
+		} else if (e.getSource() == btGerar) {
+			int op = JOptionPane.showConfirmDialog(null, "Gerar Relatorio de  Materias de Consumo Inativos?");
+			if (op == 0) {
+				if (new ExportarRelatorio().GerarRelatorioConsumo(entradas,
+						"Relatorio de Materiais de Consumo Inativos", "RelatorioMCInativos.xls")) {
+					JOptionPane.showMessageDialog(null, "Relatorio Gerado Com Sucesso");
+				} else {
+					JOptionPane.showMessageDialog(null, "Problema na Geração do Relatorio");
+				}
+			}
+
 		}
+
 	}
 
 	@Override
