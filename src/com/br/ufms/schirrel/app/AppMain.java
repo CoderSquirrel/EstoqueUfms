@@ -27,7 +27,6 @@ import com.br.ufms.schirrel.panels.CadastrarFabricante;
 import com.br.ufms.schirrel.panels.CadastrarItem;
 import com.br.ufms.schirrel.panels.CadastrarUnidade;
 import com.br.ufms.schirrel.panels.CadastrarUsuario;
-import com.br.ufms.schirrel.panels.EditarItem;
 import com.br.ufms.schirrel.panels.NovaEntrada;
 import com.br.ufms.schirrel.panels.NovaEntradaPermanente;
 import com.br.ufms.schirrel.panels.RelatorioAtivos;
@@ -38,7 +37,7 @@ public class AppMain extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros, menuBuscar;
-	private JMenuItem mieEntrada, mieEntradaPermanente, mieCadastrarItem, mieEditar, mieCadastrarUnidade,
+	private JMenuItem mieEntrada, mieEntradaPermanente, mieCadastrarItem, mieCadastrarUnidade,
 			mieCadastrarFabricante, mirAtivo, mirInativo, mirPermanente, mirMaisEntradas, mirMaisSaida,
 			mieCadastrarUsuario, mibPermanente, mibConsumo;
 	private DAO dao;
@@ -60,17 +59,7 @@ public class AppMain extends JFrame implements ActionListener {
 		setResizable(false);
 		initializeMenu();
 		setVisible(true);
-		// try {
-		// for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		// if ("Nimbus".equals(info.getName())) {
-		// UIManager.setLookAndFeel(info.getClassName());
-		// break;
-		// }
-		// }
-		// } catch (Exception e) {
-		// // If Nimbus is not available, you can set the GUI to another look
-		// and feel.
-		// }
+
 
 	}
 
@@ -84,9 +73,8 @@ public class AppMain extends JFrame implements ActionListener {
 		menuBuscar = new JMenu("Busca");
 
 		mieCadastrarItem = new JMenuItem("Cadastrar Item");
-		mieEditar = new JMenuItem("Editar Item");
-		mieEntrada = new JMenuItem("Entrada de Item");
-		mieEntradaPermanente = new JMenuItem("Entrada de Item Permanente");
+		mieEntrada = new JMenuItem("Entrada de Material de Consumo");
+		mieEntradaPermanente = new JMenuItem("Entrada de Material Permanente");
 		mieCadastrarUnidade = new JMenuItem("Cadastrar Unidade");
 		mieCadastrarFabricante = new JMenuItem("Cadastrar Fabricante");
 		mieCadastrarUsuario = new JMenuItem("Cadastrar Usuario");
@@ -100,7 +88,6 @@ public class AppMain extends JFrame implements ActionListener {
 		mibConsumo = new JMenuItem("Material de Consumo");
 
 		mieCadastrarItem.addActionListener(this);
-		mieEditar.addActionListener(this);
 		mieEntrada.addActionListener(this);
 		mieEntradaPermanente.addActionListener(this);
 		mieCadastrarUnidade.addActionListener(this);
@@ -111,8 +98,6 @@ public class AppMain extends JFrame implements ActionListener {
 		menuCadastros.add(mieCadastrarFabricante);
 		menuCadastros.add(mieCadastrarUnidade);
 		menuCadastros.add(mieCadastrarUsuario);
-		menuCadastros.addSeparator();
-		// menuCadastros.add(mieEditar);
 
 		menuEstoque.add(mieEntrada);
 		menuEstoque.add(mieEntradaPermanente);
@@ -122,8 +107,7 @@ public class AppMain extends JFrame implements ActionListener {
 		menuRelatorio.addSeparator();
 		menuRelatorio.add(mirMaisEntradas);
 		menuRelatorio.add(mirMaisSaida);
-		// menuRelatorio.add(mirDataAnteriores);
-
+	
 		menuBuscar.add(mibConsumo);
 
 		menuBuscar.addSeparator();
@@ -141,9 +125,6 @@ public class AppMain extends JFrame implements ActionListener {
 		mirMaisSaida.addActionListener(this);
 		mirMaisEntradas.addActionListener(this);
 
-		// getContentPane().add(new RelatorioAtivos(dao, USUARIO_LOGADO));
-		// getContentPane().add(new BuscaConsumo(dao, USUARIO_LOGADO));
-
 		Elementos();
 	}
 
@@ -153,12 +134,6 @@ public class AppMain extends JFrame implements ActionListener {
 			getContentPane().removeAll();
 			Elementos();
 			getContentPane().add(new CadastrarItem(dao));
-			getContentPane().revalidate();
-			getContentPane().repaint();
-		} else if (e.getSource() == mieEditar) {
-			getContentPane().removeAll();
-			Elementos();
-			getContentPane().add(new EditarItem(dao));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} else if (e.getSource() == mieEntrada) {

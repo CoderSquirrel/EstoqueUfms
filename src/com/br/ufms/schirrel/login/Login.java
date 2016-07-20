@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.app.AppMain;
@@ -58,6 +60,17 @@ public class Login implements KeyListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		try {
+		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		 if ("Nimbus".equals(info.getName())) {
+		 UIManager.setLookAndFeel(info.getClassName());
+		 break;
+		 }
+		 }
+		 } catch (Exception e) {
+
+		}
+		
 		frame = new JFrame("Estoque");
 		frame.setBounds(100, 100, 300, 220);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
