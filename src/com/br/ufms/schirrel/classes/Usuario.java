@@ -12,6 +12,12 @@ public class Usuario{
 		usuario = u;
 		registro = r;
 		senha = s;
+	}	
+	public Usuario(int i, String u, long r) {
+		id = i;
+		usuario = u;
+		registro = r;
+	
 	}
 	public String getUsuario() {
 		return usuario;

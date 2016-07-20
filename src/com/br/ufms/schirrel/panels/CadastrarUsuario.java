@@ -23,7 +23,6 @@ public class CadastrarUsuario extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField tfUsuario, tfRegistro;
-	private JPasswordField pfSenha, pfConfirmacao;
 	private JButton btCadastrar;
 	private JLabel lblStatus;
 	DAO dao;
@@ -63,24 +62,6 @@ public class CadastrarUsuario extends JPanel implements ActionListener {
 		add(tfRegistro);
 		tfRegistro.setColumns(10);
 
-		JLabel lblSenha = new JLabel("Senha: ");
-		lblSenha.setBounds(10, 110, 140, 20);
-		lblSenha.setFont(new Font("Arial", Font.BOLD, 18));
-		add(lblSenha);
-
-		pfSenha = new JPasswordField();
-		pfSenha.setBounds(160, 110, 150, 25);
-		add(pfSenha);
-
-		JLabel lblConfirmacao = new JLabel("Confirmacao: ");
-		lblConfirmacao.setBounds(10, 150, 140, 20);
-		lblConfirmacao.setFont(new Font("Arial", Font.BOLD, 18));
-		add(lblConfirmacao);
-
-		pfConfirmacao = new JPasswordField();
-		pfConfirmacao.setBounds(160, 150, 150, 25);
-		add(pfConfirmacao);
-
 		lblStatus = new JLabel("");
 		lblStatus.setBounds(100, 230, 600, 20);
 		lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
@@ -100,18 +81,13 @@ public class CadastrarUsuario extends JPanel implements ActionListener {
 		try {
 			
 			
-			if (EmBranco(tfRegistro) || EmBranco(tfUsuario) || EmBranco(pfConfirmacao)|| EmBranco(pfSenha)) {
+			if (EmBranco(tfRegistro) || EmBranco(tfUsuario)) {
 				lblStatus.setText("Existe campo em branco.");
-			} else if (!pfConfirmacao.getText().toString().trim().equals(pfSenha.getText().toString().trim())){
-			lblStatus.setText("Senhas não identicas.");
-			}else {
-				
-				if (dao.CadastrarUsuario(tfUsuario.getText().trim(), Long.parseLong(tfRegistro.getText().trim()),
-						pfSenha.getText().trim()) != null) {
+			} else {
+			if (dao.CadastrarUsuario(tfUsuario.getText().trim(), Long.parseLong(tfRegistro.getText().trim())).getId()!=0) {
 					 tfUsuario.setText("");
 					 tfRegistro.setText("");
-					 pfSenha.setText("");
-					 pfConfirmacao.setText("");
+					
 					lblStatus.setText("Usuario Cadastrado");
 				}
 			}

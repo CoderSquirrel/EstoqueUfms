@@ -284,16 +284,17 @@ public class AppMain extends JFrame implements ActionListener {
 		getContentPane().add(label);
 
 		JPanel PanelInferior = new JPanel();
+		PanelInferior.setLayout(null);
 		PanelInferior.setBounds(0, 460, 798, 90);
 		PanelInferior.setBorder(
 				new TitledBorder(null, "Desenvolvimento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 		JLabel UFMS = new JLabel("");
-		UFMS.setIcon(new ImageIcon(getClass().getResource("/img/ufms_p.png")));
-		UFMS.setBounds(0, 0, 122, 58);
+		UFMS.setIcon(new ImageIcon(getClass().getResource("/img/rodape.png")));
+		UFMS.setBounds(0, 0, 798, 90);
 		PanelInferior.add(UFMS);
 
-		JLabel CPCX = new JLabel("");
+	/*	JLabel CPCX = new JLabel("");
 		CPCX.setBounds(300, 0, 256, 122);
 		CPCX.setIcon(new ImageIcon(getClass().getResource("/img/cpcx.png")));
 		CPCX.setFont(new Font("Arial", Font.PLAIN, 25));
@@ -304,7 +305,7 @@ public class AppMain extends JFrame implements ActionListener {
 		SI.setIcon(new ImageIcon(getClass().getResource("/img/si_p.png")));
 		SI.setFont(new Font("Arial", Font.PLAIN, 25));
 		PanelInferior.add(SI);
-
+*/
 		getContentPane().add(PanelInferior);
 
 		getContentPane().add(PanelUsuario);

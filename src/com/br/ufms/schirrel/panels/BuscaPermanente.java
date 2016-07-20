@@ -76,7 +76,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		rdbtnBuscaPorNome.setSelected(true);
 
 		PanelBusca = new JPanel();
-		PanelBusca.setBounds(12, 40, 774, 124);
+		PanelBusca.setBounds(12, 40, 774, 75);
 		add(PanelBusca);
 	}
 

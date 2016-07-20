@@ -279,23 +279,23 @@ public class DAO {
 	/*
 	 * CRUD USUARIO
 	 */
-	public Usuario CadastrarUsuario(String usuario, long registro, String senha) throws SQLException {
+	public Usuario CadastrarUsuario(String usuario, long registro) throws SQLException {
 		StringBuilder query = new StringBuilder();
 		query.append("  INSERT INTO TB_USUARIOS  ");
-		query.append("  (usuario, registro, senha) ");
-		query.append("  VALUES (? , ? , ?) ");
+		query.append("  (usuario, registro) ");
+		query.append("  VALUES (? , ? ) ");
 		PreparedStatement st = conn.prepareStatement(query.toString(), PreparedStatement.RETURN_GENERATED_KEYS);
 		Usuario cadastrado = null;
 		try {
 
 			st.setString(1, usuario);
 			st.setLong(2, registro);
-			st.setString(3, senha);
+			
 			st.executeUpdate();
 			ResultSet rs = st.getGeneratedKeys();
 
 			if (rs.next()) {
-				cadastrado = new Usuario(rs.getInt(1), usuario, registro, senha);
+				cadastrado = new Usuario(rs.getInt(1), usuario, registro);
 			}
 			conn.commit();
 			st.close();
@@ -847,8 +847,8 @@ public class DAO {
 
 	public List<EntradaPermanente> ListarPermanentePorPatrimonio(String patrimonio) {
 		List<EntradaPermanente> entradas = new ArrayList<EntradaPermanente>();
-		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE patrimonio like '%"
-				+ patrimonio + "%' ";
+		String query = "SELECT e.id_permanente, item_id, item, descricao, entrada, qtd, deposito, laboratorio, obs, patrimonio, estado FROM TB_PERMANENTES e INNER JOIN TB_ITENS i on e.item_id = i.id_item WHERE patrimonio like '"
+				+ patrimonio + "' ";
 
 		try {
 			PreparedStatement st = conn.prepareStatement(query);
