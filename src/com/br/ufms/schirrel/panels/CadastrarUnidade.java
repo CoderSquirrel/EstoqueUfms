@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 
 public class CadastrarUnidade extends JPanel implements ActionListener {
@@ -47,7 +48,7 @@ public class CadastrarUnidade extends JPanel implements ActionListener {
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblStatus);
 
-		btCadastrar = new JButton("Cadastrar");
+		btCadastrar = new EUButton("Cadastrar");
 		btCadastrar.setBounds(160, 70, 150, 30);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);

@@ -24,6 +24,7 @@ import javax.swing.text.AbstractDocument;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DocumentFilter;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.EntradaPermanente.Estado;
@@ -60,6 +61,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		panelEntrada.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Entrada",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelEntrada.setBounds(10, 155, 153, 55);
+		panelEntrada.setLayout(null);
 		add(panelEntrada);
 
 		JPanel panelDeposito = new JPanel();
@@ -73,6 +75,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		add(panelLaboratorio);
 
 		JPanel panelQuantidade = new JPanel();
+		panelQuantidade.setLayout(null);
 		panelQuantidade.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Quantidade",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelQuantidade.setBounds(363, 155, 153, 55);
@@ -119,7 +122,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		formatter.setOverwriteMode(true);
 
 		tfDataEntrada = new JFormattedTextField(formatter);
-		tfDataEntrada.setBounds(0, 0, 90, 40);
+		tfDataEntrada.setBounds(15, 17, 110, 30);
 		tfDataEntrada.setFont(new Font("Arial", Font.BOLD, 14));
 		panelEntrada.add(tfDataEntrada);
 		tfDataEntrada.setValue(new Date());
@@ -128,7 +131,7 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		tfQtd = new JTextField();
 		AbstractDocument document = (AbstractDocument) tfQtd.getDocument();
 		document.setDocumentFilter(filter);
-		tfQtd.setBounds(0, 0, 100, 40);
+		tfQtd.setBounds(33, 18, 90, 30);
 		panelQuantidade.add(tfQtd);
 
 		tfQtd.setColumns(10);
@@ -139,23 +142,39 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 		add(lblItem);
 
 		taObs = new JTextArea();
-		taObs.setBounds(10, 225, 760, 105);
+		taObs.setBounds(7, 15, 745, 77);
 		taObs.setLineWrap(true);
 		taObs.setWrapStyleWord(true);
-		taObs.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Obs", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
-		add(taObs);
+			taObs.setOpaque(true);
+		JPanel panelObs = new JPanel();
+		panelObs.setLayout(null);
+		panelObs.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Obs", TitledBorder.LEADING,
+					TitledBorder.TOP, null, null));
+		panelObs.setBounds(10, 225, 760, 100);
+		add(panelObs);
+		
+		panelObs.add(taObs);
+		//add(taObs);
 
 		
 		taDescricao = new JTextArea();
-		taDescricao.setBounds(10, 60, 760, 80);
+		taDescricao.setBounds(7, 15, 745, 67);
 		taDescricao.setLineWrap(true);
 		taDescricao.setWrapStyleWord(true);
-		taDescricao.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Descrição", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
-		add(taDescricao);
+		//taDescricao
 		
-		btCadastrar = new JButton("Salvar");
+		
+		JPanel panelDescricao = new JPanel();
+		panelDescricao.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Descrição", TitledBorder.LEADING,
+				TitledBorder.TOP, null, null));
+		panelDescricao.setLayout(null);
+		panelDescricao.setBounds(10, 60, 760, 90);
+		add(panelDescricao);
+		
+		panelDescricao.add(taDescricao);
+		
+		
+		btCadastrar = new EUButton("Salvar");
 		btCadastrar.setBounds(10, 340, 100, 30);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);

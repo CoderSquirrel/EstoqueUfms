@@ -1,6 +1,8 @@
 package com.br.ufms.schirrel.login;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,10 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.TitledBorder;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.app.AppMain;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Usuario;
@@ -60,19 +61,19 @@ public class Login implements KeyListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		try {
-		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		 if ("Nimbus".equals(info.getName())) {
-		 UIManager.setLookAndFeel(info.getClassName());
-		 break;
-		 }
-		 }
-		 } catch (Exception e) {
-
-		}
+//		try {
+//		for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//		 if ("Nimbus".equals(info.getName())) {
+//		 UIManager.setLookAndFeel(info.getClassName());
+//		 break;
+//		 }
+//		 }
+//		 } catch (Exception e) {
+//
+//		}
 		
 		frame = new JFrame("Estoque");
-		frame.setBounds(100, 100, 300, 220);
+		frame.setBounds(100, 100, 300, 200);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 		frame.getContentPane().setLayout(null);
@@ -90,19 +91,22 @@ public class Login implements KeyListener {
 		tfUsuario.setBounds(95, 29, 150, 25);
 		tfUsuario.addKeyListener(this);
 		PanelUsuario.add(tfUsuario);
+		
+		lblMsg = new JLabel("");
+		lblMsg.setBounds(20, 60, 260, 25);
+		lblMsg.setHorizontalAlignment(SwingConstants.CENTER);
+		//frame.getContentPane().add(lblMsg);
+		PanelUsuario.add(lblMsg);
+		
+		
 
-//		JLabel lblSenha = new JLabel("Senha: ");
-//		lblSenha.setBounds(20, 60, 70, 15);
-//		PanelUsuario.add(lblSenha);
-//
-//		pfSenha = new JPasswordField();
-//		pfSenha.setBounds(95, 60, 150, 25);
-//		pfSenha.addKeyListener(this);
-//		PanelUsuario.add(pfSenha);
-
-		btEntrar = new JButton("Entrar");
+		btEntrar = new EUButton("Entrar");
 		btEntrar.setBounds(100, 130, 100, 25);
 		frame.getContentPane().add(btEntrar);
+		
+	       
+	        
+	        
 		btEntrar.addActionListener(new ActionListener() {
 
 			@Override
@@ -112,10 +116,6 @@ public class Login implements KeyListener {
 			}
 		});
 
-		lblMsg = new JLabel("");
-		lblMsg.setBounds(20, 155, 260, 25);
-		lblMsg.setHorizontalAlignment(SwingConstants.CENTER);
-		frame.getContentPane().add(lblMsg);
 
 	}
 

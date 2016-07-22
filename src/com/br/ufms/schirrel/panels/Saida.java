@@ -9,11 +9,11 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Fabricante;
 import com.br.ufms.schirrel.classes.Item;
@@ -106,7 +106,7 @@ public class Saida extends JPanel implements ActionListener {
 		
 		
 	
-		btCadastrar = new JButton("Salvar");
+		btCadastrar = new EUButton("Salvar");
 		btCadastrar.setBounds(10, 190, 100, 30);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);

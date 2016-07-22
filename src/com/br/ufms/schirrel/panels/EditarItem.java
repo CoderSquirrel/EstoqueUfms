@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 
 public class EditarItem extends JPanel implements ActionListener {
@@ -49,11 +50,11 @@ public class EditarItem extends JPanel implements ActionListener {
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblStatus);
 
-		btEditar = new JButton("Editar");
+		btEditar = new EUButton("Editar");
 		btEditar.setBounds(160, 140, 100, 30);
 		add(btEditar);
 		
-		btExcluir = new JButton("Exluir");
+		btExcluir = new EUButton("Exluir");
 		btExcluir.setBounds(280, 140, 100, 30);
 		add(btExcluir);
 

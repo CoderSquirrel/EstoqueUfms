@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 
 public class MostrarInfoPermanente extends JFrame {
@@ -117,7 +118,7 @@ public class MostrarInfoPermanente extends JFrame {
 		lblEstado.setBounds(12, 12, 134, 25);
 		panelEstado.add(lblEstado);
 
-		JButton btOk = new JButton("OK");
+		JButton btOk = new EUButton("OK");
 		btOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}

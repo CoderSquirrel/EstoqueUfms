@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
@@ -73,7 +74,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		});
 
 		
-		btGerar = new JButton("Gerar Relatorio");
+		btGerar = new EUButton("Gerar Relatorio");
 		btGerar.setBounds(10, 350, 200, 30);
 		add(btGerar);
 		

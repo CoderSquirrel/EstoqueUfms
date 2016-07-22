@@ -14,15 +14,20 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DocumentFilter;
 
+import com.br.ufms.schirrel.UI.ColorArrowUI;
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.Fabricante;
@@ -53,6 +58,7 @@ public class NovaEntrada extends JPanel implements ActionListener {
 		USUARIO_LOGADO = u;
 		setBounds(0, 60, 800, 280);
 		setLayout(null);
+		//setBackground(Color.WHITE);
 		setBorder(new TitledBorder(null, "Entrada de Item", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
 		JPanel panelFabricacao = new JPanel();
@@ -74,8 +80,22 @@ public class NovaEntrada extends JPanel implements ActionListener {
 		add(panelValidade);
 
 		cbItens = new JComboBox<>(dao.ListarItens());
-		cbItens.setBounds(50, 22, 350, 26);
+		cbItens.setBounds(55, 22, 350, 26);
 		cbItens.setFont(new Font("Arial", Font.BOLD, 14));
+//		cbItens.setBackground(Color.WHITE);
+//		cbItens.setForeground(new Color(24, 135, 180));
+//		cbItens.setBorder(new LineBorder(new Color(24, 135, 180)));
+//		UIManager.put("ScrollBar.thumbHighlight", new Color(24, 135, 180));         
+//		UIManager.put("ScrollBar.thumbDarkShadow", Color.WHITE); 
+//		UIManager.put("ScrollBar.highlight", Color.WHITE); 
+//		UIManager.put("ScrollBar.trackHighlight", new Color(24, 135, 180));
+//		//cbItens.setFocusPainted(false);
+//		cbItens.setUI(ColorArrowUI.createUI(cbItens));
+//		Object child = cbItens.getAccessibleContext().getAccessibleChild(0);
+//		BasicComboPopup popup = (BasicComboPopup)child;
+//		JList list = popup.getList();
+//		list.setSelectionBackground(new Color(24, 135, 180));
+//		list.setSelectionForeground(Color.WHITE);
 		add(cbItens);
 
 		cbUnidades = new JComboBox<>(dao.ListarUnidades());
@@ -142,7 +162,7 @@ public class NovaEntrada extends JPanel implements ActionListener {
 		lblUnidade.setFont(new Font("Arial", Font.BOLD, 14));
 		add(lblUnidade);
 
-		btCadastrar = new JButton("Salvar");
+		btCadastrar = new EUButton("Salvar");
 		btCadastrar.setBounds(10, 200, 100, 30);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);

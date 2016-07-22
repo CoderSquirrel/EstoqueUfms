@@ -15,9 +15,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
-import com.br.ufms.schirrel.classes.SaidaView;
 import com.br.ufms.schirrel.classes.Usuario;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
 import com.br.ufms.schirrel.tabelas.ItemTableModel;
@@ -92,7 +92,7 @@ public class RelatorioAtivos extends JPanel {
 		});
 	
 		
-		bt = new JButton("Gerar Relatorio");
+		bt = new EUButton	("Gerar Relatorio");
 		bt.setBounds(10, 350, 200, 30);
 		add(bt);
 		

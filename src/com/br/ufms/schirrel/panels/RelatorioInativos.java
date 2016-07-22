@@ -16,6 +16,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.exportar.ExportarRelatorio;
@@ -37,13 +38,13 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Itens Inativos", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
-		btNova = new JButton("Nova Entrada");
+		btNova = new EUButton("Nova Entrada");
 		btNova.setBounds(220, 340, 200, 30);
 		btNova.addActionListener(this);
 		btNova.setEnabled(false);
 		add(btNova);
 
-		btGerar = new JButton("Gerar Relatorio");
+		btGerar = new EUButton("Gerar Relatorio");
 		btGerar.setBounds(10, 340, 200, 30);
 		btGerar.addActionListener(this);
 		add(btGerar);

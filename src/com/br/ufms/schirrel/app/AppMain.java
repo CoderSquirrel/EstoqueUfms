@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.app;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,17 +55,21 @@ public class AppMain extends JFrame implements ActionListener {
 		setBounds(100, 100, 800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		setBackground(Color.WHITE);
 		USUARIO_LOGADO = u;
 		dao = new DAO();
 		setResizable(false);
 		initializeMenu();
 		setVisible(true);
+		
 
 
 	}
 
 	private void initializeMenu() {
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBackground(Color.WHITE);
+		
 		setJMenuBar(menuBar);
 
 		menuEstoque = new JMenu("Estoque");
@@ -249,6 +254,7 @@ public class AppMain extends JFrame implements ActionListener {
 
 	public void Elementos() {
 		JPanel PanelUsuario = new JPanel();
+	//	PanelUsuario.setBackground(Color.CYAN);
 		PanelUsuario.setBounds(580, 0, 200, 50);
 		PanelUsuario.setBorder(new TitledBorder(null, "Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		PanelUsuario.add(new JLabel(USUARIO_LOGADO.toString()));

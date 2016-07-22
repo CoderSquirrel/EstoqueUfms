@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
@@ -198,7 +199,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		PanelPatrimonio.add(tf_patrimonio);
 		tf_patrimonio.setColumns(10);
 
-		btBuscarPatrimonio = new JButton("Buscar");
+		btBuscarPatrimonio = new EUButton("Buscar");
 		btBuscarPatrimonio.setBounds(626, 25, 117, 25);
 		btBuscarPatrimonio.addActionListener(this);
 		PanelPatrimonio.add(btBuscarPatrimonio);
@@ -226,7 +227,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		PanelNome.add(tf_nome);
 		tf_nome.setColumns(10);
 
-		btBuscarNome = new JButton("Buscar");
+		btBuscarNome = new EUButton("Buscar");
 		btBuscarNome.addActionListener(this);
 		btBuscarNome.setBounds(626, 25, 117, 25);
 		PanelNome.add(btBuscarNome);

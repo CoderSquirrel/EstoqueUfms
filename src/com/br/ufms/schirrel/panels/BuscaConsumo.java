@@ -25,6 +25,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 
+import com.br.ufms.schirrel.UI.EUButton;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.SaidaView;
@@ -319,7 +320,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		tf_DataFinal.setValue(new Date());
 		tf_DataFinal.setColumns(10);
 
-		btBuscarData = new JButton("Buscar");
+		btBuscarData = new EUButton("Buscar");
 		btBuscarData.setBounds(616, 39, 117, 25);
 		btBuscarData.addActionListener(this);
 		PanelData.add(btBuscarData);
@@ -344,7 +345,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		PanelNome.add(tf_nome);
 		tf_nome.setColumns(10);
 
-		btBuscarNome = new JButton("Buscar");
+		btBuscarNome = new EUButton("Buscar");
 		btBuscarNome.addActionListener(this);
 		btBuscarNome.setBounds(626, 20, 117, 25);
 		PanelNome.add(btBuscarNome);
@@ -394,7 +395,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		tf_DataFinal.setValue(new Date());
 		tf_DataFinal.setColumns(10);
 
-		btBuscarRetirada = new JButton("Buscar");
+		btBuscarRetirada = new EUButton("Buscar");
 		btBuscarRetirada.setBounds(616, 39, 117, 25);
 		btBuscarRetirada.addActionListener(this);
 		PanelRetirada.add(btBuscarRetirada);
