@@ -11,9 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.UI.EUButton;
+import com.br.ufms.schirrel.UI.EUTextField;
 import com.br.ufms.schirrel.banco.DAO;
 
 public class CadastrarItem extends JPanel implements ActionListener {
@@ -30,28 +32,33 @@ public class CadastrarItem extends JPanel implements ActionListener {
 		dao =  D;
 		setBounds(0, 60, 800, 180);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Cadastrar Item", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Cadastrar Item", TitledBorder.LEADING, TitledBorder.CENTER, null, new Color(24, 135, 180)));
 		setBackground(Color.WHITE);
 
-		JLabel lblItems = new JLabel("Item: ");
-		lblItems.setBounds(10, 30, 140, 20);
-		lblItems.setFont(new Font("Arial", Font.BOLD, 18));
-		add(lblItems);
-
-		tfItem = new JTextField();
-		tfItem.setBounds(160, 30, 450, 26);
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Item",
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
+		panel.setBounds(10, 17, 560, 60);
+		panel.setLayout(null);
+		panel.setBackground(Color.WHITE);
+		add(panel);
+		
+		tfItem = new EUTextField();
+		tfItem.setBounds(15, 20, 530, 25);
 		tfItem.setFont(new Font("Arial", Font.BOLD, 18));
-		add(tfItem);
+		
 		tfItem.setColumns(10);
-
+		panel.add(tfItem);
+		
 		lblStatus = new JLabel("");
+		lblStatus.setForeground(new Color(24, 135, 180));
 		lblStatus.setBounds(100, 120, 600, 20);
 		lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblStatus);
 
 		btCadastrar = new EUButton("Cadastrar");
-		btCadastrar.setBounds(160, 70, 150, 30);
+		btCadastrar.setBounds(620, 30, 150, 40);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);
 

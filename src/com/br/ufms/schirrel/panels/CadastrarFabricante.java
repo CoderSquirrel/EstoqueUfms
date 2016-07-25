@@ -11,9 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.UI.EUButton;
+import com.br.ufms.schirrel.UI.EUTextField;
 import com.br.ufms.schirrel.banco.DAO;
 
 public class CadastrarFabricante extends JPanel implements ActionListener {
@@ -31,27 +33,32 @@ public class CadastrarFabricante extends JPanel implements ActionListener {
 		setBounds(0, 60, 800, 180);
 		setLayout(null);
 		setBorder(
-				new TitledBorder(null, "Cadastrar Fabricante", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+				new TitledBorder(null, "Cadastrar Fabricante", TitledBorder.LEADING, TitledBorder.CENTER, null, new Color(24, 135, 180)));
 		setBackground(Color.WHITE);
-		JLabel lblFornecedores = new JLabel("Fabricante: ");
-		lblFornecedores.setBounds(10, 30, 140, 20);
-		lblFornecedores.setFont(new Font("Arial", Font.BOLD, 18));
-		add(lblFornecedores);
-
-		tfFabricante = new JTextField();
-		tfFabricante.setBounds(160, 30, 450, 26);
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Fabricante",
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
+		panel.setBounds(10, 17, 560, 60);
+		panel.setLayout(null);
+		panel.setBackground(Color.WHITE);
+		add(panel);
+		
+		tfFabricante = new EUTextField();
+		tfFabricante.setBounds	(15, 20, 530, 25);
 		tfFabricante.setFont(new Font("Arial", Font.BOLD, 18));
-		add(tfFabricante);
+		panel.add(tfFabricante);
 		tfFabricante.setColumns(10);
 
 		lblStatus = new JLabel("");
+		lblStatus.setForeground(new Color(24, 135, 180));
+		
 		lblStatus.setBounds(100, 120, 500, 20);
 		lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblStatus);
 
 		btCadastrar = new EUButton("Cadastrar");
-		btCadastrar.setBounds(160, 70, 150, 30);
+		btCadastrar.setBounds(620, 30, 150, 40);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);
 

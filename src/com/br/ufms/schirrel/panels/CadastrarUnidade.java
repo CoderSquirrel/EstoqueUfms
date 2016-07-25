@@ -11,9 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.UI.EUButton;
+import com.br.ufms.schirrel.UI.EUTextField;
 import com.br.ufms.schirrel.banco.DAO;
 
 public class CadastrarUnidade extends JPanel implements ActionListener {
@@ -30,17 +32,20 @@ public class CadastrarUnidade extends JPanel implements ActionListener {
 		dao =  D;
 		setBounds(0, 60, 800, 180);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Cadastrar Unidade", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Cadastrar Unidade", TitledBorder.LEADING, TitledBorder.CENTER, null, new Color(24, 135, 180)));
 		setBackground(Color.WHITE);
-		JLabel lblUnidades = new JLabel("Unidade: ");
-		lblUnidades.setBounds(10, 30, 140, 20);
-		lblUnidades.setFont(new Font("Arial", Font.BOLD, 18));
-		add(lblUnidades);
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Unidade",
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
+		panel.setBounds(10, 17, 560, 60);
+		panel.setLayout(null);
+		panel.setBackground(Color.WHITE);
+		add(panel);
 
-		tfUnidade = new JTextField();
-		tfUnidade.setBounds(160, 30, 450, 26);
+		tfUnidade = new EUTextField();
+		tfUnidade.setBounds	(15, 20, 530, 25);
 		tfUnidade.setFont(new Font("Arial", Font.BOLD, 18));
-		add(tfUnidade);
+		panel.add(tfUnidade);
 		tfUnidade.setColumns(10);
 
 		lblStatus = new JLabel("");
@@ -48,9 +53,10 @@ public class CadastrarUnidade extends JPanel implements ActionListener {
 		lblStatus.setFont(new Font("Arial", Font.BOLD, 16));
 		lblStatus.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblStatus);
-
+		lblStatus.setForeground(new Color(24, 135, 180));
+		
 		btCadastrar = new EUButton("Cadastrar");
-		btCadastrar.setBounds(160, 70, 150, 30);
+		btCadastrar.setBounds(620, 30, 150, 40);
 		btCadastrar.addActionListener(this);
 		add(btCadastrar);
 
