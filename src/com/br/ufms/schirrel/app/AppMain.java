@@ -38,9 +38,9 @@ public class AppMain extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private JMenu menuEstoque, menuRelatorio, menuCadastros, menuBuscar;
-	private JMenuItem mieEntrada, mieEntradaPermanente, mieCadastrarItem, mieCadastrarUnidade,
-			mieCadastrarFabricante, mirAtivo, mirInativo, mirPermanente, mirMaisEntradas, mirMaisSaida,
-			mieCadastrarUsuario, mibPermanente, mibConsumo;
+	private JMenuItem mieEntrada, mieEntradaPermanente, mieCadastrarItem, mieCadastrarUnidade, mieCadastrarFabricante,
+			mirAtivo, mirInativo, mirPermanente, mirMaisEntradas, mirMaisSaida, mieCadastrarUsuario, mibPermanente,
+			mibConsumo;
 	private DAO dao;
 	private Usuario USUARIO_LOGADO;
 	private ExportarRelatorio EXPORTAR;
@@ -63,15 +63,14 @@ public class AppMain extends JFrame implements ActionListener {
 		setResizable(false);
 		initializeMenu();
 		setVisible(true);
-		
 
-
+		getContentPane().add(new EntradaPermanentePanel(dao, USUARIO_LOGADO));
 	}
 
 	private void initializeMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(Color.WHITE);
-		
+
 		setJMenuBar(menuBar);
 
 		menuEstoque = new JMenu("Estoque");
@@ -114,7 +113,7 @@ public class AppMain extends JFrame implements ActionListener {
 		menuRelatorio.addSeparator();
 		menuRelatorio.add(mirMaisEntradas);
 		menuRelatorio.add(mirMaisSaida);
-	
+
 		menuBuscar.add(mibConsumo);
 
 		menuBuscar.addSeparator();
@@ -256,14 +255,14 @@ public class AppMain extends JFrame implements ActionListener {
 
 	public void Elementos() {
 		JPanel PanelUsuario = new JPanel();
-	//	PanelUsuario.setBackground(Color.CYAN);
+		// PanelUsuario.setBackground(Color.CYAN);
 		PanelUsuario.setBounds(580, 0, 200, 50);
-		PanelUsuario.setBorder(new TitledBorder(null,
-				"Usuario", TitledBorder.LEADING, TitledBorder.TOP, null,  new Color(24, 135, 180)));
+		PanelUsuario.setBorder(new TitledBorder(null, "Usuario", TitledBorder.LEADING, TitledBorder.TOP, null,
+				new Color(24, 135, 180)));
 		PanelUsuario.add(new JLabel(USUARIO_LOGADO.toString()));
 		JLabel label = new JLabel("Controle de Estoque");
 		label.setFont(new Font("Dialog", Font.BOLD, 20));
-		label.setForeground( new Color(24, 135, 180));
+		label.setForeground(new Color(24, 135, 180));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(0, 10, 600, 30);
 		getContentPane().add(label);
@@ -271,28 +270,25 @@ public class AppMain extends JFrame implements ActionListener {
 		JPanel PanelInferior = new JPanel();
 		PanelInferior.setLayout(null);
 		PanelInferior.setBounds(0, 460, 798, 90);
-		PanelInferior.setBorder(
-				new TitledBorder(null, 
-						"Desenvolvimento", TitledBorder.LEADING, TitledBorder.TOP, null,  new Color(24, 135, 180)));
+		PanelInferior.setBorder(new TitledBorder(null, "Desenvolvimento", TitledBorder.LEADING, TitledBorder.TOP, null,
+				new Color(24, 135, 180)));
 
 		JLabel UFMS = new JLabel("");
 		UFMS.setIcon(new ImageIcon(getClass().getResource("/img/rodape.png")));
 		UFMS.setBounds(0, 0, 798, 90);
 		PanelInferior.add(UFMS);
 
-	/*	JLabel CPCX = new JLabel("");
-		CPCX.setBounds(300, 0, 256, 122);
-		CPCX.setIcon(new ImageIcon(getClass().getResource("/img/cpcx.png")));
-		CPCX.setFont(new Font("Arial", Font.PLAIN, 25));
-		PanelInferior.add(CPCX);
+		/*
+		 * JLabel CPCX = new JLabel(""); CPCX.setBounds(300, 0, 256, 122);
+		 * CPCX.setIcon(new ImageIcon(getClass().getResource("/img/cpcx.png")));
+		 * CPCX.setFont(new Font("Arial", Font.PLAIN, 25));
+		 * PanelInferior.add(CPCX);
+		 * 
+		 * JLabel SI = new JLabel(""); SI.setBounds(500, 0, 122, 58);
+		 * SI.setIcon(new ImageIcon(getClass().getResource("/img/si_p.png")));
+		 * SI.setFont(new Font("Arial", Font.PLAIN, 25)); PanelInferior.add(SI);
+		 */
 
-		JLabel SI = new JLabel("");
-		SI.setBounds(500, 0, 122, 58);
-		SI.setIcon(new ImageIcon(getClass().getResource("/img/si_p.png")));
-		SI.setFont(new Font("Arial", Font.PLAIN, 25));
-		PanelInferior.add(SI);
-*/
-		
 		PanelInferior.setBackground(Color.WHITE);
 		getContentPane().add(PanelInferior);
 		PanelUsuario.setBackground(Color.WHITE);
