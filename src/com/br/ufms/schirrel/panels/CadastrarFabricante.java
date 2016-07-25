@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +32,7 @@ public class CadastrarFabricante extends JPanel implements ActionListener {
 		setLayout(null);
 		setBorder(
 				new TitledBorder(null, "Cadastrar Fabricante", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-
+		setBackground(Color.WHITE);
 		JLabel lblFornecedores = new JLabel("Fabricante: ");
 		lblFornecedores.setBounds(10, 30, 140, 20);
 		lblFornecedores.setFont(new Font("Arial", Font.BOLD, 18));

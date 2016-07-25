@@ -2,7 +2,6 @@ package com.br.ufms.schirrel.login;
 
 import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -18,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
 import com.br.ufms.schirrel.UI.EUButton;
+import com.br.ufms.schirrel.UI.EUTextField;
 import com.br.ufms.schirrel.app.AppMain;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Usuario;
@@ -79,15 +79,18 @@ public class Login implements KeyListener {
 		frame.getContentPane().setLayout(null);
 		JPanel PanelUsuario = new JPanel();
 		PanelUsuario.setBounds(5, 20, 290, 100);
-		PanelUsuario.setBorder(new TitledBorder(null, "Login", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelUsuario.setBorder(new TitledBorder(null, 
+				"Login", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelUsuario.setLayout(null);
 		frame.getContentPane().add(PanelUsuario);
-
+		frame.setBackground(Color.WHITE);
+		frame.getContentPane().setBackground(Color.WHITE);
 		JLabel lblUsuario = new JLabel("Registro: ");
 		lblUsuario.setBounds(20, 29, 70, 15);
 		PanelUsuario.add(lblUsuario);
-
-		tfUsuario = new JTextField();
+		PanelUsuario.setBackground(Color.WHITE);
+		
+		tfUsuario = new EUTextField();
 		tfUsuario.setBounds(95, 29, 150, 25);
 		tfUsuario.addKeyListener(this);
 		PanelUsuario.add(tfUsuario);

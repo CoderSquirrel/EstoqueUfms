@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +31,7 @@ public class CadastrarUnidade extends JPanel implements ActionListener {
 		setBounds(0, 60, 800, 180);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Cadastrar Unidade", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-
+		setBackground(Color.WHITE);
 		JLabel lblUnidades = new JLabel("Unidade: ");
 		lblUnidades.setBounds(10, 30, 140, 20);
 		lblUnidades.setFont(new Font("Arial", Font.BOLD, 18));

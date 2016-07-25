@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +31,7 @@ public class CadastrarItem extends JPanel implements ActionListener {
 		setBounds(0, 60, 800, 180);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Cadastrar Item", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-	
+		setBackground(Color.WHITE);
 
 		JLabel lblItems = new JLabel("Item: ");
 		lblItems.setBounds(10, 30, 140, 20);
@@ -70,6 +71,7 @@ public class CadastrarItem extends JPanel implements ActionListener {
 				if(dao.CadastrarItem(tfItem.getText().toString().trim()) != null){
 					tfItem.setText("");
 					lblStatus.setText("Item Cadastrado");
+					tfItem.requestFocus();
 				}
 			}
 			

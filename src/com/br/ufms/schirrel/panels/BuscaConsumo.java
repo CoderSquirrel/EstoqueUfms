@@ -65,7 +65,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Busca Materiais de Consumo", TitledBorder.LEADING, TitledBorder.CENTER, null,
 				null));
-
+		setBackground(Color.WHITE);
 		JRadioButton rdbtnBuscaPorNome = new JRadioButton("Busca Por Nome");
 		rdbtnBuscaPorNome.setBounds(18, 15, 149, 23);
 		add(rdbtnBuscaPorNome);

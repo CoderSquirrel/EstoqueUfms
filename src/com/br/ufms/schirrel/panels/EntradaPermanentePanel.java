@@ -31,7 +31,7 @@ import com.br.ufms.schirrel.classes.EntradaPermanente.Estado;
 import com.br.ufms.schirrel.classes.Item;
 import com.br.ufms.schirrel.classes.Usuario;
 
-public class NovaEntradaPermanente extends JPanel implements ActionListener {
+public class EntradaPermanentePanel extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
@@ -50,20 +50,20 @@ public class NovaEntradaPermanente extends JPanel implements ActionListener {
 	DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 	Format shortDate = DateFormat.getDateInstance(DateFormat.SHORT);
 
-	public NovaEntradaPermanente(DAO D, Usuario u) {
+	public EntradaPermanentePanel(DAO D, Usuario u) {
 		dao = D;
 		USUARIO_LOGADO = u;
 		setBounds(0, 60, 780, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Entrada de Item", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-
+		setBackground(Color.WHITE);
 		JPanel panelEntrada = new JPanel();
 		panelEntrada.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Entrada",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelEntrada.setBounds(10, 155, 153, 55);
 		panelEntrada.setLayout(null);
 		add(panelEntrada);
-
+		setBackground(Color.WHITE);
 		JPanel panelDeposito = new JPanel();
 		panelDeposito.setBorder(new TitledBorder(null, "Deposito", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelDeposito.setBounds(163, 155, 100, 55);

@@ -28,8 +28,8 @@ import com.br.ufms.schirrel.panels.CadastrarFabricante;
 import com.br.ufms.schirrel.panels.CadastrarItem;
 import com.br.ufms.schirrel.panels.CadastrarUnidade;
 import com.br.ufms.schirrel.panels.CadastrarUsuario;
-import com.br.ufms.schirrel.panels.NovaEntrada;
-import com.br.ufms.schirrel.panels.NovaEntradaPermanente;
+import com.br.ufms.schirrel.panels.EntradaConsumoPanel;
+import com.br.ufms.schirrel.panels.EntradaPermanentePanel;
 import com.br.ufms.schirrel.panels.RelatorioAtivos;
 import com.br.ufms.schirrel.panels.RelatorioInativos;
 import com.br.ufms.schirrel.panels.RelatorioPermanentes;
@@ -50,11 +50,13 @@ public class AppMain extends JFrame implements ActionListener {
 	public AppMain(Usuario u) {
 
 		super("Controle de Estoque - UFMS - Laboratorios");
+		setLocationRelativeTo(null);
 		EXPORTAR = new ExportarRelatorio();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
+		getContentPane().setBackground(Color.WHITE);
 		setBackground(Color.WHITE);
 		USUARIO_LOGADO = u;
 		dao = new DAO();
@@ -144,13 +146,13 @@ public class AppMain extends JFrame implements ActionListener {
 		} else if (e.getSource() == mieEntrada) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new NovaEntrada(dao, USUARIO_LOGADO));
+			getContentPane().add(new EntradaConsumoPanel(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} else if (e.getSource() == mieEntradaPermanente) {
 			getContentPane().removeAll();
 			Elementos();
-			getContentPane().add(new NovaEntradaPermanente(dao, USUARIO_LOGADO));
+			getContentPane().add(new EntradaPermanentePanel(dao, USUARIO_LOGADO));
 			getContentPane().revalidate();
 			getContentPane().repaint();
 		} else if (e.getSource() == mieCadastrarUnidade) {
@@ -256,10 +258,12 @@ public class AppMain extends JFrame implements ActionListener {
 		JPanel PanelUsuario = new JPanel();
 	//	PanelUsuario.setBackground(Color.CYAN);
 		PanelUsuario.setBounds(580, 0, 200, 50);
-		PanelUsuario.setBorder(new TitledBorder(null, "Usuario", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelUsuario.setBorder(new TitledBorder(null,
+				"Usuario", TitledBorder.LEADING, TitledBorder.TOP, null,  new Color(24, 135, 180)));
 		PanelUsuario.add(new JLabel(USUARIO_LOGADO.toString()));
 		JLabel label = new JLabel("Controle de Estoque");
 		label.setFont(new Font("Dialog", Font.BOLD, 20));
+		label.setForeground( new Color(24, 135, 180));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setBounds(0, 10, 600, 30);
 		getContentPane().add(label);
@@ -268,7 +272,8 @@ public class AppMain extends JFrame implements ActionListener {
 		PanelInferior.setLayout(null);
 		PanelInferior.setBounds(0, 460, 798, 90);
 		PanelInferior.setBorder(
-				new TitledBorder(null, "Desenvolvimento", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, 
+						"Desenvolvimento", TitledBorder.LEADING, TitledBorder.TOP, null,  new Color(24, 135, 180)));
 
 		JLabel UFMS = new JLabel("");
 		UFMS.setIcon(new ImageIcon(getClass().getResource("/img/rodape.png")));
@@ -287,8 +292,10 @@ public class AppMain extends JFrame implements ActionListener {
 		SI.setFont(new Font("Arial", Font.PLAIN, 25));
 		PanelInferior.add(SI);
 */
+		
+		PanelInferior.setBackground(Color.WHITE);
 		getContentPane().add(PanelInferior);
-
+		PanelUsuario.setBackground(Color.WHITE);
 		getContentPane().add(PanelUsuario);
 	}
 

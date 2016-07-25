@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,7 +43,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Relatorio de Material Permanente", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 
-
+		setBackground(Color.WHITE);
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemPermanenteTableModel(a));
 		PreencherTabela();

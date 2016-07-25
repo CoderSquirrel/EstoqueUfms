@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +54,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Busca Materiais Permanentes", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-
+		setBackground(Color.WHITE);
 		JRadioButton rdbtnBuscaPorNome = new JRadioButton("Busca Por Nome");
 		rdbtnBuscaPorNome.setBounds(18, 15, 149, 23);
 		add(rdbtnBuscaPorNome);

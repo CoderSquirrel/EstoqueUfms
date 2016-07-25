@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,7 +47,7 @@ public class Saida extends JPanel implements ActionListener {
 //		label.setHorizontalAlignment(SwingConstants.CENTER);
 //		label.setBounds(0, 30, 800, 30);
 //		add(label);
-
+		setBackground(Color.WHITE);
 		JLabel lblItem = new JLabel("Item: ");
 		lblItem.setBounds(10, 30, 50, 20);
 		lblItem.setFont(new Font("Arial", Font.BOLD, 14));

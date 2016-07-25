@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,7 +45,7 @@ public class RelatorioAtivos extends JPanel {
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemTableModel(a));
 		PreencherTabela();
-
+		setBackground(Color.WHITE);
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
 		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(80);

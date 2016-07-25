@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,7 +36,7 @@ public class CadastrarUsuario extends JPanel implements ActionListener {
 		setBorder(new TitledBorder(null, "Cadastrar Item", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 	
 
-	
+		setBackground(Color.WHITE);
 
 		JLabel lblUsuario = new JLabel("Usuario: ");
 		lblUsuario.setBounds(10, 30, 140, 20);

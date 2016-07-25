@@ -30,7 +30,7 @@ public class MostrarInfoPermanente extends JFrame {
 		panelItem.setBounds(12, 12, 235, 49);
 		add(panelItem);
 		panelItem.setLayout(null);
-
+		setBackground(Color.WHITE);
 		JLabel lblItem = new JLabel(ep.getItem().getItem());
 		lblItem.setBounds(12, 12, 211, 25);
 		panelItem.add(lblItem);

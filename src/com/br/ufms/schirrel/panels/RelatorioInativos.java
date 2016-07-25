@@ -1,5 +1,6 @@
 package com.br.ufms.schirrel.panels;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Itens Inativos", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
-
+		setBackground(Color.WHITE);
 		btNova = new EUButton("Nova Entrada");
 		btNova.setBounds(220, 340, 200, 30);
 		btNova.addActionListener(this);
