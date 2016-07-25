@@ -26,6 +26,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 
 import com.br.ufms.schirrel.UI.EUButton;
+import com.br.ufms.schirrel.UI.EUFormattedTextField;
+import com.br.ufms.schirrel.UI.EUTextField;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.Entrada;
 import com.br.ufms.schirrel.classes.SaidaView;
@@ -64,10 +66,12 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
 		setBorder(new TitledBorder(null, "Busca Materiais de Consumo", TitledBorder.LEADING, TitledBorder.CENTER, null,
-				null));
+				new Color(24, 135, 180)));
 		setBackground(Color.WHITE);
 		JRadioButton rdbtnBuscaPorNome = new JRadioButton("Busca Por Nome");
 		rdbtnBuscaPorNome.setBounds(18, 15, 149, 23);
+		rdbtnBuscaPorNome.setBackground(Color.WHITE);
+		rdbtnBuscaPorNome.setForeground(new Color(24, 135, 180));
 		add(rdbtnBuscaPorNome);
 		rdbtnBuscaPorNome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -76,7 +80,9 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		});
 		JRadioButton rdbtnBuscaPorData = new JRadioButton("Busca Por Data de Entrada");
 		rdbtnBuscaPorData.setBounds(171, 15, 229, 23);
+		rdbtnBuscaPorData.setBackground(Color.WHITE);
 		add(rdbtnBuscaPorData);
+		rdbtnBuscaPorData.setForeground(new Color(24, 135, 180));
 		rdbtnBuscaPorData.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelBuscaPorData();
@@ -86,6 +92,8 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		JRadioButton rdbtnBuscaPorRetirada = new JRadioButton("Busca Por Data de Retirada");
 		rdbtnBuscaPorRetirada.setBounds(400, 15, 249, 23);
 		add(rdbtnBuscaPorRetirada);
+		rdbtnBuscaPorRetirada.setBackground(Color.WHITE);
+		rdbtnBuscaPorRetirada.setForeground(new Color(24, 135, 180));
 		rdbtnBuscaPorRetirada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PanelBuscaPorDataRetirada();
@@ -101,6 +109,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 
 		PanelBusca = new JPanel();
 		PanelBusca.setBounds(12, 40, 774, 80);
+		PanelBusca.setBackground(Color.WHITE);
 		add(PanelBusca);
 	}
 
@@ -289,19 +298,20 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		PanelBusca.repaint();
 		JPanel PanelData = new JPanel();
 		PanelData.setBorder(new TitledBorder(null, "Buscar Por Data de Entrada", TitledBorder.LEADING, TitledBorder.TOP,
-				null, null));
+				null, new Color(24, 135, 180)));
 		PanelData.setBounds(0, 0, 755, 75);
 		PanelBusca.add(PanelData);
 		PanelData.setLayout(null);
-
+		PanelData.setBackground(Color.WHITE);
 		JPanel PanelDataInicial = new JPanel();
 		PanelDataInicial.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Inicial",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelDataInicial.setBounds(12, 15, 295, 52);
+		PanelDataInicial.setBackground(Color.WHITE);
 		PanelData.add(PanelDataInicial);
 		PanelDataInicial.setLayout(null);
 
-		tf_DataInicial = new JFormattedTextField(formatter);
+		tf_DataInicial = new EUFormattedTextField(formatter);
 		tf_DataInicial.setBounds(12, 18, 200, 28);
 		PanelDataInicial.add(tf_DataInicial);
 		tf_DataInicial.setValue(new Date());
@@ -309,19 +319,21 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 
 		JPanel PanelDataFinal = new JPanel();
 		PanelDataFinal.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Final",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelDataFinal.setBounds(315, 15, 295, 52);
+		PanelDataFinal.setBackground(Color.WHITE);
 		PanelData.add(PanelDataFinal);
+		PanelData.setBackground(Color.WHITE);
 		PanelDataFinal.setLayout(null);
 
-		tf_DataFinal = new JFormattedTextField(formatter);
+		tf_DataFinal = new EUFormattedTextField(formatter);
 		tf_DataFinal.setBounds(12, 18, 200, 28);
 		PanelDataFinal.add(tf_DataFinal);
 		tf_DataFinal.setValue(new Date());
 		tf_DataFinal.setColumns(10);
 
 		btBuscarData = new EUButton("Buscar");
-		btBuscarData.setBounds(616, 39, 117, 25);
+		btBuscarData.setBounds(626, 30, 117, 25);
 		btBuscarData.addActionListener(this);
 		PanelData.add(btBuscarData);
 		PanelBusca.repaint();
@@ -335,19 +347,20 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		PanelBusca.repaint();
 		JPanel PanelNome = new JPanel();
 		PanelNome.setBorder(
-				new TitledBorder(null, "Busca Por Nome", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, "Busca Por Nome", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelNome.setBounds(0, 0, 755, 65);
+		PanelNome.setBackground(Color.WHITE);
 		PanelBusca.add(PanelNome);
 		PanelNome.setLayout(null);
 
-		tf_nome = new JTextField();
+		tf_nome = new EUTextField();
 		tf_nome.setBounds(12, 22, 602, 31);
 		PanelNome.add(tf_nome);
 		tf_nome.setColumns(10);
 
 		btBuscarNome = new EUButton("Buscar");
 		btBuscarNome.addActionListener(this);
-		btBuscarNome.setBounds(626, 20, 117, 25);
+		btBuscarNome.setBounds(626, 25, 117, 25);
 		PanelNome.add(btBuscarNome);
 		PanelBusca.repaint();
 		repaint();
@@ -364,19 +377,21 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 		PanelBusca.repaint();
 		JPanel PanelRetirada = new JPanel();
 		PanelRetirada.setBorder(new TitledBorder(null, "Buscar Por Data de Retirada", TitledBorder.LEADING,
-				TitledBorder.TOP, null, null));
+				TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelRetirada.setBounds(0, 0, 755, 75);
+		PanelRetirada.setBackground(Color.WHITE);
 		PanelBusca.add(PanelRetirada);
 		PanelRetirada.setLayout(null);
 
 		JPanel PanelDataInicial = new JPanel();
 		PanelDataInicial.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Inicial",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelDataInicial.setBounds(12, 15, 295, 52);
 		PanelRetirada.add(PanelDataInicial);
+		PanelDataInicial.setBackground(Color.WHITE);
 		PanelDataInicial.setLayout(null);
 
-		tf_DataInicial = new JFormattedTextField(formatter);
+		tf_DataInicial = new EUFormattedTextField(formatter);
 		tf_DataInicial.setBounds(12, 18, 200, 28);
 		PanelDataInicial.add(tf_DataInicial);
 		tf_DataInicial.setValue(new Date());
@@ -384,19 +399,20 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 
 		JPanel PanelDataFinal = new JPanel();
 		PanelDataFinal.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Data Final",
-				TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelDataFinal.setBounds(315, 15, 295, 52);
 		PanelRetirada.add(PanelDataFinal);
+		PanelDataFinal.setBackground(Color.WHITE);
 		PanelDataFinal.setLayout(null);
 
-		tf_DataFinal = new JFormattedTextField(formatter);
+		tf_DataFinal = new EUFormattedTextField(formatter);
 		tf_DataFinal.setBounds(12, 18, 200, 28);
 		PanelDataFinal.add(tf_DataFinal);
 		tf_DataFinal.setValue(new Date());
 		tf_DataFinal.setColumns(10);
 
 		btBuscarRetirada = new EUButton("Buscar");
-		btBuscarRetirada.setBounds(616, 39, 117, 25);
+		btBuscarRetirada.setBounds(626, 30, 117, 25);
 		btBuscarRetirada.addActionListener(this);
 		PanelRetirada.add(btBuscarRetirada);
 		PanelBusca.repaint();
