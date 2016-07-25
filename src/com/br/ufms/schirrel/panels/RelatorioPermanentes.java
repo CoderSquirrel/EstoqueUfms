@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -47,7 +48,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemPermanenteTableModel(a));
 		PreencherTabela();
-
+		
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
 		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(80);
@@ -59,7 +60,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 20, 780, 320);
-
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		add(scrollPane);
 		
 		EntradaTable.addMouseListener(new MouseAdapter() {
@@ -73,8 +74,11 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		        }
 		    }
 		});
-
-		
+		EntradaTable.setFillsViewportHeight(true);
+		EntradaTable.setBorder(null);
+		EntradaTable.getTableHeader().setBackground(new Color(24, 135, 180));
+		EntradaTable.setBackground(Color.WHITE);
+		EntradaTable.getTableHeader().setReorderingAllowed(false);
 		btGerar = new EUButton("Gerar Relatorio");
 		btGerar.setBounds(10, 350, 200, 30);
 		add(btGerar);

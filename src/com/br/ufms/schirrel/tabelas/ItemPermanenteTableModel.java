@@ -16,6 +16,7 @@ public class ItemPermanenteTableModel extends MyDefaultModel {
 
 	public ItemPermanenteTableModel(List<Object[]> data) {
 		this.data = data;
+		
 
 	}
 	@Override

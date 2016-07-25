@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.text.DateFormatter;
 
 import com.br.ufms.schirrel.UI.EUButton;
+import com.br.ufms.schirrel.UI.EUTextField;
 import com.br.ufms.schirrel.banco.DAO;
 import com.br.ufms.schirrel.classes.EntradaPermanente;
 import com.br.ufms.schirrel.classes.Usuario;
@@ -53,10 +54,14 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Busca Materiais Permanentes", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
 		setBackground(Color.WHITE);
+		setBorder(new TitledBorder(null, "Busca Materiais Permanentes", TitledBorder.LEADING, TitledBorder.CENTER, null,
+				new Color(24, 135, 180)));
+
 		JRadioButton rdbtnBuscaPorNome = new JRadioButton("Busca Por Nome");
 		rdbtnBuscaPorNome.setBounds(18, 15, 149, 23);
+		rdbtnBuscaPorNome.setBackground(Color.WHITE);
+		rdbtnBuscaPorNome.setForeground(new Color(24, 135, 180));
 		add(rdbtnBuscaPorNome);
 		rdbtnBuscaPorNome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -65,6 +70,8 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		});
 		JRadioButton rdbtnBuscaPorData = new JRadioButton("Busca Por Numero de Patrimonio");
 		rdbtnBuscaPorData.setBounds(171, 15, 449, 23);
+		rdbtnBuscaPorData.setBackground(Color.WHITE);
+		rdbtnBuscaPorData.setForeground(new Color(24, 135, 180));
 		add(rdbtnBuscaPorData);
 		ButtonGroup group = new ButtonGroup();
 		group.add(rdbtnBuscaPorNome);
@@ -78,10 +85,10 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		rdbtnBuscaPorNome.setSelected(true);
 
 		PanelBusca = new JPanel();
+		PanelBusca.setBackground(Color.WHITE);
 		PanelBusca.setBounds(12, 40, 774, 75);
 		add(PanelBusca);
 	}
-
 
 	void IniciarTable() {
 
@@ -89,7 +96,7 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 
 		EntradaTable = new JTable(new ItemPermanenteTableModel(a));
 		PreencherTabela();
-
+		
 		EntradaTable.getColumnModel().getColumn(0).setPreferredWidth(80);
 		EntradaTable.getColumnModel().getColumn(1).setPreferredWidth(30);
 		EntradaTable.getColumnModel().getColumn(2).setPreferredWidth(30);
@@ -103,17 +110,17 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		scrollPane.setBounds(10, 120, 780, 200);
 
 		add(scrollPane);
-		
+
 		EntradaTable.addMouseListener(new MouseAdapter() {
-		    public void mousePressed(MouseEvent me) {
-		        JTable table =(JTable) me.getSource();
-		        Point p = me.getPoint();
-		        int row = table.rowAtPoint(p);
-		        if (me.getClickCount() == 2) {
-		        	new MostrarInfoPermanente(entradas.get(row));
-		        	
-		        }
-		    }
+			public void mousePressed(MouseEvent me) {
+				JTable table = (JTable) me.getSource();
+				Point p = me.getPoint();
+				int row = table.rowAtPoint(p);
+				if (me.getClickCount() == 2) {
+					new MostrarInfoPermanente(entradas.get(row));
+
+				}
+			}
 		});
 
 	}
@@ -152,34 +159,32 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		if(e.getSource() == btBuscarNome){
+		if (e.getSource() == btBuscarNome) {
 			if (tf_nome.getText().toString().trim().isEmpty() || tf_nome.getText().toString().trim().equals("")) {
 				JOptionPane.showMessageDialog(this, "Campo em branco");
 			} else {
 				entradas = dao.ListarPermanentePorNome(tf_nome.getText().toString().trim());
 				IniciarTable();
 			}
-		} else if(e.getSource() == btBuscarPatrimonio){
-			if (tf_patrimonio.getText().toString().trim().isEmpty() || tf_patrimonio.getText().toString().trim().equals("")) {
+		} else if (e.getSource() == btBuscarPatrimonio) {
+			if (tf_patrimonio.getText().toString().trim().isEmpty()
+					|| tf_patrimonio.getText().toString().trim().equals("")) {
 				JOptionPane.showMessageDialog(this, "Campo em branco");
 			} else {
 				entradas = dao.ListarPermanentePorPatrimonio(tf_patrimonio.getText().toString().trim());
 				IniciarTable();
 			}
-			
+
 		}
-		
-		
-		
 
 	}
 
 	void PanelBuscaPorPatrimonio() {
-		if(EntradaTable!=null ){
+		if (EntradaTable != null) {
 			remove(EntradaTable);
 			repaint();
-			}
-		
+		}
+
 		DateFormatter formatter = new DateFormatter(format);
 		format.setLenient(false);
 		formatter.setAllowsInvalid(false);
@@ -188,14 +193,14 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 		PanelBusca.removeAll();
 
 		JPanel PanelPatrimonio = new JPanel();
-		PanelPatrimonio.setBorder(
-				new TitledBorder(null, "Buscar Por Numero de Patrimonio", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		PanelPatrimonio.setBorder(new TitledBorder(null, "Buscar Por Numero de Patrimonio", TitledBorder.LEADING,
+				TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelPatrimonio.setBounds(0, 0, 755, 65);
 		PanelBusca.add(PanelPatrimonio);
 		PanelPatrimonio.setLayout(null);
+		PanelPatrimonio.setBackground(Color.WHITE);
 
-
-		tf_patrimonio = new JTextField();
+		tf_patrimonio = new EUTextField();
 		tf_patrimonio.setBounds(12, 22, 602, 31);
 		PanelPatrimonio.add(tf_patrimonio);
 		tf_patrimonio.setColumns(10);
@@ -209,21 +214,21 @@ public class BuscaPermanente extends JPanel implements ActionListener {
 	}
 
 	void PanelBuscaPorNome() {
-		if(EntradaTable!=null ){
+		if (EntradaTable != null) {
 			remove(EntradaTable);
 			repaint();
-			}
-		
+		}
+
 		PanelBusca.removeAll();
 
 		JPanel PanelNome = new JPanel();
 		PanelNome.setBorder(
-				new TitledBorder(null, "Busca Por Nome", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				new TitledBorder(null, "Busca Por Nome", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(24, 135, 180)));
 		PanelNome.setBounds(0, 0, 755, 65);
 		PanelBusca.add(PanelNome);
 		PanelNome.setLayout(null);
-
-		tf_nome = new JTextField();
+		PanelNome.setBackground(Color.WHITE);
+		tf_nome = new EUTextField();
 		tf_nome.setBounds(12, 22, 602, 31);
 		PanelNome.add(tf_nome);
 		tf_nome.setColumns(10);
