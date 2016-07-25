@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -40,7 +41,8 @@ public class RelatorioAtivos extends JPanel {
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Itens Ativos", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Itens Ativos",
+				TitledBorder.LEADING, TitledBorder.CENTER, null, new Color(24, 135, 180)));
  
 		List<Object[]> a = CarregarLista();
 		EntradaTable = new JTable(new ItemTableModel(a));
@@ -54,10 +56,14 @@ public class RelatorioAtivos extends JPanel {
 		EntradaTable.getColumnModel().getColumn(5).setPreferredWidth(15);
 		EntradaTable.getColumnModel().getColumn(6).setPreferredWidth(50);
 		EntradaTable.getColumnModel().getColumn(7).setPreferredWidth(15);
-		
+		EntradaTable.getTableHeader().setBackground(new Color(24, 135, 180));
+		EntradaTable.getTableHeader().setForeground(Color.WHITE);
+		EntradaTable.setBackground(Color.WHITE);
+		EntradaTable.setFillsViewportHeight(true);
+		EntradaTable.getTableHeader().setReorderingAllowed(false);
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 20, 780, 320);
-
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		add(scrollPane);
 
 		EntradaTable.addMouseListener(new MouseAdapter() {

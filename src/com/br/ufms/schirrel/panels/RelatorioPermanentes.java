@@ -42,7 +42,9 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Relatorio de Material Permanente", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, 
+				"Relatorio de Material Permanente", TitledBorder.LEADING, 
+				TitledBorder.CENTER, null, new Color(24, 135, 180)));
 
 		setBackground(Color.WHITE);
 		List<Object[]> a = CarregarLista();
@@ -77,6 +79,7 @@ public class RelatorioPermanentes extends JPanel implements ActionListener {
 		EntradaTable.setFillsViewportHeight(true);
 		EntradaTable.setBorder(null);
 		EntradaTable.getTableHeader().setBackground(new Color(24, 135, 180));
+		EntradaTable.getTableHeader().setForeground(Color.WHITE);
 		EntradaTable.setBackground(Color.WHITE);
 		EntradaTable.getTableHeader().setReorderingAllowed(false);
 		btGerar = new EUButton("Gerar Relatorio");

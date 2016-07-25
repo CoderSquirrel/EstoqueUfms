@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -37,7 +38,8 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		dao = D;
 		setBounds(0, 60, 798, 400);
 		setLayout(null);
-		setBorder(new TitledBorder(null, "Itens Inativos", TitledBorder.LEADING, TitledBorder.CENTER, null, null));
+		setBorder(new TitledBorder(null, "Itens Inativos", TitledBorder.LEADING, 
+				TitledBorder.CENTER, null, new Color(24, 135, 180)));
 		setBackground(Color.WHITE);
 		btNova = new EUButton("Nova Entrada");
 		btNova.setBounds(220, 340, 200, 30);
@@ -65,7 +67,12 @@ public class RelatorioInativos extends JPanel implements ActionListener, TableMo
 		EntradaTable.getModel().addTableModelListener(this);
 		JScrollPane scrollPane = new JScrollPane(EntradaTable);
 		scrollPane.setBounds(10, 20, 780, 300);
-
+		scrollPane.setBorder(BorderFactory.createEmptyBorder());
+		EntradaTable.getTableHeader().setBackground(new Color(24, 135, 180));
+		EntradaTable.getTableHeader().setForeground(Color.WHITE);
+		EntradaTable.setBackground(Color.WHITE);
+		EntradaTable.getTableHeader().setReorderingAllowed(false);
+		EntradaTable.setFillsViewportHeight(true);
 		EntradaTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
 			@Override
