@@ -9,7 +9,7 @@ public class ItemTableModel extends MyDefaultModel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1451953691800449874L;
-	private String[] columnNames = { "Item", "Unidade", "Fabricante", "Fabricacao", "Validade", "Q. Rec", "Recepcao",
+	private String[] columnNames = { "Item", "Unidade", "Fabricante", "Fabricacao", "Validade", "Q. Rec", "Entrada",
 			"Q. Ret" };
 	public boolean DEBUG = false;
 
