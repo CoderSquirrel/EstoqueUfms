@@ -43,7 +43,7 @@ public class BuscaConsumo extends JPanel implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JFormattedTextField tf_DataInicial, tf_DataFinal;
-	private JButton btBuscarData, btGerarD, btBuscarNome, btBuscarRetirada;
+	private JButton btBuscarData, btBuscarNome, btBuscarRetirada;
 	private List<Entrada> entradas;
 	private List<SaidaView> saidas;
 	DAO dao;

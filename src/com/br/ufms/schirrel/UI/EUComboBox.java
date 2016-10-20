@@ -10,6 +10,11 @@ import javax.swing.plaf.basic.BasicComboPopup;
 
 public class EUComboBox<E> extends JComboBox<E> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public EUComboBox(E[] items) {
 		super(items);
 	//	maximumRowCount = items.length;
@@ -26,7 +31,7 @@ public class EUComboBox<E> extends JComboBox<E> {
 		setUI(ColorArrowUI.createUI(this));
 		 Object child = getAccessibleContext().getAccessibleChild(0);
 		 BasicComboPopup popup = (BasicComboPopup)child;
-		 JList list = popup.getList();
+		 JList<?> list = popup.getList();
 		 list.setSelectionBackground(new Color(24, 135, 180));
 		 list.setSelectionForeground(Color.WHITE);
 	}

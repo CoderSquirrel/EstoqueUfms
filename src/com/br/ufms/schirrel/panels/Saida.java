@@ -25,14 +25,17 @@ public class Saida extends JPanel implements ActionListener {
 	/**
 	 * 
 	 */
-	private JTextField tfItem, tfDataValidade;
+	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private JTextField tfDataValidade;
 	private JTextField tfQtd;
 	private JButton btCadastrar;
-	private JLabel lblStatus;
 	private JComboBox<Fabricante> cbFabricantes;
 	private JComboBox<Item> cbItens;
 	private JComboBox<Unidade> cbUnidades;
-	private Usuario USUARIO_LOGADO;
+	Usuario USUARIO_LOGADO;
 	DAO dao;
 	 private DocumentFilter filter = new IntDocumentFilter();
 	public Saida(DAO D, Usuario u) {

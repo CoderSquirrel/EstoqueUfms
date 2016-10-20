@@ -8,6 +8,11 @@ import javax.swing.JFormattedTextField;
 
 public class EUFormattedTextField extends JFormattedTextField {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public EUFormattedTextField() {
 		// TODO Auto-generated constructor stub
 	}
