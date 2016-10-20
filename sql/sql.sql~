@@ -78,11 +78,3 @@ qtd int,
 entrada date,
 FOREIGN KEY (entrada_id) REFERENCES tb_entradas (id_entrada)
 );
-
-
-insert into  tb_usuarios
-(
-usuario,
-registro ,
-senha
-) values (ufms, 0001, 1234);
